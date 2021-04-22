@@ -8,6 +8,7 @@ export default function Signup({navigation}) {
         <Text style={styles.title}>Let's get you setup.</Text>
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Username"
             placeholder="Enter your email."
             placeholderTextColor='#ffffff'
@@ -21,6 +22,7 @@ export default function Signup({navigation}) {
         />
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Email"
             placeholder="Enter your email."
             placeholderTextColor='#ffffff'
@@ -34,6 +36,7 @@ export default function Signup({navigation}) {
         />
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Password"
             labelColor='white'
             theme={{
@@ -46,6 +49,7 @@ export default function Signup({navigation}) {
         />
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Confirm Password"
             labelColor='white'
             theme={{
@@ -79,6 +83,7 @@ const styles = StyleSheet.create({
     margin:20,
     backgroundColor: "#C0E6FC",
     color: '#ffffff',
+    height:40,
   },
   image:{
     height:'100%',

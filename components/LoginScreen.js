@@ -19,6 +19,7 @@ export default function Login({navigation}) {
 
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Username/Email"
             placeholder="Enter your email."
             placeholderTextColor='#ffffff'
@@ -32,13 +33,14 @@ export default function Login({navigation}) {
         />
         <TextInput
             style={styles.input}
+            mode="outlined"
             label="Password"
             labelColor='white'
             theme={{
             colors: 
             {
                 placeholder: 'black', text: 'black', primary: 'black',
-                underlineColor: 'transparent', background: '#003489'
+                underlineColor: 'red', background: '#003489'
             }
             }}
         />
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
     margin:20,
     backgroundColor: "#C0E6FC",
     color: '#ffffff',
+    height: 40
   },
    button:{
    width:'80%',
