@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {Button, SafeAreaView, View, Text, StyleSheet, Image, ImageBackground, Alert } from 'react-native';
-import {TextInput, } from 'react-native-paper';
+import {SafeAreaView, View, Text, StyleSheet, Image, ImageBackground, Alert } from 'react-native';
+import {TextInput, Button } from 'react-native-paper';
+import GradientButton from 'react-native-gradient-buttons';
 import { FacebookSocialButton, GoogleSocialButton, TwitterSocialButton } from "react-native-social-buttons";
 
 const image = { uri: "https://reactjs.org/logo-og.png" };
@@ -11,55 +12,77 @@ export default function Login({navigation}) {
     <ImageBackground source={require('../assets/background.jpg')} style={styles.image}>
       <SafeAreaView style={styles.container}>
       
-        <Image style={styles.logo} source={require('../assets/Logo1.png')} />
+        <Image style={styles.logo} source={require('../assets/Logo.png')} />
+
+        <Text style={styles.text}>
+            Innovation Starts Here
+        </Text>
 
          <Text style={styles.h1}>
-          Welcome back {"\n"} Login.
+           LOGIN
+        </Text>
+         <Text style={styles.text}>
+           TO CONTINUE
         </Text>
 
         <TextInput
             style={styles.input}
-            mode="outlined"
+            mode="flat"
             label="Username/Email"
             placeholder="Enter your email."
             placeholderTextColor='#ffffff'
             theme={{
             colors: 
             {
-                placeholder: 'black', text: 'black', primary: 'black',
+                placeholder: 'whitesmoke', text: 'white', primary: '#CB9274',
                 underlineColor: 'transparent', background: '#003489'
             }
             }}
         />
         <TextInput
             style={styles.input}
-            mode="outlined"
+            mode="flat"
             label="Password"
             labelColor='white'
             theme={{
             colors: 
             {
-                placeholder: 'black', text: 'black', primary: 'black',
+                placeholder: 'whitesmoke', text: 'white', primary: '#CB9274',
                 underlineColor: 'red', background: '#003489'
             }
             }}
         />
-
-        <Button 
-          buttonStyle={styles.button}
-          color={"#111111"}
-          title="Login."  
-          onPress={() => Alert.alert('Login Button pressed')}      
+ 
+        <GradientButton
+          style={{ marginVertical: 8 }}
+          text="LOGIN"
+          textStyle={{ fontSize: 20 }}
+          gradientBegin="#737495"
+          gradientEnd="#8A84A2"
+          gradientDirection="diagonal"
+          height={40}
+          width={300}
+          radius={15}
+          impact
+          impactStyle='Light'
+          onPressAction={() => alert('LOGIN')}
         />
-          
-       
 
-        <Button
-          title="Not a member yet? Sign up here."
-          onPress={() => navigation.navigate('Signup')}
-          color="black"
-        />
-    
+        <Button style={styles.buttonTransparent}  mode="contained" onPress={() => navigation.navigate('Signup')}>
+          Not a member yet? Sign up.
+        </Button>
+              
+        <Button style={styles.buttonTransparent} mode="contained" onPress={() => navigation.navigate('Home')}>
+          Home
+        </Button>
+
+      <Text style={styles.OR}>
+        ----- OR -----
+      </Text>
+      <Text style={styles.text2}>
+        With Social Login
+      </Text>
+
       <View style={styles.socialButtonContainer}>
         <GoogleSocialButton buttonViewStyle={styles.socialButton}/>
         <FacebookSocialButton buttonViewStyle={styles.socialButton} />
@@ -77,38 +100,55 @@ const styles = StyleSheet.create({
 
   container:{
     flex:1,
-    justifyContent:'center',
     alignItems:'center',
 
   },
   input:{
     width: '80%',
-    margin:20,
-    backgroundColor: "#C0E6FC",
+    margin:15,
+    backgroundColor: "transparent",
     color: '#ffffff',
-    height: 40
+    height: 50,
   },
    button:{
    width:'80%',
-   backgroundColor:'#006A9B'
+   backgroundColor:'#59A6FE',
+   margin:5,
+  },
+   buttonTransparent:{
+   width:'100%',
+   margin:10,
+   backgroundColor:'transparent'
   },
   text:{
     fontFamily:'Futura',
-    color:'#666'
+    color:'#EFDAB9',
+    marginBottom:5,
+    letterSpacing: 2,
+  },
+  text2:{
+    fontFamily:'Futura',
+    color:'#95ff95',
+    marginBottom:5,
+    letterSpacing: 5,
   },
   h1:{
-    color:'#666',
+    color:'#CB9274',
     textAlign:'center',
-    fontSize:30,
-    fontFamily:'Futura'
+    fontSize:25,
+    fontFamily:'Futura',
+    marginTop: 10,
   },
   image:{
     height:'100%',
     width:'100%',
+
   },
   logo:{
-      height:100,
-      width:100,
+      height:80,
+      width:80,
+      marginTop: 50,
+      marginBottom:20,
   },
   socialButtonContainer:{
       display:'flex',
@@ -120,5 +160,10 @@ const styles = StyleSheet.create({
     borderWidth:0,
     width:'15%',
     color:'black',
+  },
+  OR:{
+    fontSize:30,
+    color:'whitesmoke',
+    fontFamily:'Futura'
   }
 });
