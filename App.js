@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './components/LoginScreen'
 import SignUpScreen from './components/SignupScreen'
+import SignUpScreen2 from './components/SignupScreen2'
+import SignUpScreen3 from './components/SignupScreen3'
 import HomeScreen from './components/HomeScreen'
 
 const Stack = createStackNavigator();
@@ -45,6 +47,40 @@ function App() {
             
           }}  
         name="Signup" component={SignUpScreen} />
+
+       <Stack.Screen 
+        options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#2E3552',
+            },
+            headerLeft: () => {
+              return null;
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            
+          }}  
+        name="Signup2" component={SignUpScreen2} />
+
+        <Stack.Screen 
+        options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#2E3552',
+            },
+            headerLeft: () => {
+              return null;
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            
+          }}  
+        name="Signup3" component={SignUpScreen3} />
 
       <Stack.Screen 
         options={{

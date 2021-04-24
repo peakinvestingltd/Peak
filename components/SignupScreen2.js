@@ -3,19 +3,16 @@ import {SafeAreaView, View, Text, ImageBackground, StyleSheet } from 'react-nati
 import {TextInput, Button} from 'react-native-paper';
 import GradientButton from 'react-native-gradient-buttons';
 
-export default function Signup({navigation}) {
+export default function Signup2({navigation}) {
   return (
     <ImageBackground source={require('../assets/background.jpg')} style={styles.image}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>SIGN UP</Text>
-         <Text style={styles.text}>
-           TO CONTINUE
-        </Text>
+        
         <TextInput
             style={styles.input}
             mode="flat"
-            label="Username"
-            placeholder="Enter your email."
+            label="Firstname"
+            placeholder="Enter your name"
             placeholderTextColor='#ffffff'
             theme={{
             colors: 
@@ -28,8 +25,8 @@ export default function Signup({navigation}) {
         <TextInput
             style={styles.input}
             mode="flat"
-            label="Email"
-            placeholder="Enter your email."
+            label="Surname"
+            placeholder="Enter your surname"
             placeholderTextColor='#ffffff'
             theme={{
             colors: 
@@ -39,33 +36,7 @@ export default function Signup({navigation}) {
             }
             }}
         />
-        <TextInput
-            style={styles.input}
-            mode="flat"
-            label="Password"
-            labelColor='white'
-            theme={{
-            colors: 
-            {
-                placeholder: 'whitesmoke', text: 'white', primary: '#CB9274',
-                underlineColor: 'transparent', background: '#003489'
-            }
-            }}
-        />
-        <TextInput
-            style={styles.input}
-            mode="flat"
-            label="Confirm Password"
-            labelColor='white'
-            theme={{
-            colors: 
-            {
-                placeholder: 'whitesmoke', text: 'white', primary: '#CB9274',
-                underlineColor: 'transparent', background: '#003489'
-            }
-            }}
-        />
-
+      
         <GradientButton
           style={{ marginVertical: 8 }}
           text="NEXT"
@@ -78,9 +49,8 @@ export default function Signup({navigation}) {
           radius={15}
           impact
           impactStyle='Light'
-          onPressAction={() => navigation.navigate('Signup2')}
+          onPressAction={() => navigation.navigate('Signup3')}
         />
-
 
       </SafeAreaView>
     </ImageBackground>

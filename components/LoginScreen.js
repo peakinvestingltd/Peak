@@ -21,10 +21,7 @@ export default function Login({navigation}) {
          <Text style={styles.h1}>
            LOGIN
         </Text>
-         <Text style={styles.text}>
-           TO CONTINUE
-        </Text>
-
+    
         <TextInput
             style={styles.input}
             mode="flat"
@@ -39,6 +36,7 @@ export default function Login({navigation}) {
             }
             }}
         />
+
         <TextInput
             style={styles.input}
             mode="flat"
@@ -79,10 +77,7 @@ export default function Login({navigation}) {
       <Text style={styles.OR}>
         ----- OR -----
       </Text>
-      <Text style={styles.text2}>
-        With Social Login
-      </Text>
-
+   
       <View style={styles.socialButtonContainer}>
         <GoogleSocialButton buttonViewStyle={styles.socialButton}/>
         <FacebookSocialButton buttonViewStyle={styles.socialButton} />
@@ -101,7 +96,6 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     alignItems:'center',
-
   },
   input:{
     width: '80%',
@@ -123,7 +117,7 @@ const styles = StyleSheet.create({
   text:{
     fontFamily:'Futura',
     color:'#EFDAB9',
-    marginBottom:5,
+    marginBottom:2,
     letterSpacing: 2,
   },
   text2:{
@@ -145,10 +139,10 @@ const styles = StyleSheet.create({
 
   },
   logo:{
-      height:80,
-      width:80,
-      marginTop: 50,
-      marginBottom:20,
+      height:100,
+      width:150,
+      marginTop:50,
+      marginBottom:5,
   },
   socialButtonContainer:{
       display:'flex',
