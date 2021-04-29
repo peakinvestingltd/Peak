@@ -42,11 +42,13 @@ export default function AppTextInput({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.lightGrey,
+    backgroundColor: 'whitesmoke',
     borderRadius: 25,
     flexDirection: 'row',
     padding: 15,
-    marginVertical: 10
+    marginVertical: 10,
+    borderColor:'whitesmoke',
+    borderWidth:1,
   },
   icon: {
     marginRight: 10
@@ -55,7 +57,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     fontSize: 18,
-    color: Colors.black
+    color: Colors.ghostWhite,
+    
   },
   rightIconStyles: {
     alignSelf: 'center',

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import * as Yup from 'yup';
 
+import { LinearGradient } from 'expo-linear-gradient';
 import Colors from '../utils/colors';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
@@ -51,68 +52,98 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <SafeView style={styles.container}>
-      <Form
-        initialValues={{ email: '', password: '' }}
-        validationSchema={validationSchema}
-        onSubmit={values => handleOnLogin(values)}
+    <LinearGradient
+          // Background Linear Gradient
+          colors={['#222948', '#222948', '#676DDD']}
+          style={styles.background}
       >
-        <FormField
-          name="email"
-          leftIcon="email"
-          placeholder="Enter email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          autoFocus={true}
+      <SafeView style={styles.container}>
+      
+        <Form
+          initialValues={{ email: '', password: '' }}
+          validationSchema={validationSchema}
+          onSubmit={values => handleOnLogin(values)}
+        >
+          <FormField
+            style={{fontFamily:'Futura', width:'80%',}}
+            name="email"
+            leftIcon="email"
+            placeholder="Enter email"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
+            autoFocus={true}
+          />
+          <FormField
+            style={{fontFamily:'Futura', width:'80%',}}
+            name="password"
+            leftIcon="lock"
+            placeholder="Enter password"
+            autoCapitalize="none"
+            autoCorrect={false}
+            secureTextEntry={passwordVisibility}
+            textContentType="password"
+            rightIcon={rightIcon}
+            handlePasswordVisibility={handlePasswordVisibility}
+          />
+          <FormButton title={'Login'} />
+          {<FormErrorMessage error={loginError} visible={true} />}
+        </Form>
+        <View style={styles.footerButtonContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles.forgotPasswordButtonText}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={{textAlign:'center', position:'absolute', bottom:20, left:0, right:0, color:'whitesmoke', fontFamily:'Futura'}}>All rights reserved.</Text>
+        <IconButton
+          style={styles.backButton}
+          iconName="keyboard-backspace"
+          color="#fff"
+          size={30}
+          onPress={() => navigation.goBack()}
         />
-        <FormField
-          name="password"
-          leftIcon="lock"
-          placeholder="Enter password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry={passwordVisibility}
-          textContentType="password"
-          rightIcon={rightIcon}
-          handlePasswordVisibility={handlePasswordVisibility}
-        />
-        <FormButton title={'Login'} />
-        {<FormErrorMessage error={loginError} visible={true} />}
-      </Form>
-      <View style={styles.footerButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-          <Text style={styles.forgotPasswordButtonText}>Forgot Password?</Text>
-        </TouchableOpacity>
-      </View>
-      <IconButton
-        style={styles.backButton}
-        iconName="keyboard-backspace"
-        color="#fff"
-        size={30}
-        onPress={() => navigation.goBack()}
-      />
-    </SafeView>
+        
+      </SafeView>
+      
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    backgroundColor: Colors.mediumGrey
+    flex: 1,
+    padding:20,
+    justifyContent: 'center',
   },
   footerButtonContainer: {
     marginVertical: 15,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    
+
   },
   forgotPasswordButtonText: {
-    color: Colors.white,
+    color: 'whitesmoke',
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily:'Futura'
+  },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
   backButton: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderWidth:1,
+    width:'25%',
+    marginLeft:'37.5%',
+    borderColor:'white',
+    padding:10,
+    borderRadius:500,
+    color:'whitesmoke',
   }
 });

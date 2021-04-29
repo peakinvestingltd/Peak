@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 
 import Colors from '../utils/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
 import FormField from '../components/Forms/FormField';
@@ -11,6 +12,8 @@ import IconButton from '../components/IconButton';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import { registerWithEmail } from '../components/Firebase/firebase';
 import useStatusBar from '../hooks/useStatusBar';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -31,7 +34,15 @@ const validationSchema = Yup.object().shape({
 
 export default function RegisterScreen({ navigation }) {
   useStatusBar('light-content');
+  const [date, setDate] = useState(new Date(1598051730000));
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [rightIcon, setRightIcon] = useState('eye');
   const [confirmPasswordIcon, setConfirmPasswordIcon] = useState('eye');
@@ -70,6 +81,11 @@ export default function RegisterScreen({ navigation }) {
   }
 
   return (
+    <LinearGradient
+          // Background Linear Gradient
+          colors={['#072039', '#676DDD']}
+          style={styles.background}
+      >
     <SafeView style={styles.container}>
       <Form
         initialValues={{
@@ -82,12 +98,14 @@ export default function RegisterScreen({ navigation }) {
         onSubmit={values => handleOnSignUp(values)}
       >
         <FormField
+          style={{fontFamily:'Futura', width:'80%',}}
           name="name"
           leftIcon="account"
           placeholder="Enter name"
           autoFocus={true}
         />
         <FormField
+          style={{fontFamily:'Futura', width:'80%',}}
           name="email"
           leftIcon="email"
           placeholder="Enter email"
@@ -96,6 +114,7 @@ export default function RegisterScreen({ navigation }) {
           textContentType="emailAddress"
         />
         <FormField
+          style={{fontFamily:'Futura', width:'80%',}}
           name="password"
           leftIcon="lock"
           placeholder="Enter password"
@@ -107,6 +126,7 @@ export default function RegisterScreen({ navigation }) {
           handlePasswordVisibility={handlePasswordVisibility}
         />
         <FormField
+          style={{fontFamily:'Futura', width:'80%',}}
           name="confirmPassword"
           leftIcon="lock"
           placeholder="Confirm password"
@@ -117,9 +137,18 @@ export default function RegisterScreen({ navigation }) {
           rightIcon={confirmPasswordIcon}
           handlePasswordVisibility={handleConfirmPasswordVisibility}
         />
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
         <FormButton title={'Register'} />
         {<FormErrorMessage error={registerError} visible={true} />}
       </Form>
+      
       <IconButton
         style={styles.backButton}
         iconName="keyboard-backspace"
@@ -128,17 +157,32 @@ export default function RegisterScreen({ navigation }) {
         onPress={() => navigation.goBack()}
       />
     </SafeView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'center',
     padding: 15,
-    backgroundColor: Colors.mediumGrey
+  },
+   background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
   backButton: {
-    justifyContent: 'center',
+     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10
+    borderWidth:1,
+    width:'25%',
+    marginLeft:'37.5%',
+    borderColor:'white',
+    padding:10,
+    borderRadius:500,
+    color:'whitesmoke',
   }
 });

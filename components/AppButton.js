@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   buttonText: {
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: '600',
-    textTransform: 'uppercase'
+    color: '#95ff95',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontFamily:'Futura',
   }
 });

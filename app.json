@@ -3,7 +3,10 @@
     "name": "Expo Firebase Starter",
     "slug": "expo-firebase",
     "privacy": "public",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/flame.png",
@@ -15,9 +18,15 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "peakIOS"
+    },
+    "android": {
+      "package": "com.mahir93.expofirebase"
     }
   }
 }

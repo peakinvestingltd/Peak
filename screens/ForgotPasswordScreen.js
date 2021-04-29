@@ -9,6 +9,7 @@ import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
 import IconButton from '../components/IconButton';
 import { passwordReset } from '../components/Firebase/firebase';
+import { LinearGradient } from 'expo-linear-gradient';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import useStatusBar from '../hooks/useStatusBar';
 
@@ -29,20 +30,28 @@ export default function ForgotPasswordScreen({ navigation }) {
 
     try {
       await passwordReset(email);
-      navigation.navigate('Welcome');
+      navigation.navigate('Login');
     } catch (error) {
       setCustomError(error.message);
     }
   }
 
   return (
+      <LinearGradient
+          // Background Linear Gradient
+          colors={['#222948', '#222948', '#676DDD']}
+          style={styles.background}
+      >
     <SafeView style={styles.container}>
+     
       <Form
+      
         initialValues={{ email: '' }}
         validationSchema={validationSchema}
         onSubmit={values => handlePasswordReset(values)}
       >
         <FormField
+          style={{fontFamily:'Futura'}}
           name="email"
           leftIcon="email"
           placeholder="Enter email"
@@ -60,19 +69,36 @@ export default function ForgotPasswordScreen({ navigation }) {
         color={Colors.white}
         size={30}
         onPress={() => navigation.goBack()}
-      />
+      />   
+
+      
     </SafeView>
+    </LinearGradient>  
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
+    justifyContent: 'center',
     padding: 15,
-    backgroundColor: Colors.mediumGrey
+  },
+   background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
   backButton: {
-    justifyContent: 'center',
+     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10
+    borderWidth:1,
+    width:'25%',
+    marginLeft:'37.5%',
+    borderColor:'white',
+    padding:10,
+    borderRadius:500,
+    color:'whitesmoke',
   }
 });
