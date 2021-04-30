@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DefaultTheme, Title, Button, Card, Text, Provider as PaperProvider } from 'react-native-paper';
 import {SafeAreaView, Image, ImageBackground, View, FlatList, StyleSheet, ScrollView, Linking} from 'react-native';
-import Background from '/Users/mahirahmed/PeakApp/assets/background.png';
+import Background from '../assets/background.png';
 
 const theme = {
   ...DefaultTheme,
@@ -13,25 +13,23 @@ const theme = {
   },
 };
 
-
-
 export class HomeRoute extends React.Component{
-  
+
   constructor(props) {
       super(props);
       this.state = {
         data: [],
         IPO: [],
       } 
-      console.log(this.state.data)
+
   }
 
+  
   getData(){
     fetch('https://finnhub.io/api/v1/news?category=general&token=bt2nu2748v6sj2tj2ij0')
             .then((response) => response.json())
             .then(stocksList => {
                 this.setState({ data: stocksList });
-                console.log(this.state.data)
             });
   }
 
@@ -40,7 +38,6 @@ export class HomeRoute extends React.Component{
             .then((response) => response.json())
             .then(ipoList => {
                 this.setState({ IPO: ipoList.ipoCalendar });
-                console.log(this.state.IPO)
             });
   }
   componentDidMount() {
@@ -50,7 +47,7 @@ export class HomeRoute extends React.Component{
   render(){
     
     const listItems = this.state.data.map((stock) =>
-        <Card style={{margin:5, padding:20, width:300, backgroundColor:'#04D370', borderWidth:1, borderColor:'whitesmoke'}}> 
+        <Card style={{margin:5, padding:20, width:300, backgroundColor:'#FEDD58', borderWidth:1, borderColor:'whitesmoke'}}> 
           <Title>{stock.source}</Title>
           <Text style={{textTransform:"capitalize"}}>{stock.category}</Text> 
           <Text style={styles.subtitle}>{stock.headline}</Text> 
@@ -63,7 +60,7 @@ export class HomeRoute extends React.Component{
         </Card>
     );
      const ipoItems = this.state.IPO.map((ipo) =>
-        <Card style={{margin:5, padding:20, width:300, backgroundColor:'#04D370', borderWidth:1, borderColor:'whitesmoke'}}> 
+        <Card style={{margin:5, padding:20, width:300, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
           <Title>{ipo.date}</Title>
           <Text>{ipo.name}</Text>
           <Text>{ipo.exchange}</Text>
@@ -73,9 +70,9 @@ export class HomeRoute extends React.Component{
     );
   return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground style={styles.image} source={require('/Users/mahirahmed/PeakApp/assets/background.png')}>
-            <Card style={{margin:5,}}>
-                <Card.Cover source={{ uri: 'https://cdn.dribbble.com/users/6519429/screenshots/14789659/media/d2b859fb65d963a8d563624b463955ce.png?compress=1&resize=400x300' }} />
+            <ImageBackground style={styles.image} source={require('../assets/background.png')}>
+            <Card style={{margin:3}}>
+                <Card.Cover style={styles.card} source={require('../assets/basicCard.png')} />
             </Card>
             <Title style={styles.text}>Total BALANCE</Title>
             <Text style={styles.text, styles.xl}> $300 </Text>
@@ -130,8 +127,10 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: "stretch",
-
+  },
+  card: {
+     resizeMode:"cover",
+     backgroundColor:'#EDF0F2'
   },
   text:{
     color: 'ghostwhite',

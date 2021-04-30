@@ -3,30 +3,41 @@ import React, { useEffect, useState } from 'react';
 import { DefaultTheme,  Card, Button, Paragraph, Searchbar, FAB, Title, Provider as PaperProvider } from 'react-native-paper';
 import {SafeAreaView,Image, View, ScrollView, StyleSheet, Text, FlatList, Linking} from 'react-native';
 import axios from 'axios';
-// const finnhub = require('finnhub');
-
-// const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-// api_key.apiKey = "sandbox_c0lsa3f48v6r1vcsdurg" // Replace this
-// const finnhubClient = new finnhub.DefaultApi()
-
-// getCurrentPrice("TSLA");
 
 export class StockRoute extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
-       
+        stocks: ['APPL', 'TSLA', 'FB'],
+        stockData: []
       } 
-      console.log(this.state.data)
   }
 
+ getStock(tickerSymbol){
+    fetch(`https://finnhub.io/api/v1/quote?symbol=${tickerSymbol}&token=c0lsa3f48v6r1vcsdur0`)
+            .then((response) => response.json())
+            .then(stocksList => {
+                this.setState({ stockData: stocksList });
+            });
+  }
 
   componentDidMount() {
- 
+      for (let i = 0; i < this.state.stocks.length; i++){
+        console.log(this.state.stocks[i]);
+        this.getStock(this.state.stocks[i]);
+      }
+      console.log(this.state.stockData);
   }
+
+  
   
   render() {
+    // const listItems = this.state.stockData.map((stock) =>
+    //     <Card style={{margin:5, padding:20, width:300, backgroundColor:'#FEDD58', borderWidth:1, borderColor:'whitesmoke'}}> 
+    //       <Title>{stock.c}</Title>
+    //     </Card>
+    // );
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
@@ -34,7 +45,7 @@ export class StockRoute extends React.Component {
             <Title style={styles.text}>Stocks</Title>  
               <Searchbar mode="contained" style={{margin:20}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
               <ScrollView style={{marginTop:80}}>      
-              
+                <Text>{this.state.stockData.c}</Text>
               </ScrollView>
             </SafeAreaView>
         </PaperProvider>
