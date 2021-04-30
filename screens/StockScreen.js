@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
-import { DefaultTheme, Card, Button, Paragraph, Searchbar, FAB, Title, Provider as PaperProvider } from 'react-native-paper';
-import {SafeAreaView, View, ScrollView, StyleSheet, Text, FlatList} from 'react-native';
+import { DefaultTheme,  Card, Button, Paragraph, Searchbar, FAB, Title, Provider as PaperProvider } from 'react-native-paper';
+import {SafeAreaView,Image, View, ScrollView, StyleSheet, Text, FlatList, Linking} from 'react-native';
 import axios from 'axios';
 // const finnhub = require('finnhub');
 
@@ -16,71 +16,25 @@ export class StockRoute extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        data: []
+       
       } 
+      console.log(this.state.data)
   }
 
-  getData(){
-    // fetch('https://finnhub.io/api/v1/quote?symbol=AAPL,T&token=c0lsa3f48v6r1vcsdur0')
-    //         .then((response) => response.json())
-    //         .then(stocksList => {
-    //             this.setState({ stocks: stocksList });
-              
-    //         });
-
-    const options = {
-      method: 'GET',
-      url: 'https://finnhub-realtime-stock-price.p.rapidapi.com/stock/symbol/?rapidapi-key=526f6bb878msh75578594898d51bp1adc7fjsn31e679e857d3',
-      params: {exchange: 'US'},
-      headers: {
-        'x-rapidapi-key': '526f6bb878msh75578594898d51bp1adc7fjsn31e679e857d3',
-        'x-rapidapi-host': 'finnhub-realtime-stock-price.p.rapidapi.com'
-      }
-    };
-
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-    }).catch(function (error) {
-      console.error(error);
-    });
-  }
- 
 
   componentDidMount() {
-    this.getData();
+ 
   }
   
   render() {
-    
-    
-
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
  
             <Title style={styles.text}>Stocks</Title>  
-              <Searchbar/>
-              <FAB
-                style={styles.fab}
-                small
-                icon="plus"
-                onPress={() => console.log('Pressed')}
-              />
-                <>
-                  <View>
-                      {this.state.data.map(d => (<View key={d.id}><Text>{d.name}</Text></View>))} 
-                  </View>
-                </>
-        
+              <Searchbar mode="contained" style={{margin:20}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
               <ScrollView style={{marginTop:80}}>      
-                <Card style={{margin:10}}>
-                  <Card.Title title="TSLA"/>
-                  <Card.Actions style={{width:'100%', justifyContent:'space-between'}}>
-                  <Card.Cover style={{width:50, height:50, backgroundColor:'transparent', margin:5,}} source={{ uri: 'https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/tesla-512.png' }} />
-                    <Button mode="contained" onPress={() => console.log('BUY')} >BUY</Button>
-                    <Button mode="outlined">SELL</Button>
-                  </Card.Actions>
-                </Card>
+              
               </ScrollView>
             </SafeAreaView>
         </PaperProvider>
