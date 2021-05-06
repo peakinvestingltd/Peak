@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as Yup from 'yup';
 
 import Colors from '../utils/colors';
@@ -137,14 +137,19 @@ export default function RegisterScreen({ navigation }) {
           rightIcon={confirmPasswordIcon}
           handlePasswordVisibility={handleConfirmPasswordVisibility}
         />
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
+        
+        <View>
+          <DateTimePicker
+            style={{padding:0, margin:0}}
+            textColor="whitesmoke"
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="spinner"
+            onChange={onChange}
+          />
+        </View>
         <FormButton title={'Register'} />
         {<FormErrorMessage error={registerError} visible={true} />}
       </Form>
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   backButton: {
-     justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     borderWidth:1,
     width:'25%',

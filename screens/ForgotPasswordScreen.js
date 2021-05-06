@@ -42,10 +42,8 @@ export default function ForgotPasswordScreen({ navigation }) {
           colors={['#222948', '#222948', '#676DDD']}
           style={styles.background}
       >
-    <SafeView style={styles.container}>
-     
-      <Form
-      
+    <SafeView style={styles.container}>    
+      <Form     
         initialValues={{ email: '' }}
         validationSchema={validationSchema}
         onSubmit={values => handlePasswordReset(values)}
@@ -69,9 +67,7 @@ export default function ForgotPasswordScreen({ navigation }) {
         color={Colors.white}
         size={30}
         onPress={() => navigation.goBack()}
-      />   
-
-      
+      />         
     </SafeView>
     </LinearGradient>  
   );

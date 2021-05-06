@@ -9,35 +9,34 @@ export class StockRoute extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-        stocks: ['APPL', 'TSLA', 'FB'],
-        stockData: []
+        data: []
       } 
   }
 
- getStock(tickerSymbol){
-    fetch(`https://finnhub.io/api/v1/quote?symbol=${tickerSymbol}&token=c0lsa3f48v6r1vcsdur0`)
+  getData(){
+    fetch('https://finnhub.io/api/v1/news?category=general&token=bt2nu2748v6sj2tj2ij0')
             .then((response) => response.json())
             .then(stocksList => {
-                this.setState({ stockData: stocksList });
+                this.setState({ data: stocksList });
+                console.log(this.state.data)
             });
   }
 
   componentDidMount() {
-      for (let i = 0; i < this.state.stocks.length; i++){
-        console.log(this.state.stocks[i]);
-        this.getStock(this.state.stocks[i]);
-      }
-      console.log(this.state.stockData);
+      this.getData();
   }
 
   
   
   render() {
-    // const listItems = this.state.stockData.map((stock) =>
-    //     <Card style={{margin:5, padding:20, width:300, backgroundColor:'#FEDD58', borderWidth:1, borderColor:'whitesmoke'}}> 
-    //       <Title>{stock.c}</Title>
-    //     </Card>
-    // );
+    const listItems = this.state.data.map((stock) =>
+        <Card style={{margin:5, padding:20, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
+            <Title style={{textTransform:'capitalize'}}>{stock.category}</Title>
+            <Text>{stock.headline}</Text>
+            <Paragraph style={{padding:10,}}>{stock.summary}</Paragraph>
+
+        </Card>
+    );
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
@@ -45,7 +44,7 @@ export class StockRoute extends React.Component {
             <Title style={styles.text}>Stocks</Title>  
               <Searchbar mode="contained" style={{margin:20}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
               <ScrollView style={{marginTop:80}}>      
-                <Text>{this.state.stockData.c}</Text>
+                {listItems}
               </ScrollView>
             </SafeAreaView>
         </PaperProvider>

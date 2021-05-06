@@ -47,7 +47,7 @@ export class HomeRoute extends React.Component{
   render(){
     
     const listItems = this.state.data.map((stock) =>
-        <Card style={{margin:5, padding:20, width:300, backgroundColor:'#FEDD58', borderWidth:1, borderColor:'whitesmoke'}}> 
+        <Card style={{margin:5, padding:20, width:300, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
           <Title>{stock.source}</Title>
           <Text style={{textTransform:"capitalize"}}>{stock.category}</Text> 
           <Text style={styles.subtitle}>{stock.headline}</Text> 
@@ -127,6 +127,11 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    padding:5,
+    shadowColor:'whitesmoke',
+    borderBottomWidth:10,
+    borderColor:'#04D370',
+  
   },
   card: {
      resizeMode:"cover",
@@ -158,7 +163,7 @@ const styles = StyleSheet.create({
     color:'#222948',
   },
   cardChart:{
-      backgroundColor:'#212948',
+      backgroundColor:'#212940',
       padding:10,
       borderColor:'#212948',
       borderWidth:1,
