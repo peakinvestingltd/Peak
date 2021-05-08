@@ -38,7 +38,7 @@ render() {
               <List.Accordion
                 title="Account"
                 left={props => <List.Icon {...props} icon="account" />}>
-                <List.Item  left={props => <List.Icon {...props} icon="lock-alert"/>} title="Reset password" />
+                <List.Item onPress=>(console.log("lol"))  left={props => <List.Icon {...props} icon="lock-alert"/>} title="Reset password" />
               </List.Accordion>
 
               <List.Accordion
@@ -75,7 +75,7 @@ render() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#676DDD",
+    backgroundColor: "#651fff",
   },
   text:{
     textAlign:'center',

@@ -60,7 +60,7 @@ export class HomeRoute extends React.Component{
         </Card>
     );
      const ipoItems = this.state.IPO.map((ipo) =>
-        <Card style={{margin:5, padding:20, width:300, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
+        <Card key={ipo.id} style={{margin:5, padding:20, width:300, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
           <Title>{ipo.date}</Title>
           <Text>{ipo.name}</Text>
           <Text>{ipo.exchange}</Text>
@@ -71,7 +71,7 @@ export class HomeRoute extends React.Component{
   return (
         <SafeAreaView style={styles.container}>
             <ImageBackground style={styles.image} source={require('../assets/background.png')}>
-            <Card style={{margin:3}}>
+            <Card style={{margin:1}}>
                 <Card.Cover style={styles.card} source={require('../assets/basicCard.png')} />
             </Card>
             <Title style={styles.text}>Total BALANCE</Title>
@@ -85,7 +85,7 @@ export class HomeRoute extends React.Component{
                       
                   </Card>
                   <Card style={styles.portfolioCard} >
-                      <Text style={styles.text}>Crypto</Text>
+                      <Text style={styles.text}>ETF's</Text>
                       
                   </Card>
                   <Card style={styles.portfolioCard} >
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   },
   card: {
      resizeMode:"cover",
-     backgroundColor:'#EDF0F2'
   },
   text:{
     color: 'ghostwhite',

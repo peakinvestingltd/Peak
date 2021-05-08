@@ -1,12 +1,12 @@
 import React from 'react';
-import {SafeAreaView, View, StyleSheet, } from 'react-native';
-import {Text, List,Paragraph, Title, Menu, Divider, Card, Button, BottomNavigation} from 'react-native-paper';
+import {SafeAreaView, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, List,Paragraph, Colors, Title, Menu, Divider, Card, Button, BottomNavigation} from 'react-native-paper';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import useStatusBar from '../hooks/useStatusBar';
 import { logout, user} from '../components/Firebase/firebase';
 import {HomeRoute} from '../screens/HomeTabScreen.js'
+import {NewsRoute} from '../screens/NewsScreen.js'
 import {StockRoute} from '../screens/StockScreen.js'
-
 
 export default function HomeScreen() {
 
@@ -15,19 +15,21 @@ const RecentsRoute = () =>
       <SafeAreaView style={styles.container}>
           {/* <Title style={styles.text}>{user.email}</Title> */}
           {/* <Title style={styles.text}>{user.providerId}</Title> */}
-          <List.Section title="Settings">
+          <List.Section>
               
               <List.Accordion
                 style={styles.text}
                 title="Language"
-                left={props => <List.Icon {...props} icon="translate" />}>
-                <List.Item left={props => <List.Icon {...props} icon=""/>} title="Change language" />
+                titleStyle={{color:'white'}}
+                left={props => <List.Icon   {...props} icon="translate" />}>
+                <List.Item titleStyle={{color:"white"}} left={props => <List.Icon color={Colors.blue500} {...props} icon=""/>} title="Change language" />
               </List.Accordion>
 
               <List.Accordion
                 title="Account"
-                left={props => <List.Icon {...props} icon="account" />}>
-                <List.Item  left={props => <List.Icon {...props} icon="lock-alert"/>} title="Reset password" />
+                titleStyle={{color:'white'}}
+                left={props => <List.Icon {...props} icon="account" />}>    
+                  <List.Item titleStyle={{color:'white'}}left={props => <List.Icon {...props} icon=""/>} title="Reset Password" />
               </List.Accordion>
 
               <List.Accordion
@@ -35,25 +37,16 @@ const RecentsRoute = () =>
                 left={props => <List.Icon {...props} icon="brightness-4" />}
                 expanded={expanded}
                 onPress={handlePress}>
-                <List.Item left={props => <List.Icon {...props} icon="weather-night"/>} title="Dark" />
-                <List.Item left={props => <List.Icon {...props} icon="weather-sunny"/>} title="Day" />
+                <List.Item titleStyle={{color:'white'}} left={props => <List.Icon {...props} icon=""/>} title="Dark" />
+                <List.Item titleStyle={{color:'white'}} left={props => <List.Icon {...props} icon=""/>} title="Day" />
               </List.Accordion>
-
-              
-              <List.Accordion
-                title="Exit"
-                expanded={expanded}
-                onPress={handlePress}>
-
-                  <Button mode="contained" 
+        </List.Section> 
+        <Button mode="contained" 
                     style={styles.logout}
                     onPress={handleSignOut}
                   >
                     Logout
                 </Button>
-                
-              </List.Accordion>
-        </List.Section> 
       </SafeAreaView>
    </PaperProvider>
 
@@ -73,13 +66,15 @@ const RecentsRoute = () =>
 
  const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Home', icon: 'home' },
-    { key: 'stock', title: 'Stocks', icon: 'briefcase' },
-    { key: 'recents', title: 'Settings', icon: 'cog', color: '#607D8B' },
+    { key: 'home', title: 'Home', icon: 'home', color:'teal' },
+    { key: 'news', title: 'News', icon: 'newspaper', color:'#d81b60'},
+    { key: 'stock', title: 'Stock', icon: 'details', color:'#651fff' },
+    { key: 'recents', title: 'Settings', icon: 'cog', color: '#5e35b1'},
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeRoute,
+    news: NewsRoute,
     stock: StockRoute,
     recents: RecentsRoute,
   });
@@ -95,7 +90,7 @@ const RecentsRoute = () =>
   return (
     <View style={styles.container}>
       <BottomNavigation
-        barStyle={{backgroundColor: '#212948' }}
+        barStyle={{backgroundColor: '#651fff' }}
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
@@ -108,8 +103,9 @@ const RecentsRoute = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#222948",
-    color:'whitesmoke'
+    backgroundColor: "#123",
+    color:'whitesmoke',
+
   },
   text:{
     textAlign:'center',
@@ -124,7 +120,8 @@ const styles = StyleSheet.create({
       color:'whitesmoke',
       alignSelf:'center',
       position:'absolute',
-      bottom:20,
+      bottom:50,
+      padding:5,
       left:10,
       right:10,
   }
