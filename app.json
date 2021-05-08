@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Expo Firebase Starter",
+    "name": "Peak",
     "slug": "expo-firebase",
     "privacy": "public",
     "platforms": [
@@ -9,11 +9,11 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/flame.png",
+    "icon": "./assets/Logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#F57C00"
+      "backgroundColor": "#111"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
