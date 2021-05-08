@@ -12,6 +12,7 @@ import IconButton from '../components/IconButton';
 import { loginWithEmail } from '../components/Firebase/firebase';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import useStatusBar from '../hooks/useStatusBar';
+import { SocialIcon } from 'react-native-elements'
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -102,7 +103,27 @@ export default function LoginScreen({ navigation }) {
           size={30}
           onPress={() => navigation.goBack()}
         />
+
+        <Text style={{textAlign:'center', color:'whitesmoke', margin:20, fontFamily:'Futura'}}>Or Sign In With Socials</Text>
         
+        <View style={{display:'flex', flexDirection:'row', justifyContent:'center',}}>
+          <SocialIcon
+            title='Sign In With Facebook'
+            light
+            type='facebook'
+          />
+
+          <SocialIcon
+            type='google'
+          />
+
+          <SocialIcon
+            type='instagram'
+          />
+        </View>
+
+        
+       
       </SafeView>
       
     </LinearGradient>

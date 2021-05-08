@@ -7,46 +7,118 @@ import { logout, user} from '../components/Firebase/firebase';
 import {HomeRoute} from '../screens/HomeTabScreen.js'
 import {NewsRoute} from '../screens/NewsScreen.js'
 import {StockRoute} from '../screens/StockScreen.js'
+import { ListItem, Avatar, Icon } from 'react-native-elements';
+
 
 export default function HomeScreen() {
+useStatusBar('light-content');
+const list = [
+  {
+    title: 'Email',
+    icon: 'email'
+  },
+]
+
+const list2 = [
+  {
+    title: 'Passwords',
+    icon: 'fingerprint',
+    
+  },
+  {
+    title: 'Theme',
+    icon: 'lightbulb',
+  },
+  {
+    title: 'Legal',
+    icon: 'info'
+  },
+  {
+    title: 'Updates',
+    icon: 'update'
+  },
+
+]
+
+const list3 = [
+  {
+    title: 'Passwords',
+    icon: 'fingerprint',
+    
+  },
+  
+]
 
 const RecentsRoute = () => 
   <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-          {/* <Title style={styles.text}>{user.email}</Title> */}
-          {/* <Title style={styles.text}>{user.providerId}</Title> */}
-          <List.Section>
-              
-              <List.Accordion
-                style={styles.text}
-                title="Language"
-                titleStyle={{color:'white'}}
-                left={props => <List.Icon   {...props} icon="translate" />}>
-                <List.Item titleStyle={{color:"white"}} left={props => <List.Icon color={Colors.blue500} {...props} icon=""/>} title="Change language" />
-              </List.Accordion>
-
-              <List.Accordion
-                title="Account"
-                titleStyle={{color:'white'}}
-                left={props => <List.Icon {...props} icon="account" />}>    
-                  <List.Item titleStyle={{color:'white'}}left={props => <List.Icon {...props} icon=""/>} title="Reset Password" />
-              </List.Accordion>
-
-              <List.Accordion
-                title="Theme"
-                left={props => <List.Icon {...props} icon="brightness-4" />}
-                expanded={expanded}
-                onPress={handlePress}>
-                <List.Item titleStyle={{color:'white'}} left={props => <List.Icon {...props} icon=""/>} title="Dark" />
-                <List.Item titleStyle={{color:'white'}} left={props => <List.Icon {...props} icon=""/>} title="Day" />
-              </List.Accordion>
-        </List.Section> 
-        <Button mode="contained" 
-                    style={styles.logout}
-                    onPress={handleSignOut}
-                  >
-                    Logout
-                </Button>
+          
+        <ListItem.Accordion
+          content={
+            <>
+              <Icon name="person" size={30} />
+              <ListItem.Content>
+                <ListItem.Title>  Profile</ListItem.Title>
+              </ListItem.Content>
+            </>
+            
+          }
+          isExpanded={expanded}
+          onPress={() => {
+            setExpanded(!expanded);
+          }}
+        >
+        <View>
+          {
+            list.map((item, i) => (
+              <ListItem key={i} bottomDivider>
+                <Icon name={item.icon} />
+                <ListItem.Content>
+                  <ListItem.Title>{item.title}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            ))
+          }
+        </View>
+      </ListItem.Accordion>
+      <View>
+          {
+            list2.map((item, i) => (
+              <ListItem key={i} bottomDivider>
+                <Icon name={item.icon} />
+                <ListItem.Content>
+                  <ListItem.Title>{item.title}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            ))
+          }
+        </View>
+        <ListItem.Accordion
+          content={
+            <>
+              <Icon name="logout" size={30} />
+              <ListItem.Content>
+                <ListItem.Title>  Exit</ListItem.Title>
+              </ListItem.Content>
+            </>
+            
+          }
+          isExpanded={expanded}
+          onPress={() => {
+            setExpanded(!expanded);
+          }}
+        >
+       <Button mode="outlined" 
+           style={styles.logout}
+           onPress={handleSignOut}
+         >
+           Logout
+        </Button>
+      </ListItem.Accordion>
+     
+        
       </SafeAreaView>
    </PaperProvider>
 
@@ -103,7 +175,7 @@ const RecentsRoute = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#123",
+    backgroundColor: "ghostwhite",
     color:'whitesmoke',
 
   },
@@ -119,10 +191,10 @@ const styles = StyleSheet.create({
   logout:{
       color:'whitesmoke',
       alignSelf:'center',
-      position:'absolute',
+      width:'40%',
       bottom:50,
       padding:5,
-      left:10,
-      right:10,
+      left:0,
+      right:0,
   }
 });
