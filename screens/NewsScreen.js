@@ -29,9 +29,9 @@ export class NewsRoute extends React.Component {
   
   render() {
     const listItems = this.state.data.map((stock) =>
-        <Card style={{margin:5, padding:20, backgroundColor:'gainsboro', borderWidth:1, borderColor:'whitesmoke'}}> 
+        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'whitesmoke', borderWidth:1, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
             <Title style={styles.titleText}>{stock.category}</Title>
-            <Button mode="contained" style={{positon:'absolute', bottom:30, left:240, width:'30%'}}> Read </Button>
+            <Button mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
             <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'#880e4f'}}>{stock.headline}</Text>
             <Paragraph style={{marginTop:15, fontFamily:"Futura", border:2}}>{stock.summary}</Paragraph>
         </Card>
@@ -64,7 +64,7 @@ export class NewsRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#123",
+    backgroundColor: "whitesmoke",
   },
   fab: {
     position: 'absolute',
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   },
   card:{
     padding:20,
-    margin:20,
     backgroundColor:'gainsboro'
   },
   chip:{

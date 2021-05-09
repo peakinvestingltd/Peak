@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, View } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import * as Yup from 'yup';
 
@@ -31,26 +31,21 @@ export default function RegisterScreen2({ navigation }) {
           colors={['#072039', '#676DDD']}
           style={styles.background}
       >
-  
-      <Form
-        initialValues={{
-          line1: '',
-        }}
-        validationSchema={validationSchema}
-        onSubmit={values => handleOnSignUp(values)}
-      >
-
       <SafeAreaView style={{height:'100%'}}>
-          <GooglePlacesInput 
-          fetchDetails={true}
-          />            
-      </SafeAreaView>
+          <Form
+            initialValues={{
+              line1: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={values => handleOnSignUp(values)}
+          >
+            <GooglePlacesInput 
+              
+              fetchDetails={true}
+            />          
         
-
-      </Form>
-      
-     
-
+          </Form>
+      </SafeAreaView>
     </LinearGradient>
   );
 }

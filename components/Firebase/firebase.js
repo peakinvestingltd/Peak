@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import 'firebase/auth';
+import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 
 import firebaseConfig from './firebaseConfig';
 
@@ -24,3 +24,4 @@ export const passwordReset = email => auth.sendPasswordResetEmail(email);
 export const verifyEmail = verifyEmail => auth.verifyEmail(email);
 
 export const user  = firebase.auth().currentUser;
+

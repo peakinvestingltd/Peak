@@ -16,9 +16,11 @@ export default function WelcomeScreen({ navigation }) {
           style={styles.background}
       >
     <View style={styles.container}>
+       
       <View style={styles.logoContainer}>
         <Image source={require('../assets/Logo.png')} style={styles.logo} />
       </View>
+      
       <View style={styles.buttonContainer}>
         <AppButton title="Login" onPress={() => navigation.navigate('Login')} />
         <AppButton
@@ -28,7 +30,7 @@ export default function WelcomeScreen({ navigation }) {
           onPress={() => navigation.navigate('Register')}
         />
       </View>
-      
+      <Text style={styles.text}>Peak ltd. ™ - 2021</Text>
     </View>
     </LinearGradient>
   );
@@ -45,8 +47,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    width: 250,
-    height: 250
+    width: 100,
+    height: 100,
+    borderWidth:2,
+    borderColor: 'ghostwhite',
+    backgroundColor: '#222948',
+    borderRadius:10,
   },
   background: {
     position: 'absolute',
@@ -54,6 +60,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+  },
+  text:{
+    fontFamily:'Futura',
+    color:'whitesmoke',
+    position:'absolute',
+    bottom:40,
   },
   buttonContainer: {
     padding: 20,

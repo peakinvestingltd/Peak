@@ -141,7 +141,7 @@ const RecentsRoute = () =>
     { key: 'home', title: 'Home', icon: 'home', color:'teal' },
     { key: 'news', title: 'News', icon: 'newspaper', color:'#d81b60'},
     { key: 'stock', title: 'Stock', icon: 'details', color:'#651fff' },
-    { key: 'recents', title: 'Settings', icon: 'cog', color: '#5e35b1'},
+    { key: 'recents', title: 'Settings', icon: 'cog', color: 'orangered'},
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -175,7 +175,7 @@ const RecentsRoute = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "ghostwhite",
+    backgroundColor: "white",
     color:'whitesmoke',
 
   },

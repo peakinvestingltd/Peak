@@ -108,9 +108,8 @@ export default function LoginScreen({ navigation }) {
         
         <View style={{display:'flex', flexDirection:'row', justifyContent:'center',}}>
           <SocialIcon
-            title='Sign In With Facebook'
-            light
             type='facebook'
+            onPress={() => console.log('Facebook')}
           />
 
           <SocialIcon

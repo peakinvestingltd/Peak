@@ -98,14 +98,13 @@ export class StockRoute extends React.Component {
     console.log(this.state.candles)
     const listItems = this.state.stocks.map((stock) =>
         <Card style={styles.card}>
-    
             <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-              <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/> 
-              <Title style={styles.titleText}>{stock.name}</Title>
-              <Paragraph style={styles.titleText}>{stock.ticker}</Paragraph>
+            <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/> 
               <Text style={styles.titleText}>${stock.price}</Text>
-            </View>
-            
+             </View>
+             <Text style={styles.titleText}>{stock.name}</Text>
+              <Text style={styles.titleText}>{stock.ticker}</Text>
+            <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
             <LineChart
                 withHorizontalLabels={false}
                 data={{
@@ -137,17 +136,17 @@ export class StockRoute extends React.Component {
                     }
                 ]
                 }}
-                width={screenWidth-20} // from react-native
-                height={40}
+                width={screenWidth/1.6} // from react-native
+                height={100}
                 // yAxisLabel="$"
                 // yAxisSuffix="k"
                 // yAxisInterval={1} // optional, defaults to 1
                 chartConfig={{
                     backgroundColor: "#666",
                     backgroundGradientFrom: "#651fff",
-                    backgroundGradientTo: "#222948",
+                    backgroundGradientTo: "#111",
                     decimalPlaces: 0, // optional, defaults to 2dp
-                    color: (opacity = 10) => `rgba(255,2555,255, ${opacity})`,
+                    color: (opacity = 1) => `rgba(240, 240, 214, ${opacity})`,
                     labelColor: (opacity = 1) => `rgba(255,2555,255, ${opacity})`,
                     propsForBackgroundLines:{
                        stroke:"transparent"
@@ -155,7 +154,7 @@ export class StockRoute extends React.Component {
                     
                     propsForDots: {
                         r: "0.5",
-                        strokeWidth: "0",
+                        strokeWidth: "2",
                         stroke: "#95ff95"
                     }
                 }}
@@ -163,11 +162,15 @@ export class StockRoute extends React.Component {
               
                 style={{
                     marginVertical: 0,
-                    borderRadius: 16,
-                    paddingRight:30,
+
 
                 }}
             />
+            <View style={{display:'flex', justifyContent:'space-around', flexDirection:'column'}}>
+              <Text style={styles.titleText}>1H: 3.4 %</Text>
+              <Text style={styles.titleText}>7D: 1.6 %</Text>
+            </View>
+            </View>
         </Card>
     );
     return (
@@ -187,7 +190,7 @@ export class StockRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#123",
+    backgroundColor: "whitesmoke",
   },
   fab: {
     position: 'absolute',
@@ -201,33 +204,40 @@ const styles = StyleSheet.create({
     color: 'whitesmoke',
     fontFamily:'Futura',
     letterSpacing:2,
-    fontSize:15,
+    fontSize:20,
     marginTop:10,
-    fontWeight:'800',
+    fontWeight:'900',
     textTransform:'uppercase'
   },
   marginAdd:{
       margin: 1,
   },
   titleText:{
-    color: 'teal',
+    color: 'black',
     fontFamily:'Futura',
     letterSpacing:2,
-    fontSize:10,
-    fontWeight:'800',
-    textTransform:'uppercase'
+    fontWeight:'900',
+    textTransform:'uppercase',
+    fontSize:15,
+    margin:4,
   },
   card:{
-    margin:5,
-    padding:5,
-    backgroundColor:'whitesmoke'
+    margin:10,
+    padding:25,
+    backgroundColor:'whitesmoke',
+    shadowColor:'black', 
+    shadowColor: "#111",
+    shadowOffset: {width: 0,height: 10,},
+    shadowOpacity: 0.5, 
+    shadowRadius: 10, 
+    elevation: 10, 
   },
   image:{
      
       borderRadius:30,
       resizeMode:'contain', 
-      height:30, 
-      width:30, 
+      height:50, 
+      width:50, 
       marginBottom:8,
       marginTop:8,
       

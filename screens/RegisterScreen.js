@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View} from 'react-native';
+import { IconButton, Colors } from 'react-native-paper';
 import * as Yup from 'yup';
 
-import Colors from '../utils/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
 import FormField from '../components/Forms/FormField';
 import FormButton from '../components/Forms/FormButton';
-import IconButton from '../components/IconButton';
 import FormErrorMessage from '../components/Forms/FormErrorMessage';
 import { registerWithEmail } from '../components/Firebase/firebase';
 import useStatusBar from '../hooks/useStatusBar';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import {launchCamera, launchImageLibrary, ImagePicker} from 'react-native-image-picker';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -60,6 +59,40 @@ export default function RegisterScreen({ navigation }) {
       setPasswordVisibility(!passwordVisibility);
     }
   }
+
+  function selectFile() {
+    var options = {
+      title: 'Select Image',
+      customButtons: [
+        { 
+          name: 'customOptionKey', 
+          title: 'Choose file from Custom Option' 
+        },
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    
+    ImagePicker.showImagePicker(options, res => {
+      console.log('Response = ', res);
+
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else if (res.customButton) {
+        console.log('User tapped custom button: ', res.customButton);
+        alert(res.customButton);
+      } else {
+        let source = res;
+        this.setState({
+          resourcePath: source,
+        });
+      }
+    });
+  };
 
   function handleConfirmPasswordVisibility() {
     if (confirmPasswordIcon === 'eye') {
@@ -138,7 +171,14 @@ export default function RegisterScreen({ navigation }) {
           handlePasswordVisibility={handleConfirmPasswordVisibility}
         />
         
-        <View>
+        {/* <IconButton
+            icon="camera"
+            color={Colors.pink500}
+        /> */}
+       
+        
+
+        {/* <View>
           <DateTimePicker
             style={{padding:0, margin:0}}
             textColor="whitesmoke"
@@ -149,14 +189,14 @@ export default function RegisterScreen({ navigation }) {
             display="spinner"
             onChange={onChange}
           />
-        </View>
+        </View> */}
         <FormButton title={'Register'} />
         {<FormErrorMessage error={registerError} visible={true} />}
       </Form>
       
       <IconButton
         style={styles.backButton}
-        iconName="keyboard-backspace"
+        icon="keyboard-backspace"
         color={Colors.white}
         size={30}
         onPress={() => navigation.goBack()}
