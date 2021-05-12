@@ -6,6 +6,7 @@ import {LineChart} from "react-native-chart-kit";
 import {SafeAreaView, Dimensions, Image, View, ScrollView, TouchableOpacity, StyleSheet, Text, FlatList, Linking} from 'react-native';
 
 import axios from 'axios';
+import { object } from 'yup';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -15,55 +16,129 @@ let yesterday = timestamp - 86400;
 let from = yesterday.toString();
 let to = timestamp.toString();
 
-
+const apiKey = "c29d3o2ad3ib4ac2prkg";
 
 export class StockRoute extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
-        data: [],
+        loadingPrice:true,
+        loadingData: true, 
+        loadingCandle:true,
+        loaded:[],
+        datePrice:[],
         dataCandle:[],
+        data: [],
         stocks:[],
         candles:[],
+        price:[],
         stockList:['AAPL', 'TSLA', 'GOOGL', 'FB', 'BP', 
         "TWTR", "AMZN", "BAC", "BA", "AXS", "ADCT", "ATR", 
         "ALV", "ALK", "AU", "ASPN", "AAT"]
       } 
   }
 
-  
+  getCurrentPrice(){
+      let priceData = {}
+      let loadedStock = []
+      for (let i = 0; i < this.state.stockList.length; i++){
 
-    getChartData(stock, from, to, interval) {
-      let candleData = {};
-      fetch(
-        `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=${interval}&from=${from}&to=${to}&token=c29d3o2ad3ib4ac2prkg`
-      )
+        const stock = this.state.stockList[i]
+        fetch(`https://finnhub.io/api/v1/quote?symbol=${stock}&token=${apiKey}`)
         .then((response) => response.json())
-        .then((chartData) => {
-          this.setState({dataCandle: chartData })
-          candleData[stock] = this.state.dataCandle;
-          if (candleData.length ==  this.state.stockList.length){
-            this.setState({candles: candleData })
+        .then(priceList => {
+          this.setState({dataPrice: priceList})
+          let priceChange = this.state.dataPrice.pc - this.state.dataPrice.c
+          let percentage = (100 / this.state.dataPrice.pc) * priceChange
+          priceData[stock] = {
+            currentPrice: this.state.dataPrice.c,
+            open: this.state.dataPrice.o,
+            low: this.state.dataPrice.l,
+            high: this.state.dataPrice.h,
+            previousClose: this.state.dataPrice.pc,
+            priceChange: priceChange,
+            percentage: percentage
           }
-        });
+          loadedStock.push(stock)
+        })
+        .then(() => {
+          if (this.state.stockList.length == Object.keys(priceData).length  && this.state.loadingCandle == false && this.state.loadingData == false){
+            this.setState({ 
+              price: priceData,
+              loaded: loadedStock
+             });
+          }else if(this.state.stockList.length == Object.keys(priceData).length){
+            console.log('*')
+            console.log(this.state.stockList.length)
+          console.log(Object.keys(priceData).length)
+          console.log(this.state.loadingCandle)
+          console.log(this.state.loadingData)
+            this.setState({ 
+              price: priceData,
+              loadingPrice: false
+             });
+          }
+        })
+      }
     }
 
+
     callChartData(){
+      let stockCandle = {};
+      let loadedStock = []
       for (let i = 0; i < this.state.stockList.length; i++) {
-        this.getChartData(this.state.stockList[i], from, to, "30");
+        const stock = this.state.stockList[i]
+        fetch(
+          `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=30&from=${from}&to=${to}&token=${apiKey}`
+        )
+          .then((response) => response.json())
+          .then((chartData) => {
+            this.setState({dataCandle: chartData})
+            stockCandle[stock] = {
+              open: this.state.dataCandle.o,
+              high: this.state.dataCandle.h,
+              low: this.state.dataCandle.l,
+              close: this.state.dataCandle.c,
+              volume: this.state.dataCandle.v,
+              timestamp: this.state.dataCandle.t,
+              status: this.state.dataCandle.s
+            } 
+            loadedStock.push(stock)
+          }).then(() => {  
+              if(Object.keys(stockCandle).length == this.state.stockList.length && this.state.loadingData == false && this.state.loadingPrice == false ){
+              
+                this.setState({
+                  candles: stockCandle,
+                  loaded: loadedStock
+                  })
+              }else if(Object.keys(stockCandle).length == this.state.stockList.length){
+                console.log('*')
+                      console.log(this.state.stockList.length)
+              console.log(Object.keys(stockCandle).length)
+              console.log(this.state.loadingCandle)
+              console.log(this.state.loadingPrice)
+                this.setState({
+                  candles: stockCandle,
+                  loadingData: false
+                  })
+              } 
+          })
       }
+      
     }
   
 
   getData(){
-    let stockData = [];
+    let stockData = {};
+    let loadedStock = [];
     for (let i = 0; i < this.state.stockList.length; i++){
-        fetch(`https://finnhub.io/api/v1/stock/profile?symbol=${this.state.stockList[i]}&token=c29d3o2ad3ib4ac2prkg`) // hide api key from
+      const stock = this.state.stockList[i]
+        fetch(`https://finnhub.io/api/v1/stock/profile?symbol=${stock}&token=c29d3o2ad3ib4ac2prkg`) // hide api key from
             .then((response) => response.json())
             .then(stocksList => {
                 this.setState({ data: stocksList });
-                let stockInfo = {
+                stockData[stock] = {
                     name: this.state.data.name,
                     currency: this.state.data.currency,
                     ticker: this.state.data.ticker,
@@ -72,10 +147,26 @@ export class StockRoute extends React.Component {
                     exchange: this.state.data.exchange, 
                     industry: this.state.data.finnhubIndustry,
                 }
-                stockData.push(stockInfo);
-                
-                if (this.state.stockList.length == stockData.length){
-                   this.setState({ stocks: stockData });
+                loadedStock.push(stock)
+            }).then(() => {
+
+           
+
+                if (this.state.stockList.length == Object.keys(stockData).length  && this.state.loadingCandle == false && this.state.loadingPrice == false){
+                  this.setState({ 
+                    stocks: stockData,
+                    loaded: loadedStock
+                   });
+                }else if(this.state.stockList.length == Object.keys(stockData).length){
+                  console.log('*')
+                  console.log(this.state.stockList.length)
+                  console.log(Object.keys(stockData).length)
+                  console.log(this.state.loadingCandle)
+                  console.log(this.state.loadingPrice)
+                  this.setState({ 
+                    stocks: stockData,
+                    loadingData: false
+                   });
                 }
 
             });
@@ -85,86 +176,74 @@ export class StockRoute extends React.Component {
   componentDidMount() {
       this.getData();
       this.callChartData();
+      this.getCurrentPrice();
   }
 
   
   render() {
-    console.log(this.state.dataCandle.o)
-    const listItems = this.state.stocks.map((stock) =>
-        <Card style={styles.card}>  
-            <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
-                <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/>   
-                <Title style={styles.titleText}>{stock.name}</Title>   
-            </View>
-            <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
-              <Text style={styles.titleText}>{stock.ticker}</Text>
-            </View>
-             <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
-              <Text style={styles.titleText}>{stock.industry}</Text>
-              <Text style={styles.titleText}>{stock.price}</Text>
-            </View>
-            <View>
-            <TouchableOpacity onPress={() => this.props.navigation('DetailsScreen')}>
-                <LineChart
-                  data={{
-                    labels: ["Open"],
-                    datasets: [
-                      {
-                        data: [
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                        ]
-                      }
-                    ]
-                  }}
-                  width={Dimensions.get("window").width/1.2} // from react-native
-                  height={120}
-                  yAxisLabel=""
-                  yAxisSuffix=""
-                  yAxisInterval={1} // optional, defaults to 1
-                  chartConfig={{
-                    backgroundColor: "#e26a00",
-                    backgroundGradientFrom: "#111111",
+      const candles = this.state.candles
+      const stockData = this.state.stocks
+      const loaded = this.state.loaded
+      const priceData = this.state.price
+      
+
+      const listItems = loaded.map((stock) =>
+        <Card style={styles.card}>
+            <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+            <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`}}/> 
+              <Text style={styles.titleText}>${priceData[stock].currentPrice.toFixed(2)}</Text>
+             </View>
+             <Text style={styles.titleText}>{priceData[stock].priceChange.toFixed(2)} ({priceData[stock].percentage.toFixed(2)}%)</Text>
+             <Text style={styles.titleText}>{stockData[stock].name}</Text>
+              <Text style={styles.titleText}>{stockData[stock].ticker}</Text>
+            <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+              
+            <LineChart
+                bezier
+                hideLegend={true}
+                segments={1}
+                withHorizontalLabels={false}
+                data={{
+                datasets: [
+                    {
+                     data: candles[stock].open
+                    }
+                ]
+                }}
+                width={screenWidth-60} // from react-native
+                height={80}
+                chartConfig={{
+                    backgroundColor: "#666",
+                    backgroundGradientFrom: "#111",
                     backgroundGradientTo: "teal",
-                    decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    style: {
-                      borderRadius: 16
+                    decimalPlaces: 0, // optional, defaults to 2dp
+                    color: (opacity = 1) => `rgba(240, 240, 214, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(255,2555,255, ${opacity})`,
+                    propsForBackgroundLines:{
+                       stroke:"transparent"
                     },
                     propsForDots: {
-                      r: "6",
-                      strokeWidth: "2",
+                      r: "1",
+                      strokeWidth: "1",
                       stroke: "#ffa726"
                     }
-                  }}
-                  bezier
-                  style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                  }}
-                  withHorizontalLabels={false}
-                  withHorizontalLines={false}
-                  withVerticalLabels={false}
-                  withVerticalLines={false}
-                  yLabelsOffset={0}
-                  xLabelsOffset={0}
-
-                />  
-            </TouchableOpacity>
+                }}
+          
+                style={{
+                    borderRadius:10,
+                    paddingRight:10
+                }}
+            />
             </View>
            
         </Card>
     );
+
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
-              <Searchbar mode="contained" style={{margin:10, backgroundColor:'gainsboro',}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
-              <ScrollView style={{marginTop:10}}>      
+              <Searchbar mode="contained" style={{margin:10}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
+              <ScrollView style={{marginTop:10}}>  
                 {listItems}
               </ScrollView>
             </SafeAreaView>
