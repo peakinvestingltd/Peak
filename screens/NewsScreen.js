@@ -29,17 +29,17 @@ export class NewsRoute extends React.Component {
   
   render() {
     const listItems = this.state.data.map((stock) =>
-        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'whitesmoke', borderWidth:1, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
+        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'gainsboro', borderWidth:3, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
             <Title style={styles.titleText}>{stock.category}</Title>
             <Button mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
-            <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'#880e4f'}}>{stock.headline}</Text>
+            <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'#111'}}>{stock.headline}</Text>
             <Paragraph style={{marginTop:15, fontFamily:"Futura", border:2}}>{stock.summary}</Paragraph>
         </Card>
     );
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
-              <Searchbar mode="contained" style={{margin:10, borderBottomWidth:10, borderColor:"#F7037B"}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2, }}/>  
+              <Searchbar mode="contained" style={{margin:10, backgroundColor:'gainsboro'}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2, }}/>  
               <ScrollView horizontal={true} styles={{display:'flex', flexDirection:'column'}}>
                 <Chip style={styles.chip}>
                   <Text style={styles.chip}>All</Text>
@@ -64,7 +64,7 @@ export class NewsRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "whitesmoke",
+    backgroundColor: "gainsboro",
   },
   fab: {
     position: 'absolute',

@@ -30,6 +30,7 @@
     "react": "16.13.1",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "16.13.1",
+    "react-google-charts": "^3.0.15",
     "react-native": "~0.63.4",
     "react-native-animated-multistep": "^1.1.1",
     "react-native-chart-kit": "^6.11.0",
@@ -49,7 +50,10 @@
     "react-native-unimodules": "~0.13.3",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.4",
     "util": "^0.12.3",
+    "victory": "^35.6.3",
+    "victory-native": "^35.3.3",
     "yup": "0.27.0"
   },
   "devDependencies": {

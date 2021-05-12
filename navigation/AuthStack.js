@@ -8,6 +8,7 @@ import LoginScreen from '../screens/LoginScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import DepositScreen from '../screens/DepositScreen';
 
+
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
@@ -16,8 +17,7 @@ export default function AuthStack() {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="ForgotPassword" component={DepositScreen} />
-        <Stack.Screen name="Deposit" component={DepositScreen} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       </Stack.Navigator>
 
   );

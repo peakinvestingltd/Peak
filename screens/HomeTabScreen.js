@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DefaultTheme, IconButton, Colors, Title, Button, Card, Text, Provider as PaperProvider } from 'react-native-paper';
 import {SafeAreaView, Image, ImageBackground, View, FlatList, StyleSheet, ScrollView, Linking} from 'react-native';
+
+
 import Background from '../assets/background.png';
 
 const theme = {
@@ -49,7 +51,7 @@ export class HomeRoute extends React.Component{
         <Card style={{margin:5, padding:10, width:300, backgroundColor:'white', borderWidth:2, borderColor:'gainsboro'}}> 
           <Title>{stock.source}</Title>
           <Text style={{textTransform:"capitalize"}}>{stock.category}</Text> 
-          <Text style={styles.subtitle}>{stock.headline}</Text> 
+          <Text key={stock.headline} style={styles.subtitle}>{stock.headline}</Text> 
           <Text>{stock.summary}</Text> 
           <Image source={{uri: stock.image}} />
           <Button mode="contained"  style={{backgroundColor:'#222948', position:"absolute", color:'teal', botttom:30, right:20,}} onPress={() => Linking.openURL(stock.url)}>
@@ -70,13 +72,16 @@ export class HomeRoute extends React.Component{
   return (
         <SafeAreaView style={styles.container}>
           <Card >
-            <View style={{display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:"teal"}}>
+            <View style={{display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:"gainsboro"}}>
                 <IconButton
                   style={{backgroundColor: 'gainsboro'}}
                   color={Colors.black}
                   size={30}
                   icon="menu"
                 />
+                <Title style={styles.subtitle}>
+                  Peak
+                </Title>
                 <IconButton
                   style={{backgroundColor: 'gainsboro'}}
                   color={Colors.black}
@@ -85,11 +90,11 @@ export class HomeRoute extends React.Component{
                 />
             </View>
             </Card>
-            <Card style={{marginTop:20, marginRight:10, marginLeft:10}}>
+            {/* <Card style={{marginTop:20, marginRight:10, marginLeft:10}}>
                 <Card.Cover style={styles.card} source={require('../assets/basicCard.png')} />
-            </Card>
+            </Card> */}
 
-            <Card style={{diplay:'flex', backgroundColor:'gainsboro', flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:20, shadowColor: "#000",
+            <Card style={{diplay:'flex',  flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:20, shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 2,
@@ -132,18 +137,21 @@ export class HomeRoute extends React.Component{
               />
             </View>
 
-            <Card style={{margin:30, borderRadius:30,}}> 
-                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-around', margin:10}}>         
-                        <IconButton color={Colors.white}  icon="finance" style={{position:'absolute', left:0, backgroundColor:'#222'}} />
+            <Card style={{margin:30, borderRadius:30, backgroundColor:'whitesmoke'}}> 
+                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', margin:10}}>         
+                        <IconButton color={Colors.white}  icon="finance" style={{backgroundColor:'teal'}} />
                         <Text style={styles.text}>Stocks</Text>  
+                        <IconButton icon="chevron-right" />
                   </View>
-                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-around', margin:10}}>         
-                        <IconButton color={Colors.white}  icon="chart-pie" style={{position:'absolute', left:0, backgroundColor:'#222'}} />
-                        <Text style={styles.text}>ETFs</Text>  
+                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', margin:10}}>         
+                        <IconButton color={Colors.white}  icon="chart-pie" style={{ backgroundColor:'orange'}} />
+                        <Text style={styles.text}>ETF</Text>  
+                        <IconButton icon="chevron-right" />
                   </View>
-                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-around', margin:10}}>         
-                        <IconButton color={Colors.white}  icon="home-analytics" style={{position:'absolute', left:0, backgroundColor:'#222'}} />
+                  <View style={{display: 'flex', flexDirection:'row', justifyContent:'space-between', margin:10}}>         
+                        <IconButton color={Colors.white}  icon="home-analytics" style={{ backgroundColor:'crimson'}} />
                         <Text style={styles.text}>ISA</Text>  
+                        <IconButton icon="chevron-right" />
                   </View>
             </Card>
             <Title style={styles.subtext}>News</Title>
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor:'gainsboro'
   },
   image: {
     flex: 1,
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
      resizeMode:"cover",
   },
   text:{
-    color: '#111',
+    color: '#222',
     margin:10,
     letterSpacing:2,
     fontSize:15,
@@ -198,18 +207,17 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   subtitle:{
-    fontSize:18,
-    margin:10,
+    fontSize:20,
+    marginTop:20,
     fontWeight:"bold",
     fontFamily:'Futura',
-    color:'#222948',
+    color:'#111',
   },
   cardChart:{
      margin:10,
      borderRadius:50,
   },   
   portfolioCard:{
-    
     borderColor:'whitesmoke',
     width:'100%',
     padding:30,

@@ -1,19 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { 
-DefaultTheme,  
-Card, Button, Avatar, Paragraph, Searchbar, 
-FAB, Title, Provider as PaperProvider } from 'react-native-paper';
-import {SafeAreaView, Dimensions, Image, View, ScrollView, StyleSheet, Text, FlatList, Linking} from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { DefaultTheme, Card, Button, Avatar, Paragraph, Searchbar, IconButton, FAB, Title, Provider as PaperProvider } from 'react-native-paper';
+import {LineChart} from "react-native-chart-kit";
+import {SafeAreaView, Dimensions, Image, View, ScrollView, TouchableOpacity, StyleSheet, Text, FlatList, Linking} from 'react-native';
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
 import axios from 'axios';
 
 const screenWidth = Dimensions.get("window").width;
@@ -23,6 +14,8 @@ let yesterday = timestamp - 86400;
 
 let from = yesterday.toString();
 let to = timestamp.toString();
+
+
 
 export class StockRoute extends React.Component {
 
@@ -77,6 +70,7 @@ export class StockRoute extends React.Component {
                     price: this.state.data.shareOutstanding,
                     logo: `https://storage.googleapis.com/iex/api/logos/${this.state.data.ticker}.png`,
                     exchange: this.state.data.exchange, 
+                    industry: this.state.data.finnhubIndustry,
                 }
                 stockData.push(stockInfo);
                 
@@ -90,93 +84,86 @@ export class StockRoute extends React.Component {
 
   componentDidMount() {
       this.getData();
-      // this.callChartData();
+      this.callChartData();
   }
 
   
   render() {
-    console.log(this.state.candles)
+    console.log(this.state.dataCandle.o)
     const listItems = this.state.stocks.map((stock) =>
-        <Card style={styles.card}>
-            <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-            <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/> 
-              <Text style={styles.titleText}>${stock.price}</Text>
-             </View>
-             <Text style={styles.titleText}>{stock.name}</Text>
+        <Card style={styles.card}>  
+            <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
+                <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/>   
+                <Title style={styles.titleText}>{stock.name}</Title>   
+            </View>
+            <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
               <Text style={styles.titleText}>{stock.ticker}</Text>
-            <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-            <LineChart
-                withHorizontalLabels={false}
-                data={{
-                // labels: ["January", "February", "March", "April", "May", "June"],
-                datasets: [
-                    {
-                    data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
+            </View>
+             <View style={{flexDirection:"row", alignItems:'center', justifyContent:'space-between',}}> 
+              <Text style={styles.titleText}>{stock.industry}</Text>
+              <Text style={styles.titleText}>{stock.price}</Text>
+            </View>
+            <View>
+            <TouchableOpacity onPress={() => this.props.navigation('DetailsScreen')}>
+                <LineChart
+                  data={{
+                    labels: ["Open"],
+                    datasets: [
+                      {
+                        data: [
+                          Math.random() * 100,
+                          Math.random() * 100,
+                          Math.random() * 100,
+                          Math.random() * 100,
+                          Math.random() * 100,
+                          Math.random() * 100,
+                        ]
+                      }
                     ]
-                    }
-                ]
-                }}
-                width={screenWidth/1.6} // from react-native
-                height={100}
-                // yAxisLabel="$"
-                // yAxisSuffix="k"
-                // yAxisInterval={1} // optional, defaults to 1
-                chartConfig={{
-                    backgroundColor: "#666",
-                    backgroundGradientFrom: "#651fff",
-                    backgroundGradientTo: "#111",
-                    decimalPlaces: 0, // optional, defaults to 2dp
-                    color: (opacity = 1) => `rgba(240, 240, 214, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255,2555,255, ${opacity})`,
-                    propsForBackgroundLines:{
-                       stroke:"transparent"
+                  }}
+                  width={Dimensions.get("window").width/1.2} // from react-native
+                  height={120}
+                  yAxisLabel=""
+                  yAxisSuffix=""
+                  yAxisInterval={1} // optional, defaults to 1
+                  chartConfig={{
+                    backgroundColor: "#e26a00",
+                    backgroundGradientFrom: "#111111",
+                    backgroundGradientTo: "teal",
+                    decimalPlaces: 2, // optional, defaults to 2dp
+                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                    style: {
+                      borderRadius: 16
                     },
-                    
                     propsForDots: {
-                        r: "0.5",
-                        strokeWidth: "2",
-                        stroke: "#95ff95"
+                      r: "6",
+                      strokeWidth: "2",
+                      stroke: "#ffa726"
                     }
-                }}
-               
-              
-                style={{
-                    marginVertical: 0,
+                  }}
+                  bezier
+                  style={{
+                    marginVertical: 8,
+                    borderRadius: 16
+                  }}
+                  withHorizontalLabels={false}
+                  withHorizontalLines={false}
+                  withVerticalLabels={false}
+                  withVerticalLines={false}
+                  yLabelsOffset={0}
+                  xLabelsOffset={0}
 
-
-                }}
-            />
-            <View style={{display:'flex', justifyContent:'space-around', flexDirection:'column'}}>
-              <Text style={styles.titleText}>1H: 3.4 %</Text>
-              <Text style={styles.titleText}>7D: 1.6 %</Text>
+                />  
+            </TouchableOpacity>
             </View>
-            </View>
+           
         </Card>
     );
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
-              <Searchbar mode="contained" style={{margin:10}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
+              <Searchbar mode="contained" style={{margin:10, backgroundColor:'gainsboro',}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
               <ScrollView style={{marginTop:10}}>      
                 {listItems}
               </ScrollView>
@@ -190,14 +177,7 @@ export class StockRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "whitesmoke",
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    left: 0,
-    top: 150,
-    backgroundColor:'#95ff95'
+    backgroundColor: "gainsboro",
   },
   text:{
     textAlign:'center',
@@ -208,9 +188,6 @@ const styles = StyleSheet.create({
     marginTop:10,
     fontWeight:'900',
     textTransform:'uppercase'
-  },
-  marginAdd:{
-      margin: 1,
   },
   titleText:{
     color: 'black',
@@ -223,8 +200,8 @@ const styles = StyleSheet.create({
   },
   card:{
     margin:10,
-    padding:25,
-    backgroundColor:'whitesmoke',
+    padding:30,
+    backgroundColor:'gainsboro',
     shadowColor:'black', 
     shadowColor: "#111",
     shadowOffset: {width: 0,height: 10,},
@@ -233,7 +210,7 @@ const styles = StyleSheet.create({
     elevation: 10, 
   },
   image:{
-     
+
       borderRadius:30,
       resizeMode:'contain', 
       height:50, 

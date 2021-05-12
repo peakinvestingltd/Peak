@@ -74,7 +74,7 @@ const RecentsRoute = () =>
               <ListItem key={i} bottomDivider>
                 <Icon name={item.icon} />
                 <ListItem.Content>
-                  <ListItem.Title>{item.title}</ListItem.Title>
+                  <ListItem.Title >{item.title}</ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron />
               </ListItem>
@@ -88,7 +88,7 @@ const RecentsRoute = () =>
               <ListItem key={i} bottomDivider>
                 <Icon name={item.icon} />
                 <ListItem.Content>
-                  <ListItem.Title>{item.title}</ListItem.Title>
+                  <ListItem.Title styles={styles.text}>{item.title}</ListItem.Title>
                 </ListItem.Content>
                 <ListItem.Chevron />
               </ListItem>
@@ -139,9 +139,9 @@ const RecentsRoute = () =>
  const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home', color:'teal' },
-    { key: 'news', title: 'News', icon: 'newspaper', color:'#d81b60'},
-    { key: 'stock', title: 'Stock', icon: 'details', color:'#651fff' },
-    { key: 'recents', title: 'Settings', icon: 'cog', color: 'orangered'},
+    { key: 'news', title: 'News', icon: 'newspaper', color:'#027C7C'},
+    { key: 'stock', title: 'Stock', icon: 'details', color:'#036E6F' },
+    { key: 'recents', title: 'Settings', icon: 'cog', color: '#026263'},
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
