@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 
 import firebaseConfig from './firebaseConfig';

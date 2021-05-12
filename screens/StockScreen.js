@@ -15,6 +15,7 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 import axios from 'axios';
+import { object } from 'yup';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -29,6 +30,8 @@ export class StockRoute extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+        loading: true,
+        loaded: [],
         data: [],
         dataCandle:[],
         stocks:[],
@@ -41,36 +44,58 @@ export class StockRoute extends React.Component {
 
   
 
-    getChartData(stock, from, to, interval) {
-      let candleData = {};
-      fetch(
-        `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=${interval}&from=${from}&to=${to}&token=c29d3o2ad3ib4ac2prkg`
-      )
-        .then((response) => response.json())
-        .then((chartData) => {
-          this.setState({dataCandle: chartData })
-          candleData[stock] = this.state.dataCandle;
-          if (candleData.length ==  this.state.stockList.length){
-            this.setState({candles: candleData })
-          }
-        });
-    }
 
     callChartData(){
+      let stockCandle = {};
+      let loadedStock = []
       for (let i = 0; i < this.state.stockList.length; i++) {
-        this.getChartData(this.state.stockList[i], from, to, "30");
+        const stock = this.state.stockList[i]
+        fetch(
+          `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=30&from=${from}&to=${to}&token=c29d3o2ad3ib4ac2prkg`
+        )
+          .then((response) => response.json())
+          .then((chartData) => {
+            this.setState({dataCandle: chartData})
+            stockCandle[stock] = {
+              open: this.state.dataCandle.o,
+              high: this.state.dataCandle.h,
+              low: this.state.dataCandle.l,
+              close: this.state.dataCandle.c,
+              volume: this.state.dataCandle.v,
+              timestamp: this.state.dataCandle.t,
+              status: this.state.dataCandle.s
+            } 
+            loadedStock.push(stock)
+          }).then(() => {
+            if(Object.keys(stockCandle).length == this.state.stockList.length && this.state.loading == false){
+            
+               this.setState({
+                candles: stockCandle,
+                loaded: loadedStock
+                })
+            }else if(Object.keys(stockCandle).length == this.state.stockList.length){
+              this.setState({
+                candles: stockCandle,
+                loading: false
+                })
+            }
+            
+          })
       }
+      
     }
   
 
   getData(){
-    let stockData = [];
+    let stockData = {};
+    let loadedStock = [];
     for (let i = 0; i < this.state.stockList.length; i++){
-        fetch(`https://finnhub.io/api/v1/stock/profile?symbol=${this.state.stockList[i]}&token=c29d3o2ad3ib4ac2prkg`) // hide api key from
+      const stock = this.state.stockList[i]
+        fetch(`https://finnhub.io/api/v1/stock/profile?symbol=${stock}&token=c29d3o2ad3ib4ac2prkg`) // hide api key from
             .then((response) => response.json())
             .then(stocksList => {
                 this.setState({ data: stocksList });
-                let stockInfo = {
+                stockData[stock] = {
                     name: this.state.data.name,
                     currency: this.state.data.currency,
                     ticker: this.state.data.ticker,
@@ -78,61 +103,56 @@ export class StockRoute extends React.Component {
                     logo: `https://storage.googleapis.com/iex/api/logos/${this.state.data.ticker}.png`,
                     exchange: this.state.data.exchange, 
                 }
-                stockData.push(stockInfo);
-                
-                if (this.state.stockList.length == stockData.length){
-                   this.setState({ stocks: stockData });
-                }
+                loadedStock.push(stock)
+            }).then(() => {
+       
 
+                if (this.state.stockList.length == Object.keys(stockData).length  && this.state.loading == false){
+               
+                  this.setState({ 
+                    stocks: stockData,
+                    loaded: loadedStock
+                   });
+                }else if(this.state.stockList.length == Object.keys(stockData).length){
+                  this.setState({ 
+                    stocks: stockData,
+                    loading: false
+                   });
+                }
             });
     }
   }
 
   componentDidMount() {
       this.getData();
-      // this.callChartData();
+       this.callChartData();
   }
 
   
   render() {
-    console.log(this.state.candles)
-    const listItems = this.state.stocks.map((stock) =>
+  const candles = this.state.candles
+  const stockData = this.state.stocks
+  const loaded = this.state.loaded
+
+
+      const listItems = loaded.map((stock) =>
         <Card style={styles.card}>
             <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
-            <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stock.ticker}.png`}}/> 
-              <Text style={styles.titleText}>${stock.price}</Text>
+            <Image style={styles.image} source = {{uri:`https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`}}/> 
+              <Text style={styles.titleText}>${stockData[stock].price}</Text>
              </View>
-             <Text style={styles.titleText}>{stock.name}</Text>
-              <Text style={styles.titleText}>{stock.ticker}</Text>
+             <Text style={styles.titleText}>{stockData[stock].name}</Text>
+              <Text style={styles.titleText}>{stockData[stock].ticker}</Text>
             <View style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}}>
+              
             <LineChart
                 withHorizontalLabels={false}
                 data={{
                 // labels: ["January", "February", "March", "April", "May", "June"],
                 datasets: [
+                 
                     {
-                    data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                    ]
+                     data: candles[stock].open
                     }
                 ]
                 }}
@@ -159,7 +179,6 @@ export class StockRoute extends React.Component {
                     }
                 }}
                
-              
                 style={{
                     marginVertical: 0,
 
@@ -173,11 +192,12 @@ export class StockRoute extends React.Component {
             </View>
         </Card>
     );
+
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
               <Searchbar mode="contained" style={{margin:10}} inputStyle={{fontSize:14, fontFamily:'Futura', letterSpacing:2, margin:2}}/>  
-              <ScrollView style={{marginTop:10}}>      
+              <ScrollView style={{marginTop:10}}>  
                 {listItems}
               </ScrollView>
             </SafeAreaView>
