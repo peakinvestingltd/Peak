@@ -24,4 +24,3 @@ export const passwordReset = email => auth.sendPasswordResetEmail(email);
 export const verifyEmail = verifyEmail => auth.verifyEmail(email);
 
 export const user  = firebase.auth().currentUser;
-

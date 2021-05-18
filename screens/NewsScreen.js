@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { DefaultTheme, Chip, Card, Button, Paragraph, Searchbar, FAB, Title, Provider as PaperProvider } from 'react-native-paper';
 import {SafeAreaView,Image, View, ScrollView, StyleSheet, Text, FlatList, Linking} from 'react-native';
 import axios from 'axios';
+import Spinner from '../components/Spinner';
 
 export class NewsRoute extends React.Component {
 
@@ -29,13 +30,18 @@ export class NewsRoute extends React.Component {
   
   render() {
     const listItems = this.state.data.map((stock) =>
-        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'gainsboro', borderWidth:3, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
+        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'#BDCAE0', borderWidth:3, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
             <Title style={styles.titleText}>{stock.category}</Title>
-            <Button mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
+            <Button onPress={()=> {Linking.openURL(stock.url)}} mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
             <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'#111'}}>{stock.headline}</Text>
             <Paragraph style={{marginTop:15, fontFamily:"Futura", border:2}}>{stock.summary}</Paragraph>
         </Card>
     );
+
+    if (this.state.data.length == 0) {
+      return <Spinner />;
+    }
+
     return (
         <PaperProvider theme={theme}>
             <SafeAreaView style={styles.container}>
@@ -64,7 +70,7 @@ export class NewsRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "gainsboro",
+    backgroundColor: "#BDCAE0",
   },
   fab: {
     position: 'absolute',
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
   },
   card:{
     padding:20,
-    backgroundColor:'gainsboro'
+    backgroundColor:'#BDCAE0'
   },
   chip:{
     padding:5,

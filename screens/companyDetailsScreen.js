@@ -1,14 +1,22 @@
-import React from 'react';
-import {SafeAreaView, View, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {Component} from 'react';
+import {Button, SafeAreaView, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
-export default function DetailsScreen() {
+export default class DetailsScreen extends React.Component {
+
+  constructor(props) {
+      super(props); 
+  }
 
 
+
+    render(){
          return (
-                 <PaperProvider theme={theme}>
-                    <SafeAreaView style={styles.container}>
-                   
-                    </SafeAreaView>
-                </PaperProvider>
+                <SafeAreaView>
+                    <Text>Details</Text>
+                    <Button title="go" icon="chevron-right-circle" onPress={() =>
+                            this.props.navigation.navigate('Home')}></Button>
+                </SafeAreaView>
          );
+
+    }
 }

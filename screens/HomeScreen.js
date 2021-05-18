@@ -6,12 +6,12 @@ import useStatusBar from '../hooks/useStatusBar';
 import { logout, user} from '../components/Firebase/firebase';
 import {HomeRoute} from '../screens/HomeTabScreen.js'
 import {NewsRoute} from '../screens/NewsScreen.js'
-import {StockRoute} from '../screens/StockScreen.js'
+import {StockScreen} from '../screens/StockScreen.js'
 import { ListItem, Avatar, Icon } from 'react-native-elements';
 
 
-export default function HomeScreen() {
-useStatusBar('light-content');
+export default function HomeScreen({navigation}) {
+useStatusBar('dark-content');
 const list = [
   {
     title: 'Email',
@@ -54,11 +54,12 @@ const RecentsRoute = () =>
       <SafeAreaView style={styles.container}>
           
         <ListItem.Accordion
+          theme={{ colors: { primary: '#fff' }}}
           content={
             <>
               <Icon name="person" size={30} />
               <ListItem.Content>
-                <ListItem.Title>  Profile</ListItem.Title>
+                <ListItem.Title>Profile</ListItem.Title>
               </ListItem.Content>
             </>
             
@@ -68,10 +69,11 @@ const RecentsRoute = () =>
             setExpanded(!expanded);
           }}
         >
-        <View>
+        <View backgroundColor="gainsboro">
+        
           {
             list.map((item, i) => (
-              <ListItem key={i} bottomDivider>
+              <ListItem key={i} bottomDivider ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#BDCAE0"}}>
                 <Icon name={item.icon} />
                 <ListItem.Content>
                   <ListItem.Title >{item.title}</ListItem.Title>
@@ -82,10 +84,10 @@ const RecentsRoute = () =>
           }
         </View>
       </ListItem.Accordion>
-      <View>
+      <View backgroundColor="gainsboro">
           {
             list2.map((item, i) => (
-              <ListItem key={i} bottomDivider>
+              <ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#BDCAE0"}} titleStyle={{backgroundColor:"#fff"}} >
                 <Icon name={item.icon} />
                 <ListItem.Content>
                   <ListItem.Title styles={styles.text}>{item.title}</ListItem.Title>
@@ -96,11 +98,14 @@ const RecentsRoute = () =>
           }
         </View>
         <ListItem.Accordion
+         theme={{ colors: { primary: '#fff' }}}
           content={
             <>
               <Icon name="logout" size={30} />
-              <ListItem.Content>
-                <ListItem.Title>  Exit</ListItem.Title>
+              <ListItem.Content
+              >
+                
+                <ListItem.Title></ListItem.Title>
               </ListItem.Content>
             </>
             
@@ -127,8 +132,8 @@ const RecentsRoute = () =>
   roundness: 5,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#04D370',
-    accent: '#222948',
+    primary: '#fff',
+    accent: '#95ff55',
   },
 };
 
@@ -142,13 +147,15 @@ const RecentsRoute = () =>
     { key: 'news', title: 'News', icon: 'newspaper', color:'#027C7C'},
     { key: 'stock', title: 'Stock', icon: 'details', color:'#036E6F' },
     { key: 'recents', title: 'Settings', icon: 'cog', color: '#026263'},
+
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeRoute,
     news: NewsRoute,
-    stock: StockRoute,
+    stock: StockScreen,
     recents: RecentsRoute,
+
   });
 
   useStatusBar('dark-content');
@@ -167,7 +174,6 @@ const RecentsRoute = () =>
         onIndexChange={setIndex}
         renderScene={renderScene}
     />
-      
     </View>
   );
 }
@@ -175,9 +181,7 @@ const RecentsRoute = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    color:'whitesmoke',
-
+    backgroundColor: "#BDCAE0",
   },
   text:{
     textAlign:'center',
@@ -189,7 +193,6 @@ const styles = StyleSheet.create({
     textTransform:'uppercase'
   },
   logout:{
-      color:'whitesmoke',
       alignSelf:'center',
       width:'40%',
       bottom:50,

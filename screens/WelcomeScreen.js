@@ -12,7 +12,7 @@ export default function WelcomeScreen({ navigation }) {
   return (
     <LinearGradient
           // Background Linear Gradient
-          colors={['#222948', '#222948', '#676DDD']}
+          colors={['#BDCAE0', '#BDCAE0', 'teal']}
           style={styles.background}
       >
     <View style={styles.container}>

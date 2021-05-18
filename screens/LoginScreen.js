@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <LinearGradient
           // Background Linear Gradient
-          colors={['#222948', '#222948', '#676DDD']}
+          colors={['#BDCAE0', '#BDCAE0', 'teal']}
           style={styles.background}
       >
       <SafeView style={styles.container}>

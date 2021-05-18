@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { DefaultTheme, IconButton, Colors, Title, Button, Card, Text, Provider as PaperProvider } from 'react-native-paper';
+import { Avatar, DefaultTheme, IconButton, Colors, Title, Button, Card, Text, Provider as PaperProvider } from 'react-native-paper';
 import {SafeAreaView, Image, ImageBackground, View, FlatList, StyleSheet, ScrollView, Linking} from 'react-native';
-
+import {user} from '../components/Firebase/firebase';
 
 import Background from '../assets/background.png';
 
@@ -14,6 +14,9 @@ const theme = {
     accent: '#f1c40f',
   },
 };
+
+let bgColor = "#BDCAE0";
+let textColor = "#222"
 
 export class HomeRoute extends React.Component{
 
@@ -72,10 +75,10 @@ export class HomeRoute extends React.Component{
   return (
         <SafeAreaView style={styles.container}>
           <Card >
-            <View style={{display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:"gainsboro"}}>
+            <View style={{display:'flex', flexDirection:'row', justifyContent:'space-between', backgroundColor:bgColor}}>
                 <IconButton
-                  style={{backgroundColor: 'gainsboro'}}
-                  color={Colors.black}
+                  style={{backgroundColor: bgColor}}
+                  color={Colors.white}
                   size={30}
                   icon="menu"
                 />
@@ -83,29 +86,28 @@ export class HomeRoute extends React.Component{
                   Peak
                 </Title>
                 <IconButton
-                  style={{backgroundColor: 'gainsboro'}}
-                  color={Colors.black}
+                  style={{backgroundColor: bgColor}}
+                  color={Colors.white}
                   size={30}
                   icon="tune-vertical"
                 />
             </View>
             </Card>
-            {/* <Card style={{marginTop:20, marginRight:10, marginLeft:10}}>
-                <Card.Cover style={styles.card} source={require('../assets/basicCard.png')} />
-            </Card> */}
+          
+            <Avatar.Image style={{alignSelf:'center', margin:20}} size={120}>
+            </Avatar.Image>
+  
 
-            <Card style={{diplay:'flex',  flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:20, shadowColor: "#000",
+            <Card style={{backgroundColor:'#151829', height:150, flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:20, shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 2,
               },
               shadowOpacity: 0.6,
               shadowRadius: 3.84,
-
               elevation: 5,}}>
-              <Title style={styles.text}>Total BALANCE</Title>
-              <Title style={styles.text}> $300 </Title>
-              <View style={{diplay:'flex', flexDirection:'row', justifyContent:'space-between', borderRadius:20, shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10, backgroundColor:'#111'}}>
+              <Text style={styles.balance}> $300 </Text>
+              <View style={{flexDirection:'row', position:'absolute', bottom:0, right:0, left:0, justifyContent:'space-between', borderRadius:20, shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10, backgroundColor:'#111'}}>
                 <IconButton
                   style={{backgroundColor: 'gainsboro'}}
                   size={25}
@@ -175,7 +177,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor:'gainsboro'
+    backgroundColor:bgColor,
   },
   image: {
     flex: 1,
@@ -187,8 +189,19 @@ const styles = StyleSheet.create({
   card: {
      resizeMode:"cover",
   },
+  balance:{
+    color: '#80A6EF',
+    fontFamily:'Futura',
+    fontSize:50,
+    marginTop:20,
+    textAlign:'center',
+    letterSpacing:10,
+    fontWeight:'800',
+    textTransform:'uppercase'
+  },
   text:{
     color: '#222',
+    fontFamily:'Damascus',
     margin:10,
     letterSpacing:2,
     fontSize:15,
@@ -198,7 +211,7 @@ const styles = StyleSheet.create({
   },
   subtext:{
     textAlign:'justify',
-    color: 'black',
+    color: textColor,
     letterSpacing:2,
     fontSize:15,
     marginTop:10,
@@ -211,7 +224,7 @@ const styles = StyleSheet.create({
     marginTop:20,
     fontWeight:"bold",
     fontFamily:'Futura',
-    color:'#111',
+    color:textColor,
   },
   cardChart:{
      margin:10,
