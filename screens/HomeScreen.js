@@ -52,7 +52,6 @@ const list3 = [
 const RecentsRoute = () => 
   <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-          
         <ListItem.Accordion
           theme={{ colors: { primary: '#fff' }}}
           content={
@@ -145,7 +144,9 @@ const RecentsRoute = () =>
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home', color:'teal' },
     { key: 'news', title: 'News', icon: 'newspaper', color:'#027C7C'},
-    { key: 'stock', title: 'Stock', icon: 'details', color:'#036E6F' },
+    { key: 'stock', title: 'Stock', icon: 'details', color:'#036E6F', 
+      next: {navigation}
+    },
     { key: 'recents', title: 'Settings', icon: 'cog', color: '#026263'},
 
   ]);
@@ -155,6 +156,7 @@ const RecentsRoute = () =>
     news: NewsRoute,
     stock: StockScreen,
     recents: RecentsRoute,
+    
 
   });
 
@@ -168,12 +170,15 @@ const RecentsRoute = () =>
   }
   return (
     <View style={styles.container}>
+    
       <BottomNavigation
         barStyle={{backgroundColor: '#651fff' }}
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
     />
+    {/* <Button title="go" icon="chevron-right-circle" onPress={() =>
+                            navigation.navigate('Details')}/> */}
     </View>
   );
 }

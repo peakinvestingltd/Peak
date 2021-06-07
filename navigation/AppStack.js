@@ -11,7 +11,6 @@ export default function AppStack() {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Home" component={HomeScreen} />
-      {/* <Stack.Screen name="Stocks" component={StockScreen} /> */}
       <Stack.Screen name="Details" component={DetailsScreen} />
     </Stack.Navigator>
   );

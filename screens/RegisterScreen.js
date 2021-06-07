@@ -171,25 +171,6 @@ export default function RegisterScreen({ navigation }) {
           handlePasswordVisibility={handleConfirmPasswordVisibility}
         />
         
-        {/* <IconButton
-            icon="camera"
-            color={Colors.pink500}
-        /> */}
-       
-        
-
-        {/* <View>
-          <DateTimePicker
-            style={{padding:0, margin:0}}
-            textColor="whitesmoke"
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="spinner"
-            onChange={onChange}
-          />
-        </View> */}
         <FormButton title={'Register'} />
         {<FormErrorMessage error={registerError} visible={true} />}
       </Form>
