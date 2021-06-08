@@ -9,6 +9,7 @@ import {
   Chip,
   Button,
   Searchbar,
+  Colors,
   IconButton,
   Title,
   Provider as PaperProvider,
@@ -30,7 +31,6 @@ const screenWidth = Dimensions.get("window").width;
 
 let timestamp = Math.round(Date.now() / 1000);
 let yesterday = timestamp - 604800;
-// let yesterday = timestamp - 86400;
 
 let from = yesterday.toString();
 let to = timestamp.toString();
@@ -123,7 +123,6 @@ export class StockScreen extends React.Component {
           } else if (
             this.state.stockList.length == Object.keys(priceData).length
           ) {
-            console.log("Current price done");
             this.setState({
               price: priceData,
               loadingPrice: false,
@@ -131,7 +130,6 @@ export class StockScreen extends React.Component {
           }
         })
         .catch((err) => {
-          console.log("error in getCurrentPrice");
           console.log(err);
         });
     });
@@ -146,7 +144,6 @@ export class StockScreen extends React.Component {
       )
         .then((response) => response.json())
         .then((chartData) => {
-          console.log(chartData);
           stockCandle[stock] = {
             open: chartData.o,
             high: chartData.h,
@@ -189,7 +186,6 @@ export class StockScreen extends React.Component {
           }
         })
         .catch((err) => {
-          console.log("error in callChartData");
           console.log(err);
         });
     });
@@ -265,7 +261,12 @@ export class StockScreen extends React.Component {
     const priceData = this.state.price;
 
     const listItems = loaded.map((stock) => (
-      <TouchableOpacity onPress={() => this.props.route.next.navigation.navigate("Details", {stock:stock})  } >
+      <TouchableOpacity onPress={() => 
+            this.props.route.next.navigation.navigate("Details", 
+              {stock:stock,
+               price:priceData[stock] 
+              }, 
+            )}>
         <Card
           style={styles.card}
         >
@@ -285,12 +286,6 @@ export class StockScreen extends React.Component {
             {"("}
             {priceData[stock].percentage.toFixed(2)}%{")"}
           </Text>
-
-          {/* <Button
-            title="go"
-            icon="chevron-right-circle"
-            onPress={() => this.props.navigation.navigate("Home")}
-          /> */}
           <View
             style={{
               display: "flex",
@@ -307,16 +302,6 @@ export class StockScreen extends React.Component {
                 }}
               />
             </View>
-            {/* <View
-              style={{
-                position: "absolute",
-                right: -30,
-                top: 50,
-                alignSelf: "center",
-              }}
-            >
-              <Text style={styles.titleText}>{stockData[stock].ticker}</Text>
-            </View> */}
           </View>
           <LineChart
             bezier
@@ -339,7 +324,7 @@ export class StockScreen extends React.Component {
               backgroundGradientFromOpacity: 0,
               backgroundGradientToOpacity: 0,
               decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(${priceData[stock].color}0.9)`,
+              color: (opacity = 1) => `rgba(${priceData[stock].color}1)`,
               fillShadowGradientOpacity: 1,
               fillShadowGradient: priceData[stock].stockColor,
 
@@ -372,16 +357,16 @@ export class StockScreen extends React.Component {
     return (
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-          <Searchbar
-            mode="contained"
-            style={{ margin: 10, backgroundColor: "gainsboro" }}
-            inputStyle={{
-              fontSize: 14,
-              fontFamily: "Futura",
-              letterSpacing: 2,
-              margin: 2,
-            }}
-          />
+         <Card style={styles.topCard}>
+          <View style={{ flexDirection:'row', justifyContent:'space-around', alignItems:'center', }}>
+            <Title style={styles.titleText}>Watch List</Title>
+            <View style={{flexDirection:'row'}}>
+              <IconButton icon="bell" color={Colors.teal500} size={25} />
+              <IconButton icon="plus" color={Colors.teal500} size={25} />
+              <IconButton icon="chat" color={Colors.teal500} size={25} />
+            </View>
+          </View>
+        </Card>
           <ScrollView style={{ marginTop: 10 }}>{listItems}</ScrollView>
         </SafeAreaView>
       </PaperProvider>
@@ -392,11 +377,27 @@ export class StockScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BDCAE0",
+    backgroundColor: "#001434",
   },
   card: {
-    backgroundColor: "#BDCAE0",
+    backgroundColor: "#001434",
     height: 120,
+    marginLeft: 10,
+    marginBottom: 5,
+    marginTop: 5,
+    marginRight: 10,
+    padding: 0,
+    shadowColor: "black",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 10,
+  },
+  topCard: {
+    backgroundColor: "#001434",
+    paddingBottom:30,
+    borderBottomRightRadius:20,
+    borderBottomLeftRadius:20,
     marginLeft: 10,
     marginBottom: 5,
     marginTop: 5,
@@ -416,9 +417,11 @@ const styles = StyleSheet.create({
   stockName: {
     fontSize: 14,
     fontFamily: "Futura",
+    fontWeight:"700",
+    color:'teal'
   },
   stockTicker: {
-    color: "black",
+    color: "whitesmoke",
     fontFamily: "Futura",
     letterSpacing: 2,
     fontWeight: "normal",
@@ -429,7 +432,7 @@ const styles = StyleSheet.create({
   priceView: {
     height: "50px",
     width: "50px",
-    borderColor: "black",
+    borderColor: "whitesmoke",
     borderWidth: 2,
     position: "absolute",
     top: 5,
@@ -440,21 +443,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-    // backgroundColor: "red",
     borderRadius: 10,
-    color: "black",
-    // paddingLeft: 5,
-    // paddingRight: 5,
+    color: "whitesmoke",
+    fontFamily: "Futura",
   },
   percentage: {
-    fontSize: 10,
-    position: "absolute",
-    top: 35,
-    right: 10,
-    paddingLeft: 5,
-    paddingRight: 5,
-    borderRadius: 10,
-    backgroundColor: "red",
+    fontSize: 12,
+    fontFamily: "Futura",
   },
   green: {
     fontSize: 10,
@@ -481,9 +476,9 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   titleText: {
-    color: "black",
+    color: "whitesmoke",
     fontFamily: "Futura",
-    letterSpacing: 2,
+    letterSpacing: 3,
     fontWeight: "900",
     textTransform: "uppercase",
     fontSize: 12,
@@ -495,8 +490,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gainsboro",
     resizeMode: "contain",
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     margin: 10,
 
     backgroundColor: "white",

@@ -15,8 +15,8 @@ const theme = {
   },
 };
 
-let bgColor = "#BDCAE0";
-let textColor = "#222"
+let bgColor = "#001434";
+let textColor = "whitesmoke"
 
 export class HomeRoute extends React.Component{
 
@@ -94,11 +94,8 @@ export class HomeRoute extends React.Component{
             </View>
             </Card>
           
-            <Avatar.Image style={{alignSelf:'center', margin:20}} size={120}>
-            </Avatar.Image>
-  
 
-            <Card style={{backgroundColor:'#151829', height:150, flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:20, shadowColor: "#000",
+            <Card style={{backgroundColor:'gainsboro', height:150, flexDirection:'row', justifyContent:'space-around', margin:10, borderRadius:10, shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 2,
@@ -107,7 +104,7 @@ export class HomeRoute extends React.Component{
               shadowRadius: 3.84,
               elevation: 5,}}>
               <Text style={styles.balance}> $300 </Text>
-              <View style={{flexDirection:'row', position:'absolute', bottom:0, right:0, left:0, justifyContent:'space-between', borderRadius:20, shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10, backgroundColor:'#111'}}>
+              <View style={{flexDirection:'row', position:'absolute', bottom:0, right:0, left:0, justifyContent:'space-between', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10, backgroundColor:'#001434'}}>
                 <IconButton
                   style={{backgroundColor: 'gainsboro'}}
                   size={25}
@@ -201,7 +198,7 @@ const styles = StyleSheet.create({
   },
   text:{
     color: '#222',
-    fontFamily:'Damascus',
+    fontFamily:'Futura',
     margin:10,
     letterSpacing:2,
     fontSize:15,

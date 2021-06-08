@@ -72,7 +72,7 @@ const RecentsRoute = () =>
         
           {
             list.map((item, i) => (
-              <ListItem key={i} bottomDivider ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#BDCAE0"}}>
+              <ListItem key={i} bottomDivider ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#001434"}}>
                 <Icon name={item.icon} />
                 <ListItem.Content>
                   <ListItem.Title >{item.title}</ListItem.Title>
@@ -86,7 +86,7 @@ const RecentsRoute = () =>
       <View backgroundColor="gainsboro">
           {
             list2.map((item, i) => (
-              <ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#BDCAE0"}} titleStyle={{backgroundColor:"#fff"}} >
+              <ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#001434"}} titleStyle={{backgroundColor:"#001434"}} >
                 <Icon name={item.icon} />
                 <ListItem.Content>
                   <ListItem.Title styles={styles.text}>{item.title}</ListItem.Title>
@@ -143,11 +143,11 @@ const RecentsRoute = () =>
  const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home', color:'teal' },
-    { key: 'news', title: 'News', icon: 'newspaper', color:'#027C7C'},
-    { key: 'stock', title: 'Stock', icon: 'details', color:'#036E6F', 
+    { key: 'news', title: 'News', icon: 'newspaper', color:'teal'},
+    { key: 'stock', title: 'Stock', icon: 'details', color:'teal', 
       next: {navigation}
     },
-    { key: 'recents', title: 'Settings', icon: 'cog', color: '#026263'},
+    { key: 'recents', title: 'Settings', icon: 'cog', color: 'teal'},
 
   ]);
 
@@ -177,8 +177,7 @@ const RecentsRoute = () =>
         onIndexChange={setIndex}
         renderScene={renderScene}
     />
-    {/* <Button title="go" icon="chevron-right-circle" onPress={() =>
-                            navigation.navigate('Details')}/> */}
+
     </View>
   );
 }
@@ -186,7 +185,7 @@ const RecentsRoute = () =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BDCAE0",
+    backgroundColor: "#001434",
   },
   text:{
     textAlign:'center',
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   },
   logout:{
       alignSelf:'center',
-      width:'40%',
+      width:'80%',
       bottom:50,
       padding:5,
       left:0,

@@ -30,11 +30,11 @@ export class NewsRoute extends React.Component {
   
   render() {
     const listItems = this.state.data.map((stock) =>
-        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'#BDCAE0', borderWidth:3, borderColor:'whitesmoke', shadowColor:'black', shadowColor: "#111",shadowOffset: {width: 0,height: 10,}, shadowOpacity: 0.5, shadowRadius: 10, elevation: 10,}}> 
+        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'#001434', shadowColor:'black', shadowColor: "gainsboro",shadowOffset: {width: 0,height: 1,}, shadowOpacity: 0.5, shadowRadius: 2, elevation: 10,}}> 
             <Title style={styles.titleText}>{stock.category}</Title>
             <Button onPress={()=> {Linking.openURL(stock.url)}} mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
-            <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'#111'}}>{stock.headline}</Text>
-            <Paragraph style={{marginTop:15, fontFamily:"Futura", border:2}}>{stock.summary}</Paragraph>
+            <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'gainsboro'}}>{stock.headline}</Text>
+            <Paragraph style={{marginTop:15, fontFamily:"Futura", border:2, color:'whitesmoke'}}>{stock.summary}</Paragraph>
         </Card>
     );
 
@@ -70,19 +70,20 @@ export class NewsRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#BDCAE0",
+    backgroundColor: "#001434",
   },
   fab: {
     position: 'absolute',
     margin: 16,
     left: 0,
     top: 150,
-    backgroundColor:'#95ff95'
+    backgroundColor:'#001434'
   },
   text:{
     textAlign:'center',
     color: 'whitesmoke',
     fontFamily:'Futura',
+    color:'white',
     letterSpacing:2,
     fontSize:15,
     marginTop:10,
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     textTransform:'uppercase'
   },
   titleText:{
-    color: '#333',
+    color: 'white',
     fontFamily:'Futura',
     letterSpacing:2,
     fontSize:14,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   },
   card:{
     padding:20,
-    backgroundColor:'#BDCAE0'
+    backgroundColor:'#001434'
   },
   chip:{
     padding:5,
