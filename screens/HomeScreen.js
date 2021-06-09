@@ -142,7 +142,7 @@ const RecentsRoute = () =>
 
  const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Home', icon: 'home', color:'teal' },
+    { key: 'home', title: 'Portfolio', icon: 'account', color:'teal' },
     { key: 'news', title: 'News', icon: 'newspaper', color:'teal'},
     { key: 'stock', title: 'Stock', icon: 'details', color:'teal', 
       next: {navigation}

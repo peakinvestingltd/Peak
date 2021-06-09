@@ -90,10 +90,10 @@ export class StockScreen extends React.Component {
           let color;
           let profit;
           if (priceChange > 0) {
-            color = "0,150,0,";
+            color = "26,162,68";
             profit = "green";
           } else {
-            color = "150,0,0,";
+            color = "198,33,11";
             profit = "red";
           }
           priceData[stock] = {
@@ -333,8 +333,8 @@ export class StockScreen extends React.Component {
               },
               propsForDots: {
                 r: "0",
-                strokeWidth: "0",
-                stroke: "#111111",
+                strokeWidth: "0.5",
+                stroke: "#fff",
               },
             }}
             style={{
@@ -358,13 +358,17 @@ export class StockScreen extends React.Component {
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
          <Card style={styles.topCard}>
-          <View style={{ flexDirection:'row', justifyContent:'space-around', alignItems:'center', }}>
-            <Title style={styles.titleText}>Watch List</Title>
+          <View style={{ flexDirection:'row', justifyContent:'space-around', alignItems:'center',marginTop:15 }}>
+            <Title style={styles.titleText}>Portfolio balance</Title>
             <View style={{flexDirection:'row'}}>
-              <IconButton icon="bell" color={Colors.teal500} size={25} />
-              <IconButton icon="plus" color={Colors.teal500} size={25} />
-              <IconButton icon="chat" color={Colors.teal500} size={25} />
+              <IconButton icon="bell" color={Colors.orange500} size={20} />
+              <IconButton icon="plus" color={Colors.orange500} size={20} />
+              <IconButton icon="chat" color={Colors.orange500} size={20} />
             </View>
+          </View>
+          <View style={styles.headerBottom}>
+            <Text style={styles.balance}>£856.93</Text>
+            <Button mode="contained" style={styles.catagory}>Watch list</Button>
           </View>
         </Card>
           <ScrollView style={{ marginTop: 10 }}>{listItems}</ScrollView>
@@ -377,10 +381,10 @@ export class StockScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#001434",
+    backgroundColor: "#151D3E",
   },
   card: {
-    backgroundColor: "#001434",
+    backgroundColor: "#1E2556",
     height: 120,
     marginLeft: 10,
     marginBottom: 5,
@@ -394,20 +398,36 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   topCard: {
-    backgroundColor: "#001434",
-    paddingBottom:30,
-    borderBottomRightRadius:20,
-    borderBottomLeftRadius:20,
-    marginLeft: 10,
-    marginBottom: 5,
-    marginTop: 5,
-    marginRight: 10,
+    zIndex:5,
+    backgroundColor: "#1E2556",
+    height:90,
+    borderBottomRightRadius:25,
+    borderBottomLeftRadius:25,
     padding: 0,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 10,
+  },
+  headerBottom: {
+     height:35
+  },
+  catagory:{
+    position:"absolute",
+     right:20,
+      bottom:10,
+      fontFamily:"Futura",
+    fontSize:20,
+    backgroundColor:'transparent'
+  },
+  balance:{
+    position:"absolute",
+    left:20,
+    bottom:10,
+    fontFamily:"Futura",
+    fontSize:20,
+    color:"gainsboro"
   },
   stockNameView: {
     position: "absolute",
@@ -452,18 +472,18 @@ const styles = StyleSheet.create({
     fontFamily: "Futura",
   },
   green: {
-    fontSize: 10,
+    fontSize: 12,
     position: "absolute",
     top: 35,
     right: 10,
-    color: "green",
+    color: "teal",
   },
   red: {
-    fontSize: 10,
+    fontSize: 12,
     position: "absolute",
     top: 35,
     right: 10,
-    color: "red",
+    color: "crimson",
   },
   text: {
     textAlign: "center",

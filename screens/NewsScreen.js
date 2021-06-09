@@ -30,7 +30,7 @@ export class NewsRoute extends React.Component {
   
   render() {
     const listItems = this.state.data.map((stock) =>
-        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'#001434', shadowColor:'black', shadowColor: "gainsboro",shadowOffset: {width: 0,height: 1,}, shadowOpacity: 0.5, shadowRadius: 2, elevation: 10,}}> 
+        <Card style={{marginRight:15, marginLeft:15, marginBottom:10, padding:20, backgroundColor:'#1E2556', shadowColor:'black', shadowColor: "gainsboro",shadowOffset: {width: 0,height: 1,}, shadowOpacity: 0.5, shadowRadius: 2, elevation: 10,}}> 
             <Title style={styles.titleText}>{stock.category}</Title>
             <Button onPress={()=> {Linking.openURL(stock.url)}} mode="contained" style={{positon:'absolute', bottom:30, left:200, width:'30%'}}> Read </Button>
             <Text style={{fontFamily:"Futura", fontSize:18, fontWeight:'700', color:'gainsboro'}}>{stock.headline}</Text>
@@ -70,7 +70,7 @@ export class NewsRoute extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#001434",
+    backgroundColor: "#151D3E",
   },
   fab: {
     position: 'absolute',
