@@ -1,154 +1,160 @@
-import React from 'react';
-import {SafeAreaView, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {Text, List,Paragraph, Colors, Title, Menu, Divider, Card, Button, BottomNavigation} from 'react-native-paper';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import useStatusBar from '../hooks/useStatusBar';
-import { logout, user} from '../components/Firebase/firebase';
-import {HomeRoute} from '../screens/HomeTabScreen.js'
-import {NewsRoute} from '../screens/NewsScreen.js'
-import {StockScreen} from '../screens/StockScreen.js'
-import { ListItem, Avatar, Icon } from 'react-native-elements';
+import React from "react";
+import {
+  SafeAreaView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import {
+  Text,
+  List,
+  Paragraph,
+  Colors,
+  Title,
+  Menu,
+  Divider,
+  Card,
+  Button,
+  BottomNavigation,
+  IconButton,
+} from "react-native-paper";
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import useStatusBar from "../hooks/useStatusBar";
+import { logout, user } from "../components/Firebase/firebase";
+import { ListItem, Avatar, Icon } from "react-native-elements";
+import { styles } from "../css/styles.js";
 
+import { HomeRoute } from "../screens/HomeTabScreen.js";
+import { NewsRoute } from "../screens/NewsScreen.js";
+import { StockScreen } from "../screens/StockScreen.js";
 
-export default function HomeScreen({navigation}) {
-useStatusBar('dark-content');
-const list = [
-  {
-    title: 'Email',
-    icon: 'email'
-  },
-]
+export default function HomeScreen({ navigation }) {
+  useStatusBar("light-content");
 
-const list2 = [
-  {
-    title: 'Passwords',
-    icon: 'fingerprint',
-    
-  },
-  {
-    title: 'Theme',
-    icon: 'lightbulb',
-  },
-  {
-    title: 'Legal',
-    icon: 'info'
-  },
-  {
-    title: 'Updates',
-    icon: 'update'
-  },
-
-]
-
-const list3 = [
-  {
-    title: 'Passwords',
-    icon: 'fingerprint',
-    
-  },
-  
-]
-
-const RecentsRoute = () => 
-  <PaperProvider theme={theme}>
+  const RecentsRoute = () => (
+    <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <ListItem.Accordion
-          theme={{ colors: { primary: '#fff' }}}
-          content={
-            <>
-              <Icon name="person" size={30} />
-              <ListItem.Content>
-                <ListItem.Title>Profile</ListItem.Title>
-              </ListItem.Content>
-            </>
-            
-          }
-          isExpanded={expanded}
-          onPress={() => {
-            setExpanded(!expanded);
-          }}
-        >
-        <View backgroundColor="gainsboro">
-        
-          {
-            list.map((item, i) => (
-              <ListItem key={i} bottomDivider ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#001434"}}>
-                <Icon name={item.icon} />
-                <ListItem.Content>
-                  <ListItem.Title >{item.title}</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron />
-              </ListItem>
-            ))
-          }
-        </View>
-      </ListItem.Accordion>
-      <View backgroundColor="gainsboro">
-          {
-            list2.map((item, i) => (
-              <ListItem key={i} bottomDivider containerStyle={{backgroundColor:"#001434"}} titleStyle={{backgroundColor:"#001434"}} >
-                <Icon name={item.icon} />
-                <ListItem.Content>
-                  <ListItem.Title styles={styles.text}>{item.title}</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron />
-              </ListItem>
-            ))
-          }
-        </View>
-        <ListItem.Accordion
-         theme={{ colors: { primary: '#fff' }}}
-          content={
-            <>
-              <Icon name="logout" size={30} />
-              <ListItem.Content
+        <Card style={styles.topCard}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <IconButton
+              icon="chat-outline"
+              color={Colors.orange500}
+              size={30}
+            />
+            <View>
+              <Title style={styles.titleText}>Portfolio balance</Title>
+              <Button
+                mode="contained"
+                style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
               >
-                
-                <ListItem.Title></ListItem.Title>
-              </ListItem.Content>
-            </>
-            
-          }
-          isExpanded={expanded}
-          onPress={() => {
-            setExpanded(!expanded);
+                £60000
+              </Button>
+            </View>
+            <IconButton
+              icon="bell-outline"
+              color={Colors.orange500}
+              size={30}
+            />
+          </View>
+        </Card>
+        <Image
+          style={styles.avatar}
+          source={{
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSO6BJZGYecexQmJTsc-OPa4IFiyJsOUP7Hw&usqp=CAU",
           }}
-        >
-       <Button mode="outlined" 
-           style={styles.logout}
-           onPress={handleSignOut}
-         >
-           Logout
+        />
+        <Text style={styles.text2}>Jhon Doe</Text>
+        <Text style={styles.text2}>Jhondoe@gmail.com</Text>
+
+        <List.AccordionGroup>
+          <List.Accordion
+            style={styles.accordionHeader}
+            titleStyle={{ color: "white" }}
+            title="History"
+            id="1"
+            left={(props) => <List.Icon {...props} icon="history" />}
+          >
+            <List.Item title="Item 1" />
+          </List.Accordion>
+          <List.Accordion
+            style={styles.accordionHeader}
+            titleStyle={{ color: "white" }}
+            title="Notifications"
+            id="2"
+            left={(props) => <List.Icon {...props} icon="bell" />}
+          >
+            <List.Item title="Item 2" />
+          </List.Accordion>
+          <List.Accordion
+            style={styles.accordionHeader}
+            titleStyle={{ color: "white" }}
+            title="Manage Funds"
+            id="3"
+            left={(props) => <List.Icon {...props} icon="wallet" />}
+          >
+            <List.Item title="Item 3" />
+          </List.Accordion>
+          <List.Accordion
+            style={styles.accordionHeader}
+            titleStyle={{ color: "white" }}
+            title="Invite Friends"
+            id="4"
+            left={(props) => <List.Icon style={{color:'white'}} {...props} icon="account-plus" />}
+          >
+            <List.Item title="Item 4" />
+          </List.Accordion>
+
+          <List.Accordion
+            style={styles.accordionHeader}
+            titleStyle={{ color: "white" }}
+            title="Peak Points"
+            id="5"
+            left={(props) => <List.Icon {...props} icon="basket" />}
+          >
+            <List.Item title="Item 5" />
+          </List.Accordion>
+        </List.AccordionGroup>
+
+        <Button mode="outlined" style={styles.logout} onPress={handleSignOut}>
+          Logout
         </Button>
-      </ListItem.Accordion>
-     
-        
       </SafeAreaView>
-   </PaperProvider>
+    </PaperProvider>
+  );
 
   const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: '#fff',
-    accent: '#95ff55',
-  },
-};
+    ...DefaultTheme,
+    roundness: 5,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: "#fff",
+      accent: "#95ff55",
+    },
+  };
 
   const [expanded, setExpanded] = React.useState(true);
 
   const handlePress = () => setExpanded(!expanded);
 
- const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'home', title: 'Portfolio', icon: 'account', color:'teal' },
-    { key: 'news', title: 'News', icon: 'newspaper', color:'teal'},
-    { key: 'stock', title: 'Stock', icon: 'details', color:'teal', 
-      next: {navigation}
+    {
+      key: "stock",
+      title: "Home",
+      icon: "details",
+      color: "#1E2556",
+      next: { navigation },
     },
-    { key: 'recents', title: 'Settings', icon: 'cog', color: 'teal'},
-
+    { key: "home", title: "Portfolio", icon: "account", color: "#1E2556" },
+    { key: "news", title: "News", icon: "newspaper", color: "#1E2556" },
+    { key: "recents", title: "Settings", icon: "cog", color: "#1E2556" },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -156,11 +162,9 @@ const RecentsRoute = () =>
     news: NewsRoute,
     stock: StockScreen,
     recents: RecentsRoute,
-    
-
   });
 
-  useStatusBar('dark-content');
+  useStatusBar("light-content");
   async function handleSignOut() {
     try {
       await logout();
@@ -170,38 +174,12 @@ const RecentsRoute = () =>
   }
   return (
     <View style={styles.container}>
-    
       <BottomNavigation
-        barStyle={{backgroundColor: '#651fff' }}
+        barStyle={{ backgroundColor: "#651fff" }}
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-    />
-
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#001434",
-  },
-  text:{
-    textAlign:'center',
-    color: 'whitesmoke',
-    letterSpacing:2,
-    fontSize:15,
-    marginTop:10,
-    fontWeight:'800',
-    textTransform:'uppercase'
-  },
-  logout:{
-      alignSelf:'center',
-      width:'80%',
-      bottom:50,
-      padding:5,
-      left:0,
-      right:0,
-  }
-});
