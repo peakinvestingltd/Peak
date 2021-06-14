@@ -59,9 +59,9 @@ export default class DetailsScreen extends React.Component {
     return (
       <Separator
         style={{
-          alignItems: "justify",
+          alignItems: "flex-start",
           backgroundColor: "transparent",
-          fontFamily: "Futura",
+          fontFamily: "normal",
         }}
       >
         <View
@@ -74,7 +74,7 @@ export default class DetailsScreen extends React.Component {
           <Text
             style={{
               fontSize: 18,
-              fontFamily: "Avenir",
+              fontFamily: "normal",
               marginLeft: 20,
               color: "whitesmoke",
             }}
@@ -137,7 +137,7 @@ export default class DetailsScreen extends React.Component {
   render() {
     const candles = this.state.candles;
     const params = this.props.route.params;
-    console.log(params);
+    // console.log(params);
     return (
       <SafeAreaView style={styles.container}>
         <Card style={styles.topCard}>
@@ -145,7 +145,7 @@ export default class DetailsScreen extends React.Component {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "center",
+              // alignItems: "center",
             }}
           >
             <IconButton
@@ -179,7 +179,7 @@ export default class DetailsScreen extends React.Component {
             />
           </View>
 
-          <View style={{ alignItems: "center" }}>
+          <View>
             <Text
               style={{
                 fontSize: 12,
