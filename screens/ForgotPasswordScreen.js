@@ -1,55 +1,49 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import * as Yup from "yup";
 
-import Colors from '../utils/colors';
-import SafeView from '../components/SafeView';
-import Form from '../components/Forms/Form';
-import FormField from '../components/Forms/FormField';
-import FormButton from '../components/Forms/FormButton';
-import IconButton from '../components/IconButton';
-import { passwordReset } from '../components/Firebase/firebase';
-import { LinearGradient } from 'expo-linear-gradient';
-import FormErrorMessage from '../components/Forms/FormErrorMessage';
-import useStatusBar from '../hooks/useStatusBar';
+import Colors from "../utils/colors";
+import SafeView from "../components/SafeView";
+import Form from "../components/Forms/Form";
+import FormField from "../components/Forms/FormField";
+import FormButton from "../components/Forms/FormButton";
+import IconButton from "../components/IconButton";
+import { passwordReset } from "../components/Firebase/firebase";
+import FormErrorMessage from "../components/Forms/FormErrorMessage";
+import useStatusBar from "../hooks/useStatusBar";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .label('Email')
-    .email('Enter a valid email')
-    .required('Please enter a registered email')
+    .label("Email")
+    .email("Enter a valid email")
+    .required("Please enter a registered email"),
 });
 
 export default function ForgotPasswordScreen({ navigation }) {
-  useStatusBar('light-content');
+  useStatusBar("light-content");
 
-  const [customError, setCustomError] = useState('');
+  const [customError, setCustomError] = useState("");
 
   async function handlePasswordReset(values) {
     const { email } = values;
 
     try {
       await passwordReset(email);
-      navigation.navigate('Login');
+      navigation.navigate("Login");
     } catch (error) {
       setCustomError(error.message);
     }
   }
 
   return (
-      <LinearGradient
-          // Background Linear Gradient
-          colors={['#BDCAE0', '#BDCAE0', 'teal']}
-          style={styles.background}
-      >
-    <SafeView style={styles.container}>    
-      <Form     
-        initialValues={{ email: '' }}
+    <SafeView style={styles.container}>
+      <Form
+        initialValues={{ email: "" }}
         validationSchema={validationSchema}
-        onSubmit={values => handlePasswordReset(values)}
+        onSubmit={(values) => handlePasswordReset(values)}
       >
         <FormField
-          style={{fontFamily:'Futura'}}
+          style={{ fontFamily: "Futura" }}
           name="email"
           leftIcon="email"
           placeholder="Enter email"
@@ -67,34 +61,33 @@ export default function ForgotPasswordScreen({ navigation }) {
         color={Colors.white}
         size={30}
         onPress={() => navigation.goBack()}
-      />         
+      />
     </SafeView>
-    </LinearGradient>  
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: "center",
     padding: 15,
   },
-   background: {
-    position: 'absolute',
+  background: {
+    position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
   },
   backButton: {
-     justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth:1,
-    width:'25%',
-    marginLeft:'37.5%',
-    borderColor:'white',
-    padding:10,
-    borderRadius:500,
-    color:'whitesmoke',
-  }
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    width: "25%",
+    marginLeft: "37.5%",
+    borderColor: "white",
+    padding: 10,
+    borderRadius: 500,
+    color: "whitesmoke",
+  },
 });

@@ -53,50 +53,29 @@ export class NewsRoute extends React.Component {
     const listItems = this.state.data.map((stock) => (
       <Card
         key ={stock.url}
-        style={{
-          marginRight: 15,
-          marginLeft: 15,
-          marginBottom: 10,
-          padding: 20,
-          backgroundColor: "#1E2556",
-          shadowColor: "black",
-          shadowColor: "gainsboro",
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.5,
-          shadowRadius: 2,
-          elevation: 10,
-        }}
+        style={styles.newsCard}
       >
         <Title style={styles.titleText}>{stock.category}</Title>
-        <Button
-          onPress={() => {
-            Linking.openURL(stock.url);
-          }}
-          mode="contained"
-          style={{ positon: "absolute", bottom: 30, left: 200, width: "30%" }}
-        >
-          {" "}
-          Read{" "}
-        </Button>
+     
         <Text
-          style={{
-            fontFamily: "Futura",
-            fontSize: 18,
-            fontWeight: "700",
-            color: "gainsboro",
-          }}
+          style={styles.newsTitle}
         >
           {stock.headline}
         </Text>
         <Paragraph
-          style={{
-            marginTop: 15,
-            fontFamily: "Futura",
-            color: "whitesmoke",
-          }}
+          style={styles.text}
         >
           {stock.summary}
         </Paragraph>
+           <Button
+          onPress={() => {
+            Linking.openURL(stock.url);
+          }}
+          mode="contained"
+        >
+          {" "}
+          Read{" "}
+        </Button>
       </Card>
     ));
 
@@ -122,7 +101,7 @@ export class NewsRoute extends React.Component {
               </View>
              
           </Card>
-          <ScrollView style={{ marginTop: 20 }}>{listItems}</ScrollView>
+          <ScrollView>{listItems}</ScrollView>
         </SafeAreaView>
       </PaperProvider>
     );

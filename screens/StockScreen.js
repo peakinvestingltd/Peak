@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
 import { LineChart } from "react-native-chart-kit";
-import ModalDropdown from 'react-native-modal-dropdown';
 import { useNavigation } from "@react-navigation/native";
-import { styles } from '../css/styles.js'
+import { styles } from "../css/styles.js";
 
 import {
   DefaultTheme,
@@ -99,7 +98,7 @@ export class StockScreen extends React.Component {
             color = "0,151,50,";
             profit = "green";
           } else {
-            color = "231,24,55,";
+            color = "231,24,0,";
             profit = "red";
           }
           stockData.price[stock] = {
@@ -176,8 +175,7 @@ export class StockScreen extends React.Component {
                     });
                   }
                 })
-                .then(() => {
-                })
+                .then(() => {})
                 .catch((err) => {
                   console.log("error in getData");
                   console.log(err);
@@ -203,7 +201,7 @@ export class StockScreen extends React.Component {
     const loaded = this.state.loaded;
     const priceData = this.state.price;
     const listItems = loaded.map((stock) => (
-      <TouchableOpacity  
+      <TouchableOpacity
         key={stock}
         onPress={() =>
           this.props.route.next.navigation.navigate("Details", {
@@ -246,7 +244,19 @@ export class StockScreen extends React.Component {
               flexDirection: "row",
             }}
           >
-            <View>
+            <View
+              style={{
+                position: "absolute",
+                top: 10,
+                left: 10,
+                width: 40,
+                height: 40,
+                borderRadius: 20,
+                shadowColor: "black",
+                shadowOffset: { height: 5 },
+                shadowOpacity: 1,
+              }}
+            >
               <Image
                 style={styles.image}
                 source={{
@@ -272,7 +282,7 @@ export class StockScreen extends React.Component {
             withHorizontalLabels={false}
             chartConfig={{
               withDots: false,
-              strokeWidth: 1,
+              strokeWidth: 1.5,
               backgroundGradientFromOpacity: 0,
               backgroundGradientToOpacity: 0,
               decimalPlaces: 0, // optional, defaults to 2dp
@@ -285,7 +295,7 @@ export class StockScreen extends React.Component {
               },
               propsForDots: {
                 r: "0",
-                strokeWidth: "0.5",
+                strokeWidth: "5",
                 stroke: "#fff",
               },
             }}
@@ -309,26 +319,56 @@ export class StockScreen extends React.Component {
     return (
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-          <Card style={styles.topCard}>     
-              <View style={{ flexDirection: "row", justifyContent:'space-between', alignItems:'center'}}>
-                <IconButton icon="chat-outline" color={Colors.orange500} size={30} />
-                <View>
-                  <Title style={styles.titleText}>Portfolio balance</Title>
-                  <Button mode="contained" style={{backgroundColor:Colors.orange500, borderRadius:20,}}>
-                    £{this.state.funds}
-                  </Button>
-                  
-                </View>
-                <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
+          <Card style={styles.topCard}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                onPress={() =>
+                  this.props.route.next.navigation.navigate("Chat")
+                }
+                icon="chat-outline"
+                color={Colors.orange500}
+                size={30}
+              />
+              <View>
+                <Title style={styles.titleText}>Portfolio balance</Title>
+                <Button
+                  mode="contained"
+                  style={{
+                    backgroundColor: Colors.orange500,
+                    borderRadius: 20,
+                  }}
+                >
+                  £{this.state.funds}
+                </Button>
               </View>
-             
+              <IconButton
+                icon="bell-outline"
+                color={Colors.orange500}
+                size={30}
+              />
+            </View>
           </Card>
-          <View style={{ flexDirection: "row", justifyContent: "space-between",alignItems:'center', margin:10}}>
-            <Button mode="contained" >
-              Watch list
-            </Button>
-            <IconButton icon="file-edit-outline" color={Colors.white} size={30} />
-        </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 10,
+            }}
+          >
+            <Button mode="contained">Watch list</Button>
+            <IconButton
+              icon="file-edit-outline"
+              color={Colors.white}
+              size={30}
+            />
+          </View>
           <ScrollView style={{ marginTop: 10 }}>{listItems}</ScrollView>
         </SafeAreaView>
       </PaperProvider>

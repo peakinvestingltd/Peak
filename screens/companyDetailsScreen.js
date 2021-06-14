@@ -60,7 +60,7 @@ export default class DetailsScreen extends React.Component {
       <Separator
         style={{
           alignItems: "justify",
-          backgroundColor: "#1A2454",
+          backgroundColor: "transparent",
           fontFamily: "Futura",
         }}
       >
@@ -149,6 +149,7 @@ export default class DetailsScreen extends React.Component {
             }}
           >
             <IconButton
+              onPress={() => this.props.navigation.navigate("Chat")}
               icon="chat-outline"
               color={Colors.orange500}
               size={30}
@@ -169,42 +170,39 @@ export default class DetailsScreen extends React.Component {
             />
           </View>
         </Card>
-  
+
         <View>
-          <View>              
-            <Text style={{fontSize:30, textAlign:'center', color:'gainsboro', fontFamily:'Futura'}}>
-              {this.props.route.params.stock}
-            </Text>
+          <View>
             <Image
               style={styles.detailsImage}
               source={{ uri: this.props.route.params.logo }}
             />
           </View>
 
-          <View style={{ alignItems: "center",  }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: "whitesmoke",
-                  fontFamily: "Futura",
-                  fontWeight: "bold",
-                  letterSpacing:2,
-                  margin:5                }}
-              >
-                {this.props.route.params.price.percentage.toFixed(2)}%
-              </Text>
-              <Text
-                style={{
-                  fontSize:40,
-                  color: "whitesmoke",
-                  fontFamily: "Futura",
-                  fontWeight: "bold",
-                }}
-              >
-                ${this.props.route.params.price.currentPrice} {"\n"}
-              </Text>
-              
-            </View>
+          <View style={{ alignItems: "center" }}>
+            <Text
+              style={{
+                fontSize: 12,
+                color: "whitesmoke",
+                fontFamily: "Futura",
+                fontWeight: "bold",
+                letterSpacing: 2,
+                margin: 5,
+              }}
+            >
+              {this.props.route.params.price.percentage.toFixed(2)}%
+            </Text>
+            <Text
+              style={{
+                fontSize: 40,
+                color: "whitesmoke",
+                fontFamily: "Futura",
+                fontWeight: "bold",
+              }}
+            >
+              ${this.props.route.params.price.currentPrice} {"\n"}
+            </Text>
+          </View>
 
           <LineChart
             withInnerLines={false}
@@ -222,11 +220,11 @@ export default class DetailsScreen extends React.Component {
             height={Dimensions.get("window").height / 5}
             yAxisInterval={0} // optional, defaults to 1
             chartConfig={{
-              backgroundGradientFrom: '#1E2556',
-              backgroundGradientTo: 'teal',
+              backgroundGradientFrom: "#1E2556",
+              backgroundGradientTo: "teal",
               backgroundColor: "whitesmoke",
-              backgroundGradientFromOpacity: 1,
-              backgroundGradientToOpacity: 0.5,
+              backgroundGradientFromOpacity: 0,
+              backgroundGradientToOpacity: 0,
               fillShadowGradient: 0,
               fillShadowGradientOpacity: 0,
               decimalPlaces: 0, // optional, defaults to 2dp
@@ -234,11 +232,11 @@ export default class DetailsScreen extends React.Component {
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
-                borderRadius: 1,
+                borderRadius: 2,
               },
               propsForDots: {
                 r: "0",
-                strokeWidth: "2",
+                strokeWidth: "5",
                 stroke: this.props.route.params.price.stockColor,
               },
             }}
@@ -247,6 +245,7 @@ export default class DetailsScreen extends React.Component {
               paddingRight: -40,
               borderRadius: 20,
               marginRight: 0,
+              marginVertical: -20,
             }}
           />
           <View
@@ -281,7 +280,7 @@ export default class DetailsScreen extends React.Component {
                 funds: this.props.route.params.funds,
               });
             }}
-            width={screenWidth / 2 - 20}
+            width={screenWidth / 2 - 50}
             style={{
               backgroundColor: Colors.orange500,
               justifyContent: "center",
@@ -294,16 +293,19 @@ export default class DetailsScreen extends React.Component {
           </Button>
           <Button
             icon="minus"
-            width={screenWidth / 2 - 20}
-            style={{ backgroundColor: "crimson", padding: 5, borderRadius: 20 }}
+            width={screenWidth / 2 - 50}
+            style={{
+              backgroundColor: "crimson",
+              padding: 5,
+              borderRadius: 20,
+            }}
             mode="contained"
           >
             SELL
           </Button>
         </View>
-
         <AccordionList
-          style={{ margin: 20, borderRadius:20 }}
+          style={{ margin: 20, borderRadius: 20 }}
           list={this.state.list}
           header={this._head}
           body={this._body}

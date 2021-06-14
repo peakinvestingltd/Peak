@@ -3,7 +3,7 @@ import { StyleSheet, View} from 'react-native';
 import { IconButton, Colors } from 'react-native-paper';
 import * as Yup from 'yup';
 
-import { LinearGradient } from 'expo-linear-gradient';
+import { styles } from "../css/styles.js";
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
 import FormField from '../components/Forms/FormField';
@@ -114,11 +114,6 @@ export default function RegisterScreen({ navigation }) {
   }
 
   return (
-    <LinearGradient
-          // Background Linear Gradient
-          colors={['#BDCAE0', '#BDCAE0', 'teal']}
-          style={styles.background}
-      >
     <SafeView style={styles.container}>
       <Form
         initialValues={{
@@ -183,32 +178,7 @@ export default function RegisterScreen({ navigation }) {
         onPress={() => navigation.goBack()}
       />
     </SafeView>
-    </LinearGradient>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 15,
-  },
-   background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  backButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth:1,
-    width:'25%',
-    marginLeft:'37.5%',
-    borderColor:'white',
-    padding:10,
-    borderRadius:500,
-    color:'whitesmoke',
-  }
-});
+

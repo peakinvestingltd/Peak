@@ -19,6 +19,9 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
+
+const navBarColor = "black";
+
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../hooks/useStatusBar";
 import { logout, user } from "../components/Firebase/firebase";
@@ -44,6 +47,9 @@ export default function HomeScreen({ navigation }) {
             }}
           >
             <IconButton
+              onPress={() =>
+                  navigation.navigate("Chat")
+                }
               icon="chat-outline"
               color={Colors.orange500}
               size={30}
@@ -64,15 +70,17 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
         </Card>
-        <Image
-          style={styles.avatar}
-          source={{
-            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSO6BJZGYecexQmJTsc-OPa4IFiyJsOUP7Hw&usqp=CAU",
-          }}
-        />
-        <Text style={styles.text2}>Jhon Doe</Text>
-        <Text style={styles.text2}>Jhondoe@gmail.com</Text>
 
+        <Card style={{backgroundColor:'transparent', margin:10}}>
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSO6BJZGYecexQmJTsc-OPa4IFiyJsOUP7Hw&usqp=CAU",
+            }}
+          />
+          <Text style={styles.textCenter}>Jhon Doe</Text>
+          <Text style={styles.textCenter}>Jhondoe@gmail.com</Text>
+        </Card>
         <List.AccordionGroup>
           <List.Accordion
             style={styles.accordionHeader}
@@ -106,7 +114,13 @@ export default function HomeScreen({ navigation }) {
             titleStyle={{ color: "white" }}
             title="Invite Friends"
             id="4"
-            left={(props) => <List.Icon style={{color:'white'}} {...props} icon="account-plus" />}
+            left={(props) => (
+              <List.Icon
+                style={{ color: "white" }}
+                {...props}
+                icon="account-plus"
+              />
+            )}
           >
             <List.Item title="Item 4" />
           </List.Accordion>
@@ -149,12 +163,12 @@ export default function HomeScreen({ navigation }) {
       key: "stock",
       title: "Home",
       icon: "details",
-      color: "#1E2556",
+      color: navBarColor,
       next: { navigation },
     },
-    { key: "home", title: "Portfolio", icon: "account", color: "#1E2556" },
-    { key: "news", title: "News", icon: "newspaper", color: "#1E2556" },
-    { key: "recents", title: "Settings", icon: "cog", color: "#1E2556" },
+    { key: "home", title: "Portfolio", icon: "account", color: navBarColor },
+    { key: "news", title: "News", icon: "newspaper", color: navBarColor },
+    { key: "recents", title: "Settings", icon: "menu", color: navBarColor },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({

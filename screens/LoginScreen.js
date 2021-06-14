@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import * as Yup from 'yup';
 
-import { LinearGradient } from 'expo-linear-gradient';
+import { styles } from "../css/styles.js";
 import Colors from '../utils/colors';
 import SafeView from '../components/SafeView';
 import Form from '../components/Forms/Form';
@@ -53,11 +53,6 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <LinearGradient
-          // Background Linear Gradient
-          colors={['#BDCAE0', '#BDCAE0', 'teal']}
-          style={styles.background}
-      >
       <SafeView style={styles.container}>
       
         <Form
@@ -125,45 +120,6 @@ export default function LoginScreen({ navigation }) {
        
       </SafeView>
       
-    </LinearGradient>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding:20,
-    justifyContent: 'center',
-  },
-  footerButtonContainer: {
-    marginVertical: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    
-
-  },
-  forgotPasswordButtonText: {
-    color: 'whitesmoke',
-    fontSize: 18,
-    fontWeight: '600',
-    fontFamily:'Futura'
-  },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  backButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth:1,
-    width:'25%',
-    marginLeft:'37.5%',
-    borderColor:'white',
-    padding:10,
-    borderRadius:500,
-    color:'whitesmoke',
-  }
-});
