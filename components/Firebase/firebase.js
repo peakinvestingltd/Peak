@@ -1,7 +1,6 @@
-import firebase from 'firebase';
+import firebase from "firebase";
 import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
-
-import firebaseConfig from './firebaseConfig';
+import firebaseConfig from "./firebaseConfig";
 
 // Initialize Firebase App
 
@@ -19,8 +18,12 @@ export const registerWithEmail = (email, password) =>
 
 export const logout = () => auth.signOut();
 
-export const passwordReset = email => auth.sendPasswordResetEmail(email);
+export const passwordReset = (email) => auth.sendPasswordResetEmail(email);
 
-export const verifyEmail = verifyEmail => auth.verifyEmail(email);
+export const verifyEmail = (verifyEmail) => auth.verifyEmail(email);
 
-export const user  = firebase.auth().currentUser;
+export const user = firebase.auth().currentUser;
+
+export const email = firebase.auth().email;
+
+export const uid = firebase.auth().uid;

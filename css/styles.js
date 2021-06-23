@@ -1,11 +1,16 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { ScreenHeight } from "react-native-elements/dist/helpers";
 import { Colors } from "react-native-paper";
+
+const darkBlue = "#172041";
+const cardBlue = "#1b2855";
+const orange = "#ff7f00";
 
 const screenWidth = Dimensions.get("window").width;
 // const primaryColor = "#151D3E";
 // const secondaryColor = "#1E2456";
-const primaryColor = "black";
-const secondaryColor = "#111";
+const primaryColor = darkBlue;
+const secondaryColor = cardBlue;
 const fontColor = "whitesmoke";
 const font = "normal";
 const fontSizeTitle = 15;
@@ -15,6 +20,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: primaryColor,
     // justifyContent: "center",
+  },
+  navBar:{
+backgroundColor:'red',
+width:screenWidth,
+height:70,
+position:'absolute',
+bottom:0,
+borderTopLeftRadius:20,
+borderTopRightRadius:20,
+justifyContent:'space-evenly',
+flexDirection:'row',
+  },
+  navButton:{
+    width:'20%',
+    height:'100%',
+    borderWidth:1,
+    borderColor:'blue',
+    margin:0
+    // backgroundColor:'white'
+  },
+  footer:{
+    width:screenWidth,
+    height:100,
   },
   accordionHeader: {
     backgroundColor: secondaryColor,
@@ -78,11 +106,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 10,
     padding: 0,
-    shadowColor: secondaryColor,
+    shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 2,
-    shadowRadius: 4,
-    elevation: 10,
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
+    elevation: 2,
   },
   newsCard: {
     backgroundColor: secondaryColor,
@@ -248,6 +276,119 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
+  //------------------------registration------------
+  signupCard: {
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: secondaryColor,
+    height: '62%',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    position:'absolute',
+    bottom:0,
+  },
+  topView: {
+    width: screenWidth,
+    height: 50,
+    backgroundColor: "red",
+  },
+  input: {
+    width: screenWidth - 80,
+    height: 35,
+    backgroundColor: "whitesmoke",
+    marginTop: 8,
+    marginBottom: 0,
+    marginLeft: 20,
+    marginRight: 20,
+    padding: 7,
+    borderRadius: 10,
+  },
+  buttonReg: {
+    width: screenWidth / 2,
+    height: 40,
+    backgroundColor: orange,
+
+    marginTop:'20%',
+    marginRight: screenWidth / 4 - 20,
+    marginLeft: screenWidth / 4 - 20,
+    borderRadius: 13,
+    // position: "absolute",
+    // bottom: 20,
+  },
+  buttonText: {
+    color: "white",
+  },
+  head1: {
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+    marginLeft: 20,
+    marginTop: 20,
+  },
+  head2: {
+    color: "white",
+    fontWeight: "100",
+  },
+  loadBar: {
+    height: 4,
+    width: screenWidth - 80,
+    backgroundColor: "#8d93a3",
+    marginLeft: 40,
+    borderRadius: 50,
+    marginBottom:10
+  },
+  loadBar2Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: ((screenWidth - 80) / 4),
+    borderRadius: 50,
+  },
+  loadBar3Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: ((screenWidth - 80) / 4) * 2,
+    borderRadius: 50,
+  },
+  loadBar4Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: ((screenWidth - 80) / 4) * 3,
+    borderRadius: 50,
+  },
+  loadBar5Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: screenWidth - 80,
+    borderRadius: 50,
+  },
+  warning: {
+    color: "red",
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 20,
+    fontSize:14
+  },
+  noWarning:{
+    opacity:0
+  },
+  imageContainer: {
+    // flex: 1,
+    height: "28%",
+    alignItems: "center",
+    marginBottom: "2%",
+    marginTop:50
+  },
+  bottomSubText:{
+    color:'white',
+    marginTop:8,
+    fontSize:15
+
+  },
+  hyperlinkText: {
+    color: "#FF8001",
+    fontWeight: "bold",
+  },
+
 });
 
 const button = StyleSheet.create({

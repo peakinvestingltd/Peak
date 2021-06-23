@@ -1,6 +1,16 @@
 import React, { Component, useState } from "react";
 import { styles } from "../../css/styles.js";
-import { db, uid, user } from "../../components/Firebase/firebase";
+import { uid, user } from "../../components/Firebase/firebase";
+
+//-----------------------------------------------------
+
+import * as firebase from "firebase";
+import "firebase/database";
+
+const db = firebase.firestore();
+
+//------------------------------------------------------
+
 import {
   SafeAreaView,
   Dimensions,
@@ -30,9 +40,15 @@ import { ThemeConsumer } from "react-native-elements";
 const screenWidth = Dimensions.get("window").width;
 
 export default function ReviewScreen(props) {
+  console.log("vvvvvvvvvv");
   console.log(props);
 
   const review = props.route.params;
+  const balance = props.route.params.balance;
+  const totalCost = props.route.params.totalPrice;
+  const ticker = props.route.params.ticker;
+  const amount = props.route.params.amount;
+  const price = props.route.params.price;
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.topCard}>
@@ -50,7 +66,7 @@ export default function ReviewScreen(props) {
               mode="contained"
               style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
             >
-              £{review.funds}
+              £{balance}
             </Button>
           </View>
           <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
@@ -77,22 +93,76 @@ export default function ReviewScreen(props) {
 
           <View style={styles.rowSpaced}>
             <Text style={styles.text}>Total cost</Text>
-            <Text style={styles.text}>{review.totalPrice.toFixed(2)}</Text>
+            <Text style={styles.text}>{review.totalPrice}</Text>
           </View>
         </View>
       </Card>
-        <Button
-          style={styles.button}
-          onPress={() => {
-            console.log(user);
-            // const data = {
-            //   name: "christopher",
-            // };
-            // db.collection("users").doc("test").set(data);
-          }}
-        >
-          <Text style={styles.buttonText}>Confirm</Text>
-        </Button>
+      <Button
+        style={styles.button}
+        onPress={() => {
+          console.log(firebase.auth().uid);
+          console.log(uid);
+
+          firebase.auth().onAuthStateChanged((user) => {
+            console.log(user.email);
+
+            db.collection("users")
+              .doc(user.uid)
+              .collection("funds")
+              .doc("practiceBalance")
+              .set({
+                amount: balance - totalCost,
+              });
+
+            db.collection("users")
+              .doc(user.uid)
+              .collection("practiceInvestments")
+              .doc(ticker)
+              .set({
+                amount: amount,
+                price: price,
+              });
+
+            // db.collection("users")
+            //   .doc(user.uid)
+            //   .collection("practiceHistory")
+            //   .doc(timestamp)
+            //   .set({
+            //     stock: "TSLA",
+            //     buy: true,
+            //     amount: 1,
+            //     totalCost:1000,
+            //   });
+
+            props.navigation.navigate("Stock", {
+              navigation: props.navigation,
+            });
+            console(props.navigation);
+          });
+        }}
+      >
+        <Text style={styles.buttonText}>Confirm</Text>
+      </Button>
+      <Button
+        style={styles.button}
+        onPress={() => {
+          console.log(firebase.auth().uid);
+          console.log(uid);
+
+          firebase.auth().onAuthStateChanged((user) => {
+            console.log(user.email);
+            db.collection("users")
+              .doc(user.uid)
+              .collection("funds")
+              .doc("practiceBalance")
+              .set({
+                amount: 60000,
+              });
+          });
+        }}
+      >
+        <Text style={styles.buttonText}>test</Text>
+      </Button>
     </SafeAreaView>
   );
 }

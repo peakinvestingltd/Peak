@@ -28,6 +28,10 @@ import {
 } from "react-native";
 import Spinner from "../components/Spinner";
 
+import * as firebase from "firebase";
+import "firebase/database";
+const db = firebase.firestore();
+
 const screenWidth = Dimensions.get("window").width;
 
 let timestamp = Math.round(Date.now() / 1000);
@@ -38,14 +42,11 @@ let to = timestamp.toString();
 
 const apiKey = "c29d3o2ad3ib4ac2prkg";
 
-export class StockScreen extends React.Component {
+export default class StockScreen extends React.Component {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
     this.state = {
-      loadingPrice: true,
-      loadingData: true,
-      loadingCandle: true,
       loaded: [],
       datePrice: [],
       dataCandle: [],
@@ -53,7 +54,7 @@ export class StockScreen extends React.Component {
       stocks: [],
       candles: [],
       price: [],
-      funds: 60000,
+      funds: 0,
       stockList: [
         "AAPL",
         "TSLA",
@@ -79,6 +80,44 @@ export class StockScreen extends React.Component {
       ],
     };
   }
+
+  getBalance() {
+    async function adddata(user) {
+      const userRef = db
+        .collection("users")
+        .doc(user.uid)
+        .collection("funds")
+        .doc("practiceBalance");
+      const doc = await userRef.get();
+      if (!doc.exists) {
+        console.log("No such document!");
+
+        db.collection("users")
+          .doc(user.uid)
+          .collection("funds")
+          .doc("practiceBalance")
+          .set({
+            amount: 60000,
+          });
+        let bal = 60000;
+        return bal;
+      } else {
+        let bal = doc.data()["amount"];
+        console.log("Document data:", bal);
+        return bal;
+      }
+    }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user.email);
+      adddata(user).then((bal) => {
+        this.setState({
+          funds: bal,
+        });
+      });
+    });
+  }
+
   callApi(stockList) {
     let loaded = [];
     let stockData = {
@@ -192,7 +231,18 @@ export class StockScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.getBalance();
     this.callApi(this.state.stockList);
+    console.log(this.props);
+  }
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    console.log(prevProps);
+    console.log("prevprops");
+    // if (this.props.funds !== prevProps.funds) {
+    //   this.fetchData(this.props.userID);
+    // }
   }
 
   render() {
@@ -204,7 +254,7 @@ export class StockScreen extends React.Component {
       <TouchableOpacity
         key={stock}
         onPress={() =>
-          this.props.route.next.navigation.navigate("Details", {
+          this.props.route.params.navigation.navigate("Details", {
             stock: stock,
             price: priceData[stock],
             logo: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
@@ -280,7 +330,7 @@ export class StockScreen extends React.Component {
             width={screenWidth - 25} // from react-native
             height={65}
             withHorizontalLabels={false}
-            chartConfig={{
+                    chartConfig={{
               withDots: false,
               strokeWidth: 1.5,
               backgroundGradientFromOpacity: 0,
@@ -370,6 +420,15 @@ export class StockScreen extends React.Component {
             />
           </View>
           <ScrollView style={{ marginTop: 10 }}>{listItems}</ScrollView>
+              {/* <View style={styles.footer}></View>
+          <View style={styles.navBar}>
+            <IconButton icon={'account'} style={styles.navButton}></IconButton>
+            <IconButton icon={'account'} style={styles.navButton}></IconButton>
+            <IconButton icon={'account'} style={styles.navButton}></IconButton>
+            <IconButton icon={'account'} style={styles.navButton}></IconButton>
+            <IconButton icon={'account'} style={styles.navButton}></IconButton>
+          </View> */}
+      
         </SafeAreaView>
       </PaperProvider>
     );

@@ -26,6 +26,10 @@ import { user } from "../components/Firebase/firebase";
 
 import { styles } from "../css/styles.js";
 
+import * as firebase from "firebase";
+import "firebase/database";
+const db = firebase.firestore();
+
 const screenWidth = Dimensions.get("window").width;
 
 const theme = {
@@ -70,7 +74,11 @@ export class HomeRoute extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
+    console.log(this.props);
+    let navigation = this.props.route.params.navigation;
+    console.log(navigation);
     return (
       <SafeAreaView style={styles.container}>
         <Card style={styles.topCard}>
@@ -82,9 +90,7 @@ export class HomeRoute extends React.Component {
             }}
           >
             <IconButton
-            onPress={() =>
-                  this.props.route.next.navigation.navigate("Chat")
-                }
+              onPress={() => this.props.route.next.navigation.navigate("Chat")}
               icon="chat-outline"
               color={Colors.orange500}
               size={30}
@@ -104,7 +110,7 @@ export class HomeRoute extends React.Component {
           </View>
         </Card>
 
-        <View style={{margin:10}}>
+        <View style={{ margin: 10 }}>
           <Title style={styles.titleText}>Portfolio</Title>
 
           <View
@@ -135,6 +141,42 @@ export class HomeRoute extends React.Component {
               <Text style={styles.titleText}> Returns {"\n"} 900 </Text>
             </Button>
           </View>
+          <Button
+            style={{
+              width: screenWidth - 40,
+              height: 40,
+              backgroundColor: "whitesmoke",
+              margin: 10,
+            }}
+            onPress={() => {
+              console.log("press");
+
+              async function signUp(user) {
+                const userRef = db
+                  .collection("users")
+                  .doc(user.uid)
+                  .collection("userInfo")
+                  .doc("signUp");
+                const doc = await userRef.get();
+                if (!doc.exists) {
+                  console.log("No such document!");
+                  console.log(navigation);
+                  navigation.navigate("Register2");
+                } else {
+                  console.log("Document data:", doc.data().signUp);
+                  if (signUp != "compleat") {
+                    navigation.navigate(`Register${doc.data().signUp}`);
+                  }
+                }
+              }
+
+              firebase.auth().onAuthStateChanged((user) => {
+                signUp(user);
+              });
+            }}
+          >
+            <Text>Complete Sign Up</Text>
+          </Button>
 
           <Card
             style={{

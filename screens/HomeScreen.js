@@ -30,7 +30,7 @@ import { styles } from "../css/styles.js";
 
 import { HomeRoute } from "../screens/HomeTabScreen.js";
 import { NewsRoute } from "../screens/NewsScreen.js";
-import { StockScreen } from "../screens/StockScreen.js";
+import StockScreen from "../screens/StockScreen.js";
 
 export default function HomeScreen({ navigation }) {
   useStatusBar("light-content");
@@ -47,9 +47,7 @@ export default function HomeScreen({ navigation }) {
             }}
           >
             <IconButton
-              onPress={() =>
-                  navigation.navigate("Chat")
-                }
+              onPress={() => navigation.navigate("Chat")}
               icon="chat-outline"
               color={Colors.orange500}
               size={30}
@@ -71,7 +69,7 @@ export default function HomeScreen({ navigation }) {
           </View>
         </Card>
 
-        <Card style={{backgroundColor:'transparent', margin:10}}>
+        <Card style={{ backgroundColor: "transparent", margin: 10 }}>
           <Image
             style={styles.avatar}
             source={{
@@ -164,11 +162,29 @@ export default function HomeScreen({ navigation }) {
       title: "Home",
       icon: "details",
       color: navBarColor,
-      next: { navigation },
+      params: { navigation },
     },
-    { key: "home", title: "Portfolio", icon: "account", color: navBarColor },
-    { key: "news", title: "News", icon: "newspaper", color: navBarColor },
-    { key: "recents", title: "Settings", icon: "menu", color: navBarColor },
+    {
+      key: "home",
+      title: "Portfolio",
+      icon: "account",
+      params: { navigation },
+      color: navBarColor,
+    },
+    {
+      key: "news",
+      title: "News",
+      icon: "newspaper",
+      params: { navigation },
+      color: navBarColor,
+    },
+    {
+      key: "recents",
+      title: "Settings",
+      icon: "menu",
+      params: { navigation },
+      color: navBarColor,
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
