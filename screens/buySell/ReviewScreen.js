@@ -46,9 +46,39 @@ export default function ReviewScreen(props) {
   const review = props.route.params;
   const balance = props.route.params.balance;
   const totalCost = props.route.params.totalPrice;
+  let strAmount;
   const ticker = props.route.params.ticker;
   const amount = props.route.params.amount;
   const price = props.route.params.price;
+  const type = props.route.params.type;
+  const logo = props.route.params.logo;
+  if (type == "Bought") {
+    strAmount = `-£${props.route.params.totalPrice}`;
+  } else if (type == "Sold") {
+    strAmount = `+£${props.route.params.totalPrice}`;
+  }
+  const date = Date.now();
+  const mounths = [
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const newDate = new Date(date);
+  const DD = newDate.getDate();
+  const MMnum = newDate.getMonth();
+  const YYYY = newDate.getFullYear();
+  const MM = mounths[MMnum];
+  const fullDate = DD + " " + MM + " " + YYYY;
+  console.log(ticker);
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.topCard}>
@@ -100,9 +130,6 @@ export default function ReviewScreen(props) {
       <Button
         style={styles.button}
         onPress={() => {
-          console.log(firebase.auth().uid);
-          console.log(uid);
-
           firebase.auth().onAuthStateChanged((user) => {
             console.log(user.email);
 
@@ -116,6 +143,20 @@ export default function ReviewScreen(props) {
 
             db.collection("users")
               .doc(user.uid)
+              .collection("history")
+              .doc(`${date}`)
+              .set({
+                type: type,
+                stock: ticker,
+                cost: totalCost,
+                date: fullDate,
+                amount: amount,
+                timestamp: date,
+                logo: logo,
+              });
+
+            db.collection("users")
+              .doc(user.uid)
               .collection("practiceInvestments")
               .doc(ticker)
               .set({
@@ -123,20 +164,7 @@ export default function ReviewScreen(props) {
                 price: price,
               });
 
-            // db.collection("users")
-            //   .doc(user.uid)
-            //   .collection("practiceHistory")
-            //   .doc(timestamp)
-            //   .set({
-            //     stock: "TSLA",
-            //     buy: true,
-            //     amount: 1,
-            //     totalCost:1000,
-            //   });
-
-            props.navigation.navigate("Stock", {
-              navigation: props.navigation,
-            });
+            props.navigation.navigate("Stock");
             console(props.navigation);
           });
         }}

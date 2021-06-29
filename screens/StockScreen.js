@@ -112,7 +112,7 @@ export default class StockScreen extends React.Component {
       console.log(user.email);
       adddata(user).then((bal) => {
         this.setState({
-          funds: bal,
+          funds: bal.toFixed(2),
         });
       });
     });
@@ -236,15 +236,6 @@ export default class StockScreen extends React.Component {
     console.log(this.props);
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    console.log(prevProps);
-    console.log("prevprops");
-    // if (this.props.funds !== prevProps.funds) {
-    //   this.fetchData(this.props.userID);
-    // }
-  }
-
   render() {
     const candles = this.state.candles;
     const stockData = this.state.stocks;
@@ -254,7 +245,7 @@ export default class StockScreen extends React.Component {
       <TouchableOpacity
         key={stock}
         onPress={() =>
-          this.props.route.params.navigation.navigate("Details", {
+          this.props.navigation.navigate("Details", {
             stock: stock,
             price: priceData[stock],
             logo: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
@@ -330,7 +321,7 @@ export default class StockScreen extends React.Component {
             width={screenWidth - 25} // from react-native
             height={65}
             withHorizontalLabels={false}
-                    chartConfig={{
+            chartConfig={{
               withDots: false,
               strokeWidth: 1.5,
               backgroundGradientFromOpacity: 0,
@@ -378,9 +369,7 @@ export default class StockScreen extends React.Component {
               }}
             >
               <IconButton
-                onPress={() =>
-                  this.props.route.next.navigation.navigate("Chat")
-                }
+                onPress={() => this.props.navigation.navigate("Chat")}
                 icon="chat-outline"
                 color={Colors.orange500}
                 size={30}
@@ -404,31 +393,67 @@ export default class StockScreen extends React.Component {
               />
             </View>
           </Card>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              margin: 10,
-            }}
-          >
-            <Button mode="contained">Watch list</Button>
-            <IconButton
-              icon="file-edit-outline"
-              color={Colors.white}
-              size={30}
-            />
-          </View>
-          <ScrollView style={{ marginTop: 10 }}>{listItems}</ScrollView>
-              {/* <View style={styles.footer}></View>
+
+          <ScrollView style={{ marginTop: 0 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                margin: 10,
+              }}
+            >
+              <Button mode="contained">Watch list</Button>
+              <IconButton
+                icon="file-edit-outline"
+                color={Colors.white}
+                size={30}
+              />
+            </View>
+            {listItems}
+          </ScrollView>
+          <View style={styles.footer}></View>
           <View style={styles.navBar}>
-            <IconButton icon={'account'} style={styles.navButton}></IconButton>
-            <IconButton icon={'account'} style={styles.navButton}></IconButton>
-            <IconButton icon={'account'} style={styles.navButton}></IconButton>
-            <IconButton icon={'account'} style={styles.navButton}></IconButton>
-            <IconButton icon={'account'} style={styles.navButton}></IconButton>
-          </View> */}
-      
+            <IconButton
+              icon={"chart-line-variant"}
+              color={"#ff7f00"}
+              size={35}
+              style={styles.navButton}
+              onPress={() =>
+                this.props.navigation.navigate("Stock", {
+                  funds: this.state.funds,
+                })
+              }
+            ></IconButton>
+            <IconButton
+              icon={"account"}
+              style={styles.navButton}
+              size={35}
+              color={"white"}
+              onPress={() => this.props.navigation.navigate("Portfolio")}
+            ></IconButton>
+            <IconButton
+              icon={"newspaper"}
+              style={styles.navButton}
+              size={35}
+              color={"white"}
+              onPress={() => this.props.navigation.navigate("News")}
+            ></IconButton>
+            <IconButton
+              icon={"magnify"}
+              style={styles.navButton}
+              size={35}
+              color={"white"}
+              onPress={() => this.props.navigation.navigate("Search")}
+            ></IconButton>
+            <IconButton
+              icon={"menu"}
+              style={styles.navButton}
+              size={35}
+              color={"white"}
+              onPress={() => this.props.navigation.navigate("Home")}
+            ></IconButton>
+          </View>
         </SafeAreaView>
       </PaperProvider>
     );

@@ -1,10 +1,13 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
 import { Colors } from "react-native-paper";
+import Constants from "expo-constants";
+import { or } from "react-native-reanimated";
 
 const darkBlue = "#172041";
 const cardBlue = "#1b2855";
 const orange = "#ff7f00";
+const gray = "#8d93a3";
 
 const screenWidth = Dimensions.get("window").width;
 // const primaryColor = "#151D3E";
@@ -19,31 +22,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primaryColor,
-    // justifyContent: "center",
+    marginTop: Constants.statusBarHeight,
   },
-  navBar:{
-backgroundColor:'red',
-width:screenWidth,
-height:70,
-position:'absolute',
-bottom:0,
-borderTopLeftRadius:20,
-borderTopRightRadius:20,
-justifyContent:'space-evenly',
-flexDirection:'row',
+  pageButton: {
+    alignSelf: "flex-start",
   },
-  navButton:{
-    width:'20%',
-    height:'100%',
-    borderWidth:1,
-    borderColor:'blue',
-    margin:0
+  pageButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    textTransform: "none",
+  },
+  //-------------------navbar---------------------
+  navBar: {
+    backgroundColor: secondaryColor,
+    width: screenWidth,
+    height: 70,
+    position: "absolute",
+    bottom: 0,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    shadowColor: secondaryColor,
+    shadowOffset: { width: -1, height: -1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    elevation: 20,
+  },
+  navButton: {
+    width: "20%",
+    height: "100%",
+    margin: 0,
     // backgroundColor:'white'
   },
-  footer:{
-    width:screenWidth,
-    height:100,
+  footer: {
+    width: screenWidth,
+    height: 70,
   },
+  //-----------------------------------------------------------
   accordionHeader: {
     backgroundColor: secondaryColor,
     height: 50,
@@ -65,8 +82,12 @@ flexDirection:'row',
     alignSelf: "center",
   },
   button: {
-    padding: 10,
-    backgroundColor: "gainsboro",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "45%",
+    height: 45,
+    backgroundColor: orange,
+    borderRadius: 14,
   },
   buttonContainer: {
     padding: 20,
@@ -74,8 +95,9 @@ flexDirection:'row',
     width: "80%",
     alignSelf: "center",
   },
+  //---------header-----------------------------
   topCard: {
-    zIndex: 2,
+    zIndex: 5,
     padding: 10,
     position: "relative",
     top: 0,
@@ -85,10 +107,15 @@ flexDirection:'row',
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     shadowColor: secondaryColor,
-    shadowOffset: { width: 1, height: 1 },
+    shadowOffset: { width: 10, height: 10 },
     shadowOpacity: 1,
     shadowRadius: 4,
-    elevation: 10,
+    elevation: 5,
+  },
+  headerBall: {
+    backgroundColor: orange,
+    borderRadius: 20,
+    color: "white",
   },
   catagory: {
     position: "absolute",
@@ -105,12 +132,12 @@ flexDirection:'row',
     marginBottom: 5,
     marginTop: 5,
     marginRight: 10,
+    borderRadius: 10,
     padding: 0,
-    shadowColor: "black",
+    shadowColor: secondaryColor,
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1,
-    elevation: 2,
+    shadowOpacity: 1,
+    shadowRadius: 4,
   },
   newsCard: {
     backgroundColor: secondaryColor,
@@ -198,7 +225,7 @@ flexDirection:'row',
     fontFamily: font,
     letterSpacing: 3,
     fontWeight: "900",
-    textTransform: "uppercase",
+
     fontSize: fontSizeTitle,
     margin: 4,
   },
@@ -206,12 +233,12 @@ flexDirection:'row',
     color: fontColor,
     fontFamily: font,
     fontWeight: "700",
-    textTransform: "uppercase",
+
     fontSize: fontSizeTitle,
     margin: 4,
   },
   image: {
-    borderRadius: 20,
+    borderRadius: 25,
     borderColor: "gainsboro",
     resizeMode: "contain",
     height: 40,
@@ -230,28 +257,6 @@ flexDirection:'row',
     width: 80,
     // backgroundColor: "white",
   },
-  logout: {
-    position: "absolute",
-    bottom: 20,
-    justifyContent: "center",
-    alignSelf: "center",
-    width: "40%",
-    padding: 10,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: Colors.orange500,
-    color: Colors.orange500,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    justifyContent: "center",
-    alignSelf: "center",
-    borderWidth: 1,
-    borderRadius: 50,
-    resizeMode: "cover",
-  },
-
   avatarSmall: {
     margin: 20,
     width: 50,
@@ -281,11 +286,11 @@ flexDirection:'row',
     marginLeft: 20,
     marginRight: 20,
     backgroundColor: secondaryColor,
-    height: '62%',
+    height: "62%",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    position:'absolute',
-    bottom:0,
+    position: "absolute",
+    bottom: 0,
   },
   topView: {
     width: screenWidth,
@@ -308,7 +313,7 @@ flexDirection:'row',
     height: 40,
     backgroundColor: orange,
 
-    marginTop:'20%',
+    marginTop: "20%",
     marginRight: screenWidth / 4 - 20,
     marginLeft: screenWidth / 4 - 20,
     borderRadius: 13,
@@ -317,6 +322,7 @@ flexDirection:'row',
   },
   buttonText: {
     color: "white",
+    fontWeight: "bold",
   },
   head1: {
     color: "white",
@@ -335,12 +341,12 @@ flexDirection:'row',
     backgroundColor: "#8d93a3",
     marginLeft: 40,
     borderRadius: 50,
-    marginBottom:10
+    marginBottom: 10,
   },
   loadBar2Compleated: {
     backgroundColor: orange,
     height: 4,
-    width: ((screenWidth - 80) / 4),
+    width: (screenWidth - 80) / 4,
     borderRadius: 50,
   },
   loadBar3Compleated: {
@@ -366,29 +372,154 @@ flexDirection:'row',
     marginTop: 0,
     marginBottom: 0,
     marginLeft: 20,
-    fontSize:14
+    fontSize: 14,
   },
-  noWarning:{
-    opacity:0
+  noWarning: {
+    opacity: 0,
   },
   imageContainer: {
     // flex: 1,
     height: "28%",
     alignItems: "center",
     marginBottom: "2%",
-    marginTop:50
+    marginTop: 50,
   },
-  bottomSubText:{
-    color:'white',
-    marginTop:8,
-    fontSize:15
-
+  bottomSubText: {
+    color: "white",
+    marginTop: 8,
+    fontSize: 15,
   },
   hyperlinkText: {
     color: "#FF8001",
     fontWeight: "bold",
   },
+  //--------------------menuscreen--------------------
+  avatar: {
+    width: 60,
+    height: 60,
+    justifyContent: "center",
+    alignSelf: "center",
+    borderWidth: 1,
+    borderRadius: 50,
+    resizeMode: "cover",
+    marginTop: 20,
+  },
+  menuName: {
+    fontSize: 16,
+    fontFamily: font,
+    color: fontColor,
+    marginTop: 4,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  menuEmail: {
+    fontSize: 14,
+    fontFamily: font,
+    color: "gray",
+    textAlign: "center",
+    fontWeight: "100",
+    marginBottom: 10,
+  },
+  settingsButton: {
+    width: "100%",
+    height: 50,
+    backgroundColor: secondaryColor,
+    marginBottom: 2,
+    paddingTop: 6,
+  },
+  settingsButtonTop: {
+    width: "100%",
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginBottom: 2,
+    padding: 5,
+    alignSelf: "flex-start",
+  },
+  settingsButtonBottom: {
+    width: "100%",
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
 
+    paddingTop: 6,
+  },
+  settingsCard: {
+    marginLeft: 20,
+    borderRadius: 10,
+    marginRight: 20,
+    marginTop: 20,
+  },
+  buttonTextSettings: {
+    color: "white",
+    fontWeight: "bold",
+    textTransform: "none",
+    backgroundColor: orange,
+  },
+  logout: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "45%",
+    height: 45,
+    borderColor: orange,
+    borderWidth: 2,
+    borderRadius: 14,
+    marginTop: 10,
+  },
+  logoutText: {
+    color: orange,
+    fontWeight: "bold",
+  },
+  //--------history---------
+  cardHeader: {
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft: 15,
+    marginBottom: 10,
+    color: gray,
+  },
+  cardDevider: {
+    width: "100%",
+    height: 2,
+    backgroundColor: primaryColor,
+  },
+  cardHistory: {
+    backgroundColor: secondaryColor,
+    marginLeft: 10,
+    marginBottom: 5,
+    marginTop: 5,
+    marginRight: 10,
+    borderRadius: 10,
+    padding: 0,
+    shadowColor: secondaryColor,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  historyName: {
+    fontSize: 19,
+    color: "white",
+  },
+  historyAction: {
+    fontSize: 10,
+    color: "white",
+    fontWeight: "100",
+    color: gray,
+  },
+  historyValueBox: {
+    position: "absolute",
+    right: 10,
+    height: "100%",
+
+    justifyContent: "center",
+  },
+  historyValue: {
+    fontWeight: "100",
+    fontSize: 22,
+    color: "white",
+  },
 });
 
 const button = StyleSheet.create({

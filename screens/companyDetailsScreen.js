@@ -311,6 +311,45 @@ export default class DetailsScreen extends React.Component {
           body={this._body}
           keyExtractor={(item) => `${item.id}`}
         />
+
+        <View style={styles.footer}></View>
+        <View style={styles.navBar}>
+          <IconButton
+            icon={"chart-line-variant"}
+            color={"white"}
+            size={35}
+            style={styles.navButton}
+            onPress={() => this.props.navigation.navigate("Stock")}
+          ></IconButton>
+          <IconButton
+            icon={"account"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() => this.props.navigation.navigate("Portfolio")}
+          ></IconButton>
+          <IconButton
+            icon={"newspaper"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() => this.props.navigation.navigate("News")}
+          ></IconButton>
+          <IconButton
+            icon={"magnify"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() => this.props.navigation.navigate("Search")}
+          ></IconButton>
+          <IconButton
+            icon={"menu"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() => this.props.navigation.navigate("Home")}
+          ></IconButton>
+        </View>
       </SafeAreaView>
     );
   }

@@ -32,15 +32,15 @@
 //   const [middleName, setMiddleName] = useState("");
 //   const [lastName, setLastName] = useState("");
 
-  // const [open, setOpen] = useState(false);
-  // const [registerError, setRegisterError] = useState("");
-  // const [value, setValue] = useState(null);
-  // const [items, setItems] = useState([
-  //   { label: "Mr", value: "Mr" },
-  //   { label: "Ms", value: "Ms" },
-  //   { label: "Mrs", value: "Mrs" },
-  //   { label: "Dr", value: "Dr" },
-  // ]);
+// const [open, setOpen] = useState(false);
+// const [registerError, setRegisterError] = useState("");
+// const [value, setValue] = useState(null);
+// const [items, setItems] = useState([
+//   { label: "Mr", value: "Mr" },
+//   { label: "Ms", value: "Ms" },
+//   { label: "Mrs", value: "Mrs" },
+//   { label: "Dr", value: "Dr" },
+// ]);
 
 //   function nextButtonPressed() {
 //     if (value && firstName && lastName) {
@@ -63,9 +63,9 @@
 
 //   return (
 //     <SafeViewCentered style={{ backgroundColor: "#172040" }}>
-      // <View style={internal_styles.imageContainer}>
-      //   <Logo />
-      // </View>
+// <View style={internal_styles.imageContainer}>
+//   <Logo />
+// </View>
 //       <LinearProgress
 //         color="#FF8001"
 //         value={0.4}
@@ -88,14 +88,14 @@
 //             lastName: "",
 //           }}
 //         >
-          // <DropDownPicker
-          //   open={open}
-          //   value={value}
-          //   items={items}
-          //   setValue={setValue}
-          //   setItems={setItems}
-          //   setOpen={setOpen}
-          // />
+// <DropDownPicker
+//   open={open}
+//   value={value}
+//   items={items}
+//   setValue={setValue}
+//   setItems={setItems}
+//   setOpen={setOpen}
+// />
 
 //           <FormField
 //             name="firstName"
@@ -153,12 +153,12 @@
 // }
 
 // const internal_styles = StyleSheet.create({
-  // imageContainer: {
-  //   flex: 1,
-  //   height: "30%",
-  //   alignItems: "center",
-  //   marginBottom: "2%",
-  // },
+// imageContainer: {
+//   flex: 1,
+//   height: "30%",
+//   alignItems: "center",
+//   marginBottom: "2%",
+// },
 //   formContainer: {
 //     flex: 1,
 //     marginTop: "5%",
@@ -222,47 +222,46 @@ export default function RegisterScreen2(props) {
   const [lastStyle, setLastStyle] = useState(styles.noWarning);
   const [titleStyle, setTitleStyle] = useState(styles.noWarning);
 
-
-function nextButtonPressed() {
-  if (value && firstName && lastName) {
-    firebase.auth().onAuthStateChanged((user) => {
-      db.collection("users")
-        .doc(user.uid)
-        .collection("userInfo")
-        .doc("signUp")
-        .set({
-          title: value,
-          firstName: firstName,
-          middleName: middleName,
-          lastName: lastName,
-          signUp: 3,
-        });
-    });
-    props.navigation.navigate("Register3");
-  }else{
-    if(!value){
-      setTitleStyle(styles.warning)
-    }
-    if(!firstName){
-      setFirstStyle(styles.warning)
-    }
-    if(!lastName){
-      setLastStyle(styles.warning)
+  function nextButtonPressed() {
+    if (value && firstName && lastName) {
+      firebase.auth().onAuthStateChanged((user) => {
+        db.collection("users")
+          .doc(user.uid)
+          .collection("userInfo")
+          .doc("signUp")
+          .set({
+            title: value,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            signUp: 3,
+          });
+      });
+      props.navigation.navigate("Register3");
+    } else {
+      if (!value) {
+        setTitleStyle(styles.warning);
+      }
+      if (!firstName) {
+        setFirstStyle(styles.warning);
+      }
+      if (!lastName) {
+        setLastStyle(styles.warning);
+      }
     }
   }
-}
 
   return (
     <SafeAreaView style={styles.container}>
-       <View style={styles.imageContainer}>
-        <Logo/>
+      <View style={styles.imageContainer}>
+        <Logo />
       </View>
       <View style={styles.loadBar}>
         <View style={styles.loadBar2Compleated}></View>
       </View>
       <View style={styles.signupCard}>
         <Text style={styles.head1}>
-          Sign Up <Text style={styles.head2}>| Step 2 of 5</Text>
+          Sign Up <Text style={styles.head2}>| Step 1 of 4</Text>
         </Text>
 
         {/* <TextInput
@@ -270,36 +269,35 @@ function nextButtonPressed() {
           placeholder="Title"
           onChangeText={(val) => setTitle(val)}
         ></TextInput> */}
-                  <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setValue={setValue}
-            setItems={setItems}
-            setOpen={setOpen}
-        
-            style={styles.input}
-            placeholder={'Select Your Title'}
-          />
-           <Text style={titleStyle}>please select your title</Text>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setValue={setValue}
+          setItems={setItems}
+          setOpen={setOpen}
+          style={styles.input}
+          placeholder={"Select Your Title"}
+        />
+        <Text style={titleStyle}>please select your title</Text>
         <TextInput
           style={styles.input}
           placeholder="First Name*"
           onChangeText={(val) => setFirstName(val)}
         ></TextInput>
-           <Text style={firstStyle}>please fill in your first name</Text>
+        <Text style={firstStyle}>please fill in your first name</Text>
         <TextInput
           style={styles.input}
           placeholder="Middle Name (optional)"
           onChangeText={(val) => setMiddleName(val)}
         ></TextInput>
-           <Text style={styles.warning}></Text>
+        <Text style={styles.warning}></Text>
         <TextInput
           style={styles.input}
           placeholder="Last Name*"
           onChangeText={(val) => setLastName(val)}
         ></TextInput>
-           <Text style={lastStyle}>please fill in your surname</Text>
+        <Text style={lastStyle}>please fill in your surname</Text>
         <Button
           style={styles.buttonReg}
           title="Next"
@@ -309,11 +307,12 @@ function nextButtonPressed() {
         >
           <Text style={styles.buttonText}>Next</Text>
         </Button>
-        <View style={{justifyContent:'center',flexDirection:'row'}}>
-                  <Text style={styles.bottomSubText}>Already hane an account? <Text style={{color:"#ff7f00"}}>Sign In</Text></Text>
-
+        <View style={{ justifyContent: "center", flexDirection: "row" }}>
+          <Text style={styles.bottomSubText}>
+            Already hane an account?{" "}
+            <Text style={{ color: "#ff7f00" }}>Sign In</Text>
+          </Text>
         </View>
-
       </View>
     </SafeAreaView>
   );

@@ -110,6 +110,7 @@ export default function BuyScreen(props) {
             logo: props.route.params.logo,
             ticker: ticker,
             balance: currentFunds,
+            type: "Bought",
           });
         }}
       >
