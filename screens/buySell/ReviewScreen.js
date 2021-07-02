@@ -44,14 +44,16 @@ export default function ReviewScreen(props) {
   console.log(props);
 
   const review = props.route.params;
-  const balance = props.route.params.balance;
-  const totalCost = props.route.params.totalPrice;
+  const balance = review.balance;
+  const totalCost = review.totalPrice;
   let strAmount;
-  const ticker = props.route.params.ticker;
-  const amount = props.route.params.amount;
-  const price = props.route.params.price;
-  const type = props.route.params.type;
-  const logo = props.route.params.logo;
+  const ticker = review.ticker;
+  const amount = review.amount;
+  const price = review.price;
+  const type = review.type;
+  const logo = review.logo;
+  const ownedShares = review.ownedShares;
+
   if (type == "Bought") {
     strAmount = `-£${props.route.params.totalPrice}`;
   } else if (type == "Sold") {
@@ -79,6 +81,7 @@ export default function ReviewScreen(props) {
   const MM = mounths[MMnum];
   const fullDate = DD + " " + MM + " " + YYYY;
   console.log(ticker);
+
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.topCard}>
@@ -103,6 +106,12 @@ export default function ReviewScreen(props) {
         </View>
       </Card>
 
+      <Button
+        style={styles.pageButton}
+        onPress={() => props.navigation.goBack()}
+      >
+        <Text style={styles.pageButtonText}>&lt; Review Order</Text>
+      </Button>
       <Card style={styles.newsCard}>
         <Text style={styles.titleText}>{review.stockName}</Text>
         <View style={styles.box1}>
@@ -131,38 +140,57 @@ export default function ReviewScreen(props) {
         style={styles.button}
         onPress={() => {
           firebase.auth().onAuthStateChanged((user) => {
-            console.log(user.email);
+            console.log(type);
 
-            db.collection("users")
-              .doc(user.uid)
-              .collection("funds")
-              .doc("practiceBalance")
-              .set({
-                amount: balance - totalCost,
-              });
+            if (type == "Bought") {
+              db.collection("users")
+                .doc(user.uid)
+                .collection("funds")
+                .doc("practiceBalance")
+                .set({
+                  amount: Number(balance) - Number(totalCost),
+                });
 
-            db.collection("users")
-              .doc(user.uid)
-              .collection("history")
-              .doc(`${date}`)
-              .set({
-                type: type,
-                stock: ticker,
-                cost: totalCost,
-                date: fullDate,
-                amount: amount,
-                timestamp: date,
-                logo: logo,
-              });
+              db.collection("users")
+                .doc(user.uid)
+                .collection("practiceInvestments")
+                .doc(ticker)
+                .set({
+                  amount: Number(ownedShares) + Number(amount),
+                  price: price,
+                });
+            } else {
+              db.collection("users")
+                .doc(user.uid)
+                .collection("funds")
+                .doc("practiceBalance")
+                .set({
+                  amount: Number(balance) + Number(totalCost),
+                });
 
-            db.collection("users")
-              .doc(user.uid)
-              .collection("practiceInvestments")
-              .doc(ticker)
-              .set({
-                amount: amount,
-                price: price,
-              });
+              db.collection("users")
+                .doc(user.uid)
+                .collection("practiceInvestments")
+                .doc(ticker)
+                .set({
+                  amount: Number(ownedShares) - Number(amount),
+                  price: price,
+                });
+
+              db.collection("users")
+                .doc(user.uid)
+                .collection("history")
+                .doc(`${date}`)
+                .set({
+                  type: type,
+                  stock: ticker,
+                  cost: strAmount,
+                  date: fullDate,
+                  amount: amount,
+                  timestamp: date,
+                  logo: logo,
+                });
+            }
 
             props.navigation.navigate("Stock");
             console(props.navigation);

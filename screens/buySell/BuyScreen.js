@@ -29,12 +29,31 @@ import { ThemeConsumer } from "react-native-elements";
 const screenWidth = Dimensions.get("window").width;
 
 export default function BuyScreen(props) {
-  const [count, setCount] = useState(0);
+  const params = props.route.params;
+  const price = params.price.currentPrice;
+  const stockName = params.name;
+  const currentFunds = params.funds;
+  const ticker = params.ticker;
+  const ownedShares = params.ownedShares;
 
-  const price = props.route.params.price.currentPrice;
-  const stockName = props.route.params.name;
-  const currentFunds = props.route.params.funds;
-  const ticker = props.route.params.ticker;
+  const [count, setCount] = useState(0);
+  const [buy, setBuy] = useState(styles.selectedBuyButton);
+  const [sell, setSell] = useState(styles.unselectedSellButton);
+  const [buySelected, setBuySelected] = useState(true);
+  const [buyOrSellFor, setBuyOrSellFor] = useState("Buy for:");
+  const [type, setType] = useState("Bought");
+  const [maxSlider, setMaxSlider] = useState(Math.floor(currentFunds / price));
+
+  const buyOrSell = () => {
+    if (!buySelected) {
+      return (
+        <View style={styles.sharesView}>
+          <Text style={styles.tradeText}>Your shares:</Text>
+          <Text style={styles.tradeText}>{ownedShares}</Text>
+        </View>
+      );
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,63 +78,192 @@ export default function BuyScreen(props) {
           <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
         </View>
       </Card>
-      <Text style={styles.pageTitle}> {stockName}</Text>
-      <Card style={styles.newsCard}>
-        <View>
+
+      <Button
+        style={styles.pageButton}
+        onPress={() => props.navigation.goBack()}
+      >
+        <Text style={styles.pageButtonText}>&lt; Trade</Text>
+      </Button>
+
+      <View style={styles.tradeTop}>
+        <Text
+          style={buy}
+          onPress={() => {
+            if (buy != styles.selectedButton) {
+              setBuy(styles.selectedBuyButton);
+              setSell(styles.unselectedSellButton);
+              setBuySelected(true);
+              setBuyOrSellFor("Buy for:");
+              setType("Bought");
+              setMaxSlider(Math.floor(currentFunds / price));
+              setCount(0);
+            }
+          }}
+        >
+          Buy
+        </Text>
+        <Text
+          style={sell}
+          onPress={() => {
+            if (sell != styles.selectedButton) {
+              setSell(styles.selectedSellButton);
+              setBuy(styles.unselectedBuyButton);
+              setBuySelected(false);
+              setBuyOrSellFor("Sell for:");
+              setType("Sold");
+              setMaxSlider(ownedShares);
+              setCount(0);
+            }
+          }}
+        >
+          Sell
+        </Text>
+      </View>
+      <View style={styles.tradeDefaultView}>
+        <View
+          style={{
+            display: "flex",
+            marginRight: 30,
+            justifyContent: "space-between",
+            flexDirection: "row",
+          }}
+        >
           <Image
-            style={styles.avatarSmall}
+            style={styles.image}
             source={{
               uri: props.route.params.logo,
             }}
           />
+
+          <View style={styles.stockNameView}>
+            <Text style={styles.stockName}>{props.route.params.name}</Text>
+            <Text style={styles.stockTicker}>
+              {props.route.params.ticker}-{props.route.params.country}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.priceContainer}>
+          <Text style={styles.price}>
+            {props.route.params.currency}
+            {price}
+          </Text>
+          <Text style={styles[props.route.params.color]}>
+            {props.route.params.priceChange}
+            {"("}
+            {props.route.params.percentChange}%{")"}
+          </Text>
+        </View>
+      </View>
+      {buyOrSell()}
+
+      <View style={styles.tradeDefaultView}>
+        <View style={styles.sliderText}>
+          <Text style={styles.yourShares}>Amount of shares</Text>
+          <Text style={styles.amountOfShares}>{count}</Text>
         </View>
 
-        <View style={styles.rowAround}>
-          <Text style={styles.text}>{ticker}</Text>
-          <Text style={styles.text}>£{price}</Text>
-
-          <Text style={styles.text}>{props.route.params.priceChange}</Text>
-        </View>
-      </Card>
-
-      <View style={styles.box2}>
-        <Text style={styles.text}>Amount of shares:</Text>
-        <Text style={styles.text}>{count.toFixed(0)}</Text>
         <Slider
           style={styles.slider}
           value={count}
           step={1}
-          maximumValue={Math.floor(currentFunds / price)}
+          minimumTrackTintColor={"#ff7f00"}
+          maximumTrackTintColor={"#8d93a3"}
+          thumbTintColor={"white"}
+          maximumValue={maxSlider}
           minimumValue={1}
           onValueChange={(value) => {
             setCount(value);
           }}
         ></Slider>
-        <Text style={styles.text}>Price:</Text>
-        <Text style={styles.text}>
-          £{(count.toFixed(0) * price).toFixed(2)}
-        </Text>
       </View>
 
-      <Button
-        style={styles.button}
-        onPress={() => {
-          let total = count * price;
-          props.navigation.navigate("Review", {
-            price: price,
-            amount: count,
-            totalPrice: total.toFixed(2),
-            stockName: stockName,
-            funds: currentFunds,
-            logo: props.route.params.logo,
-            ticker: ticker,
-            balance: currentFunds,
-            type: "Bought",
-          });
+      <View style={styles.defaultEndView}>
+        <View style={styles.defaultInnerView}>
+          <Text style={styles.tradeText}>{buyOrSellFor}</Text>
+          <Text style={styles.tradeOrangeText}>
+            {" "}
+            £{(count.toFixed(0) * price).toFixed(2)}
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginRight: 15,
+          marginLeft: 15,
+          marginTop: 20,
         }}
       >
-        <Text style={styles.buttonText}>Review Order</Text>
-      </Button>
+        <Button
+          style={styles.tradeReviewButton}
+          onPress={() => {
+            let total = count * price;
+            props.navigation.navigate("Review", {
+              price: price,
+              amount: count,
+              totalPrice: total.toFixed(2),
+              stockName: stockName,
+              funds: currentFunds,
+              logo: props.route.params.logo,
+              ticker: ticker,
+              balance: currentFunds,
+              type: type,
+              ownedShares: ownedShares,
+            });
+          }}
+        >
+          <Text style={styles.buttonText}>Review Order</Text>
+        </Button>
+        <Button
+          style={styles.tradeCancleButton}
+          onPress={() => {
+            console.log("here");
+          }}
+        >
+          <Text style={styles.orangeButtonText}>Cancel</Text>
+        </Button>
+      </View>
+
+      <View style={styles.footer}></View>
+      <View style={styles.navBar}>
+        <IconButton
+          icon={"chart-line-variant"}
+          color={"white"}
+          size={35}
+          style={styles.navButton}
+          onPress={() => props.navigation.navigate("Stock")}
+        ></IconButton>
+        <IconButton
+          icon={"account"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Portfolio")}
+        ></IconButton>
+        <IconButton
+          icon={"newspaper"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("News")}
+        ></IconButton>
+        <IconButton
+          icon={"magnify"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Search")}
+        ></IconButton>
+        <IconButton
+          icon={"menu"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Home")}
+        ></IconButton>
+      </View>
     </SafeAreaView>
   );
 }

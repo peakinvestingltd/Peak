@@ -79,29 +79,7 @@ export default function HistoryScreen({ navigation }) {
   if (history == null) {
     getData();
   }
-  // const cardItem = () => {
-  //   let obj = {};
-  //   let date;
-  //   if (history != null) {
-  //     history.forEach((item) => {
-  //       console.log(item.date);
-  //       obj[item.date] = [];
-  //     });
-  //     console.log(obj);
-  //     for (let i = 0; i < history.length; i++) {
-  //       obj[history[i].date].push(history[i]);
-  //     }
-  //     setObject(obj);
-  //     // return Object.keys(obj).forEach((date) => {
-  //     //   console.log(obj[date]);
-  //     //   return (
-  //     //     <View>
-  //     //       <Text>gfda</Text>;
-  //     //     </View>
-  //     //   );
-  //     // });
-  //   }
-  // };
+
 
   return (
     <PaperProvider theme={theme}>

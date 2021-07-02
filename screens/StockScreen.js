@@ -25,6 +25,7 @@ import {
   StyleSheet,
   Text,
   Linking,
+  StatusBar,
 } from "react-native";
 import Spinner from "../components/Spinner";
 
@@ -244,7 +245,7 @@ export default class StockScreen extends React.Component {
     const listItems = loaded.map((stock) => (
       <TouchableOpacity
         key={stock}
-        onPress={() =>
+        onPress={() => {
           this.props.navigation.navigate("Details", {
             stock: stock,
             price: priceData[stock],
@@ -257,26 +258,13 @@ export default class StockScreen extends React.Component {
             chartColor: priceData[stock].color,
             stockColor: priceData[stock].stockColor,
             desc: stockData[stock].desc,
-          })
-        }
+            country: stockData[stock].country,
+            color: priceData[stock].stockColor,
+            currency: stockData[stock].currency,
+          });
+        }}
       >
         <Card style={styles.card}>
-          <View style={styles.stockNameView}>
-            <Text style={styles.stockName}>{stockData[stock].name}</Text>
-            <Text style={styles.stockTicker}>
-              {stockData[stock].ticker}-{stockData[stock].country}
-            </Text>
-          </View>
-
-          <Text style={styles.price}>
-            {stockData[stock].currency}
-            {priceData[stock].currentPrice}
-          </Text>
-          <Text style={styles[priceData[stock].stockColor]}>
-            {priceData[stock].priceChange.toFixed(2)}
-            {"("}
-            {priceData[stock].percentage.toFixed(2)}%{")"}
-          </Text>
           <View
             style={{
               display: "flex",
@@ -285,25 +273,31 @@ export default class StockScreen extends React.Component {
               flexDirection: "row",
             }}
           >
-            <View
-              style={{
-                position: "absolute",
-                top: 10,
-                left: 10,
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                shadowColor: "black",
-                shadowOffset: { height: 5 },
-                shadowOpacity: 1,
+            <Image
+              style={styles.image}
+              source={{
+                uri: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
               }}
-            >
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
-                }}
-              />
+            />
+
+            <View style={styles.stockNameView}>
+              <Text style={styles.stockName}>{stockData[stock].name}</Text>
+              <Text style={styles.stockTicker}>
+                {stockData[stock].ticker}-{stockData[stock].country}
+              </Text>
+            </View>
+
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>
+                {stockData[stock].currency}
+                {priceData[stock].currentPrice}
+              </Text>
+
+              <Text style={styles[priceData[stock].stockColor]}>
+                {priceData[stock].priceChange.toFixed(2)}
+                {"("}
+                {priceData[stock].percentage.toFixed(2)}%{")"}
+              </Text>
             </View>
           </View>
           <LineChart
@@ -329,7 +323,7 @@ export default class StockScreen extends React.Component {
               decimalPlaces: 0, // optional, defaults to 2dp
               color: (opacity = 1) => `rgba(${priceData[stock].color}1)`,
               fillShadowGradientOpacity: 1,
-              fillShadowGradient: priceData[stock].stockColor,
+              //  fillShadowGradient: priceData[stock].stockColor,
 
               propsForBackgroundLines: {
                 stroke: "transparent",
@@ -360,6 +354,10 @@ export default class StockScreen extends React.Component {
     return (
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
+          <StatusBar
+            style={styles.statusBar}
+            // backgroundColor="red"
+          />
           <Card style={styles.topCard}>
             <View
               style={{
@@ -402,14 +400,7 @@ export default class StockScreen extends React.Component {
                 alignItems: "center",
                 margin: 10,
               }}
-            >
-              <Button mode="contained">Watch list</Button>
-              <IconButton
-                icon="file-edit-outline"
-                color={Colors.white}
-                size={30}
-              />
-            </View>
+            ></View>
             {listItems}
           </ScrollView>
           <View style={styles.footer}></View>
