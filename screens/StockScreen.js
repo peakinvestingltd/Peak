@@ -4,6 +4,8 @@ import { LineChart } from "react-native-chart-kit";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../css/styles.js";
 
+import navBar from "../components/navBar.js";
+
 import {
   DefaultTheme,
   Card,
@@ -27,7 +29,6 @@ import {
   Linking,
   StatusBar,
 } from "react-native";
-import Spinner from "../components/Spinner";
 
 import * as firebase from "firebase";
 import "firebase/database";
@@ -43,46 +44,43 @@ let to = timestamp.toString();
 
 const apiKey = "c29d3o2ad3ib4ac2prkg";
 
-export default class StockScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    const { navigation } = this.props;
-    this.state = {
-      loaded: [],
-      datePrice: [],
-      dataCandle: [],
-      data: [],
-      stocks: [],
-      candles: [],
-      price: [],
-      funds: 0,
-      stockList: [
-        "AAPL",
-        "TSLA",
-        "GOOG",
-        "FB",
-        "BP",
-        "TWTR",
-        "AMZN",
-        "BAC",
-        "BA",
-        "AXS",
-        "ADCT",
-        "ATR",
-        "ALV",
-        "ALK",
-        "AU",
-        "ASPN",
-        "AAT",
-        "SPOT",
-        "AMC",
-        "NFLX",
-        "PK",
-      ],
-    };
-  }
+export let userBalance = "loading...";
 
-  getBalance() {
+export default function StockScreen(props) {
+  const [justLoaded, setJustLoaded] = useState(true);
+  const [loaded, setLoaded] = useState([]);
+  const [dataPrice, setDataPrice] = useState([]);
+  const [dataCandle, setDataCandle] = useState([]);
+  const [data, setData] = useState([]);
+  const [stocks, setStocks] = useState([]);
+  const [candles, setCandles] = useState([]);
+  const [price, setPrice] = useState([]);
+  const [funds, setFunds] = useState([]);
+  const [stockList, setStockList] = useState([
+    "AAPL",
+    "TSLA",
+    "GOOG",
+    "FB",
+    "BP",
+    "TWTR",
+    "AMZN",
+    "BAC",
+    "BA",
+    "AXS",
+    "ADCT",
+    "ATR",
+    "ALV",
+    "ALK",
+    "AU",
+    "ASPN",
+    "AAT",
+    "SPOT",
+    "AMC",
+    "NFLX",
+    "PK",
+  ]);
+
+  function getBalance() {
     async function adddata(user) {
       const userRef = db
         .collection("users")
@@ -110,22 +108,21 @@ export default class StockScreen extends React.Component {
     }
 
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user.email);
       adddata(user).then((bal) => {
-        this.setState({
-          funds: bal.toFixed(2),
-        });
+        userBalance = bal.toFixed(2);
+        setFunds(bal.toFixed(2));
       });
     });
   }
 
-  callApi(stockList) {
+  function callApi(stockList) {
     let loaded = [];
     let stockData = {
       price: {},
       data: {},
       chart: {},
     };
+
     stockList.forEach((stock) => {
       fetch(`https://finnhub.io/api/v1/quote?symbol=${stock}&token=${apiKey}`)
         .then((response) => response.json())
@@ -202,17 +199,23 @@ export default class StockScreen extends React.Component {
                     exchange: stocksList.exchange,
                     industry: stocksList.finnhubIndustry,
                     desc: stocksList.description,
+                    address: stocksList.address,
+                    city: stocksList.city,
+                    state: stocksList.state,
+                    employeeTotal: stocksList.employeeTotal,
+                    group: stocksList.ggroup,
+                    sector: stocksList.gsector,
+                    marketCap: stocksList.marketCapitalization,
+                    shareOutstanding: stocksList.shareOutstanding,
                   };
                 })
                 .then(() => {
                   loaded.push(stock);
-                  if (this.state.stockList.length == loaded.length) {
-                    this.setState({
-                      price: stockData.price,
-                      candles: stockData.chart,
-                      stocks: stockData.data,
-                      loaded: loaded,
-                    });
+                  if (stockList.length == loaded.length) {
+                    setPrice(stockData.price);
+                    setCandles(stockData.chart);
+                    setData(stockData.data);
+                    setLoaded(loaded);
                   }
                 })
                 .then(() => {})
@@ -231,224 +234,242 @@ export default class StockScreen extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.getBalance();
-    this.callApi(this.state.stockList);
-    console.log(this.props);
+  if (justLoaded) {
+    getBalance();
+    callApi(stockList);
+    setJustLoaded(false);
   }
 
-  render() {
-    const candles = this.state.candles;
-    const stockData = this.state.stocks;
-    const loaded = this.state.loaded;
-    const priceData = this.state.price;
-    const listItems = loaded.map((stock) => (
-      <TouchableOpacity
-        key={stock}
-        onPress={() => {
-          this.props.navigation.navigate("Details", {
-            stock: stock,
-            price: priceData[stock],
-            logo: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
-            name: stockData[stock].name,
-            priceChange: priceData[stock].priceChange.toFixed(2),
-            percentChange: priceData[stock].percentage.toFixed(2),
-            chartData: candles[stock].open,
-            funds: this.state.funds,
-            chartColor: priceData[stock].color,
-            stockColor: priceData[stock].stockColor,
-            desc: stockData[stock].desc,
-            country: stockData[stock].country,
-            color: priceData[stock].stockColor,
-            currency: stockData[stock].currency,
-          });
-        }}
-      >
-        <Card style={styles.card}>
+  const listItems = loaded.map((stock) => (
+    <TouchableOpacity
+      key={stock}
+      onPress={() => {
+        props.navigation.navigate("Details", {
+          stock: stock,
+          price: price[stock],
+          logo: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+          name: data[stock].name,
+          priceChange: price[stock].priceChange.toFixed(2),
+          percentChange: price[stock].percentage.toFixed(2),
+          chartData: candles[stock].open,
+          funds: funds,
+          chartColor: price[stock].color,
+          stockColor: price[stock].stockColor,
+          desc: data[stock].desc,
+          country: data[stock].country,
+          color: price[stock].stockColor,
+          currency: data[stock].currency,
+          industry: data[stock].industry,
+          address: data[stock].address,
+          city: data[stock].city,
+          state: data[stock].state,
+          employeeTotal: data[stock].employeeTotal,
+          group: data[stock].group,
+          sector: data[stock].sector,
+          marketCap: data[stock].marketCap,
+          shareOutstanding: data[stock].shareOutstanding,
+          exchange: data[stock].exchange,
+        });
+      }}
+    >
+      <Card style={styles.card}>
+        <View
+          style={{
+            display: "flex",
+            marginRight: 30,
+            justifyContent: "space-between",
+            flexDirection: "row",
+          }}
+        >
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+            }}
+          />
+
+          <View style={styles.stockNameView}>
+            <Text style={styles.stockName}>{data[stock].name}</Text>
+            <Text style={styles.stockTicker}>
+              {stock}-{data[stock].country}
+            </Text>
+          </View>
+
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>
+              {data[stock].currency}
+              {price[stock].currentPrice}
+            </Text>
+
+            <Text style={styles[price[stock].stockColor]}>
+              {price[stock].priceChange.toFixed(2)}
+              {"("}
+              {price[stock].percentage.toFixed(2)}%{")"}
+            </Text>
+          </View>
+        </View>
+        <LineChart
+          bezier
+          hideLegend={true}
+          segments={1}
+          withHorizontalLabels={false}
+          data={{
+            datasets: [
+              {
+                data: candles[stock].open,
+              },
+            ],
+          }}
+          width={screenWidth - 25} // from react-native
+          height={65}
+          withHorizontalLabels={false}
+          chartConfig={{
+            withDots: false,
+            strokeWidth: 1.5,
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientToOpacity: 0,
+            decimalPlaces: 0, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(${price[stock].color}1)`,
+            fillShadowGradientOpacity: 1,
+            //  fillShadowGradient: priceData[stock].stockColor,
+
+            propsForBackgroundLines: {
+              stroke: "transparent",
+            },
+            propsForDots: {
+              r: "0",
+              strokeWidth: "5",
+              stroke: "#fff",
+            },
+          }}
+          style={{
+            paddingRight: 0,
+            margin: 5,
+            borderRadius: 20,
+            marginRight: 0,
+            bottom: 1,
+            position: "absolute",
+          }}
+        />
+      </Card>
+    </TouchableOpacity>
+  ));
+
+  return (
+    <PaperProvider theme={theme}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar
+          style={styles.statusBar}
+          // backgroundColor="red"
+        />
+        <Card style={styles.topCard}>
           <View
             style={{
-              display: "flex",
-              marginRight: 30,
-              justifyContent: "space-between",
               flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <Image
-              style={styles.image}
-              source={{
-                uri: `https://storage.googleapis.com/iex/api/logos/${stockData[stock].ticker}.png`,
-              }}
+            <IconButton
+              onPress={() => props.navigation.navigate("Chat")}
+              icon="chat-outline"
+              color={Colors.orange500}
+              size={30}
             />
-
-            <View style={styles.stockNameView}>
-              <Text style={styles.stockName}>{stockData[stock].name}</Text>
-              <Text style={styles.stockTicker}>
-                {stockData[stock].ticker}-{stockData[stock].country}
-              </Text>
+            <View>
+              <Title style={styles.titleText}>Portfolio balance</Title>
+              <Button
+                mode="contained"
+                style={{
+                  backgroundColor: Colors.orange500,
+                  borderRadius: 20,
+                }}
+              >
+                £{userBalance}
+              </Button>
             </View>
-
-            <View style={styles.priceContainer}>
-              <Text style={styles.price}>
-                {stockData[stock].currency}
-                {priceData[stock].currentPrice}
-              </Text>
-
-              <Text style={styles[priceData[stock].stockColor]}>
-                {priceData[stock].priceChange.toFixed(2)}
-                {"("}
-                {priceData[stock].percentage.toFixed(2)}%{")"}
-              </Text>
-            </View>
+            <IconButton
+              icon="bell-outline"
+              color={Colors.orange500}
+              size={30}
+            />
           </View>
-          <LineChart
-            bezier
-            hideLegend={true}
-            segments={1}
-            withHorizontalLabels={false}
-            data={{
-              datasets: [
-                {
-                  data: candles[stock].open,
-                },
-              ],
-            }}
-            width={screenWidth - 25} // from react-native
-            height={65}
-            withHorizontalLabels={false}
-            chartConfig={{
-              withDots: false,
-              strokeWidth: 1.5,
-              backgroundGradientFromOpacity: 0,
-              backgroundGradientToOpacity: 0,
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(${priceData[stock].color}1)`,
-              fillShadowGradientOpacity: 1,
-              //  fillShadowGradient: priceData[stock].stockColor,
-
-              propsForBackgroundLines: {
-                stroke: "transparent",
-              },
-              propsForDots: {
-                r: "0",
-                strokeWidth: "5",
-                stroke: "#fff",
-              },
-            }}
-            style={{
-              paddingRight: 0,
-              margin: 5,
-              borderRadius: 20,
-              marginRight: 0,
-              bottom: 1,
-              position: "absolute",
-            }}
-          />
         </Card>
-      </TouchableOpacity>
-    ));
 
-    if (this.state.loaded.length == 0) {
-      return <Spinner />;
-    }
+        <ScrollView style={{ marginTop: 0 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 10,
+            }}
+          ></View>
+          {listItems}
+        </ScrollView>
 
-    return (
-      <PaperProvider theme={theme}>
-        <SafeAreaView style={styles.container}>
-          <StatusBar
-            style={styles.statusBar}
-            // backgroundColor="red"
-          />
-          <Card style={styles.topCard}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                onPress={() => this.props.navigation.navigate("Chat")}
-                icon="chat-outline"
-                color={Colors.orange500}
-                size={30}
-              />
-              <View>
-                <Title style={styles.titleText}>Portfolio balance</Title>
-                <Button
-                  mode="contained"
-                  style={{
-                    backgroundColor: Colors.orange500,
-                    borderRadius: 20,
-                  }}
-                >
-                  £{this.state.funds}
-                </Button>
-              </View>
-              <IconButton
-                icon="bell-outline"
-                color={Colors.orange500}
-                size={30}
-              />
-            </View>
-          </Card>
-
-          <ScrollView style={{ marginTop: 0 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                margin: 10,
-              }}
-            ></View>
-            {listItems}
-          </ScrollView>
-          <View style={styles.footer}></View>
-          <View style={styles.navBar}>
-            <IconButton
-              icon={"chart-line-variant"}
-              color={"#ff7f00"}
-              size={35}
-              style={styles.navButton}
-              onPress={() =>
-                this.props.navigation.navigate("Stock", {
-                  funds: this.state.funds,
-                })
-              }
-            ></IconButton>
-            <IconButton
-              icon={"account"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => this.props.navigation.navigate("Portfolio")}
-            ></IconButton>
-            <IconButton
-              icon={"newspaper"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => this.props.navigation.navigate("News")}
-            ></IconButton>
-            <IconButton
-              icon={"magnify"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => this.props.navigation.navigate("Search")}
-            ></IconButton>
-            <IconButton
-              icon={"menu"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => this.props.navigation.navigate("Home")}
-            ></IconButton>
-          </View>
-        </SafeAreaView>
-      </PaperProvider>
-    );
-  }
+        <View style={styles.footer}></View>
+        {navBar(props, funds)}
+        {/* <View style={styles.navBar}>
+          <IconButton
+            icon={"chart-line-variant"}
+            color={"#ff7f00"}
+            size={35}
+            style={styles.navButton}
+            onPress={() =>
+              props.navigation.navigate("Stock", {
+                funds: funds,
+              })
+            }
+          ></IconButton>
+          <IconButton
+            icon={"account"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() =>
+              props.navigation.navigate("Portfolio", {
+                funds: funds,
+              })
+            }
+          ></IconButton>
+          <IconButton
+            icon={"newspaper"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() =>
+              props.navigation.navigate("News", {
+                funds: funds,
+              })
+            }
+          ></IconButton>
+          <IconButton
+            icon={"magnify"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() =>
+              props.navigation.navigate("Search", {
+                funds: funds,
+              })
+            }
+          ></IconButton>
+          <IconButton
+            icon={"menu"}
+            style={styles.navButton}
+            size={35}
+            color={"white"}
+            onPress={() =>
+              props.navigation.navigate("Home", {
+                funds: funds,
+              })
+            }
+          ></IconButton>
+        </View> */}
+      </SafeAreaView>
+    </PaperProvider>
+  );
 }
 
 const theme = {

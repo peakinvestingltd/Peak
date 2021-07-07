@@ -9,6 +9,7 @@ const cardBlue = "#1b2855";
 const orange = "#ff7f00";
 const gray = "#8d93a3";
 const red = "#d20c0d";
+const green = "#1D9440";
 
 const screenWidth = Dimensions.get("window").width;
 // const primaryColor = "#151D3E";
@@ -53,6 +54,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 20,
+    borderTopColor: orange,
+    borderTopWidth: 2,
   },
   navButton: {
     width: "20%",
@@ -156,15 +159,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   stockName: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: font,
     fontWeight: "bold",
-    color: "teal",
+    color: "white",
   },
   stockTicker: {
-    color: fontColor,
+    color: gray,
     fontFamily: font,
-    letterSpacing: 2,
+    letterSpacing: 1,
     fontWeight: "normal",
     textTransform: "uppercase",
     fontSize: 10,
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 0,
     position: "absolute",
-    right: 5,
+    right: -20,
     height: 60,
   },
   price: {
@@ -188,6 +191,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: fontColor,
     fontFamily: font,
+    alignSelf: "flex-end",
   },
   percentage: {
     fontSize: 12,
@@ -195,7 +199,7 @@ const styles = StyleSheet.create({
   },
   green: {
     fontSize: 12,
-    color: "#95ff95",
+    color: green,
     fontWeight: "bold",
     alignSelf: "flex-end",
   },
@@ -648,19 +652,37 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
   },
+  listText1: {
+    color: "white",
+    opacity: 1,
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 20,
+    marginBottom: 10,
+    letterSpacing: 0,
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  listText2: {
+    color: "white",
+    opacity: 0.75,
+    marginTop: 10,
+    marginRight: 20,
+    marginLeft: 10,
+    marginBottom: 10,
+    letterSpacing: 0,
+    fontSize: 16,
+    lineHeight: 20,
+  },
   //trade
-  tradeTop: {
+  defaultTop: {
     marginTop: 10,
     marginLeft: 15,
     marginRight: 15,
-    height: 50,
     width: screenWidth - 30,
     backgroundColor: secondaryColor,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    resizeMode: "contain",
   },
   selectedBuyButton: {
     backgroundColor: secondaryColor,
@@ -700,12 +722,21 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 14,
   },
-  tradeDefaultView: {
+  defaultView: {
     marginTop: 2,
     marginLeft: 15,
     marginRight: 15,
     width: screenWidth - 30,
     backgroundColor: secondaryColor,
+  },
+  defaultCard: {
+    marginTop: 5,
+    marginLeft: 15,
+    marginRight: 15,
+    marginBottom: 2,
+    width: screenWidth - 30,
+    backgroundColor: secondaryColor,
+    borderRadius: 10,
   },
   defaultInnerView: {
     flexDirection: "row",
@@ -802,6 +833,21 @@ const styles = StyleSheet.create({
     marginTop: 30,
     borderWidth: 2,
     borderColor: orange,
+  },
+  portfolioInvested: {
+    height: 70,
+    width: "48%",
+    backgroundColor: secondaryColor,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+
+  portfolioChartHolder: {
+    backgroundColor: secondaryColor,
+    paddingBottom: 10,
+    margin: 15,
+    borderRadius: 10,
   },
 });
 

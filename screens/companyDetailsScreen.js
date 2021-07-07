@@ -96,7 +96,7 @@ export default function DetailsScreen(props) {
   }
 
   const params = props.route.params;
-  // console.log(params);
+  console.log(params);
   return (
     <SafeAreaView style={styles.container}>
       <Card style={styles.topCard}>
@@ -135,18 +135,37 @@ export default function DetailsScreen(props) {
         </Button>
 
         <View style={styles.cardTop}>
-          <View>
+          <View
+            style={{
+              display: "flex",
+              marginRight: 30,
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
             <Image
               style={styles.image}
-              source={{ uri: props.route.params.logo }}
+              source={{
+                uri: props.route.params.logo,
+              }}
             />
+
+            <View style={styles.stockNameView}>
+              <Text style={styles.stockName}>{props.route.params.name}</Text>
+              <Text style={styles.stockTicker}>
+                {props.route.params.ticker}-{props.route.params.country}
+              </Text>
+            </View>
           </View>
-          <View style={{ marginRight: 10, justifyContent: "center" }}>
-            <Text style={styles.priceInfo}>
-              ${props.route.params.price.currentPrice}
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>
+              {props.route.params.currency}
+              {props.route.params.price.currentPrice}
             </Text>
-            <Text style={styles.percentInfo}>
-              {props.route.params.price.percentage.toFixed(2)}%
+            <Text style={styles[props.route.params.color]}>
+              {props.route.params.priceChange}
+              {"("}
+              {props.route.params.price.percentage.toFixed(2)}%{")"}
             </Text>
           </View>
         </View>
@@ -247,7 +266,7 @@ export default function DetailsScreen(props) {
                 logo: props.route.params.logo,
                 name: props.route.params.name,
                 priceChange: props.route.params.priceChange,
-                percentage: props.route.params.percentage,
+                percentage: props.route.params.price.percentage.toFixed(2),
                 ticker: props.route.params.stock,
                 funds: props.route.params.funds,
                 country: props.route.params.country,
@@ -270,6 +289,70 @@ export default function DetailsScreen(props) {
             Add to List
           </Button>
         </View>
+
+        <View style={styles.infoCardTop}>
+          <Text style={styles.infoTopText}>Info</Text>
+        </View>
+        <View style={styles.infoContents}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Your shares</Text>
+            <Text style={styles.listText2}>{ownedShares}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Name</Text>
+            <Text style={styles.listText2}>{params.name}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Total employees</Text>
+            <Text style={styles.listText2}>
+              {Math.round(params.employeeTotal)}
+            </Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Industry</Text>
+            <Text style={styles.listText2}>{params.industry}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>groupe</Text>
+            <Text style={styles.listText2}>{params.group}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>sector</Text>
+            <Text style={styles.listText2}>{params.sector}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Market cap</Text>
+            <Text style={styles.listText2}>{params.marketCap}</Text>
+          </View>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Shares outstanding</Text>
+            <Text style={styles.listText2}>{params.shareOutstanding}</Text>
+          </View>
+        </View>
+
         <View style={styles.infoCardTop}>
           <Text style={styles.infoTopText}>Company Description</Text>
         </View>

@@ -17,6 +17,7 @@ import {
   Text,
   View,
   Image,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
@@ -33,7 +34,6 @@ import {
   Title,
   Provider as PaperProvider,
 } from "react-native-paper";
-import { ScrollView } from "react-native-gesture-handler";
 import { Value } from "react-native-reanimated";
 import { ThemeConsumer } from "react-native-elements";
 
@@ -105,120 +105,245 @@ export default function ReviewScreen(props) {
           <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
         </View>
       </Card>
-
-      <Button
-        style={styles.pageButton}
-        onPress={() => props.navigation.goBack()}
-      >
-        <Text style={styles.pageButtonText}>&lt; Review Order</Text>
-      </Button>
-      <Card style={styles.newsCard}>
-        <Text style={styles.titleText}>{review.stockName}</Text>
-        <View style={styles.box1}>
-          <View style={styles.rowSpaced}>
-            <Text style={styles.text}>price per share</Text>
-            <Text style={styles.text}>{review.price}</Text>
+      <ScrollView>
+        <Button
+          style={styles.pageButton}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text style={styles.pageButtonText}>&lt; Review Order</Text>
+        </Button>
+        <View style={styles.defaultTop}>
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "row",
+              marginTop: 10,
+            }}
+          >
+            <Image
+              style={styles.image}
+              source={{
+                uri: props.route.params.logo,
+              }}
+            />
           </View>
 
-          <View style={styles.rowSpaced}>
-            <Text style={styles.text}>Commission</Text>
-            <Text style={styles.text}>0%</Text>
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "row",
+            }}
+          >
+            <Text style={styles.stockName}>{review.stockName}</Text>
           </View>
 
-          <View style={styles.rowSpaced}>
-            <Text style={styles.text}>Amount of shares</Text>
-            <Text style={styles.text}>{review.amount}</Text>
-          </View>
-
-          <View style={styles.rowSpaced}>
-            <Text style={styles.text}>Total cost</Text>
-            <Text style={styles.text}>{review.totalPrice}</Text>
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "row",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={styles.stockTicker}>
+              {ticker}-STOCK-{review.country}
+            </Text>
           </View>
         </View>
-      </Card>
-      <Button
-        style={styles.button}
-        onPress={() => {
-          firebase.auth().onAuthStateChanged((user) => {
-            console.log(type);
 
-            if (type == "Bought") {
-              db.collection("users")
-                .doc(user.uid)
-                .collection("funds")
-                .doc("practiceBalance")
-                .set({
-                  amount: Number(balance) - Number(totalCost),
-                });
+        <View style={styles.defaultView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Order Type</Text>
+            <Text style={styles.listText2}>{review.orderType}</Text>
+          </View>
+        </View>
 
-              db.collection("users")
-                .doc(user.uid)
-                .collection("practiceInvestments")
-                .doc(ticker)
-                .set({
-                  amount: Number(ownedShares) + Number(amount),
-                  price: price,
-                });
-            } else {
-              db.collection("users")
-                .doc(user.uid)
-                .collection("funds")
-                .doc("practiceBalance")
-                .set({
-                  amount: Number(balance) + Number(totalCost),
-                });
+        <View style={styles.defaultView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Number of Shares</Text>
+            <Text style={styles.listText2}>{review.amount}</Text>
+          </View>
+        </View>
 
-              db.collection("users")
-                .doc(user.uid)
-                .collection("practiceInvestments")
-                .doc(ticker)
-                .set({
-                  amount: Number(ownedShares) - Number(amount),
-                  price: price,
-                });
+        <View style={styles.defaultView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Value</Text>
+            <Text style={styles.listText2}>{review.totalPrice}</Text>
+          </View>
+        </View>
 
-              db.collection("users")
-                .doc(user.uid)
-                .collection("history")
-                .doc(`${date}`)
-                .set({
-                  type: type,
-                  stock: ticker,
-                  cost: strAmount,
-                  date: fullDate,
-                  amount: amount,
-                  timestamp: date,
-                  logo: logo,
-                });
-            }
+        <View style={styles.defaultView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Commision</Text>
+            <Text style={styles.listText2}>0%</Text>
+          </View>
+        </View>
 
-            props.navigation.navigate("Stock");
-            console(props.navigation);
-          });
-        }}
-      >
-        <Text style={styles.buttonText}>Confirm</Text>
-      </Button>
-      <Button
-        style={styles.button}
-        onPress={() => {
-          console.log(firebase.auth().uid);
-          console.log(uid);
+        <View style={styles.defaultView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>FX fee</Text>
+            <Text style={styles.listText2}>0%</Text>
+          </View>
+        </View>
+        <View style={styles.defaultEndView}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={styles.listText1}>Total</Text>
+            <Text style={styles.listText2}>{review.totalPrice}</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginRight: 15,
+            marginLeft: 15,
+            marginTop: 20,
+          }}
+        >
+          <Button
+            style={styles.tradeReviewButton}
+            onPress={() => {
+              firebase.auth().onAuthStateChanged((user) => {
+                console.log(type);
 
-          firebase.auth().onAuthStateChanged((user) => {
-            console.log(user.email);
-            db.collection("users")
-              .doc(user.uid)
-              .collection("funds")
-              .doc("practiceBalance")
-              .set({
-                amount: 60000,
+                if (type == "Bought") {
+                  db.collection("users")
+                    .doc(user.uid)
+                    .collection("funds")
+                    .doc("practiceBalance")
+                    .set({
+                      amount: Number(balance) - Number(totalCost),
+                    });
+
+                  db.collection("users")
+                    .doc(user.uid)
+                    .collection("practiceInvestments")
+                    .doc(ticker)
+                    .set({
+                      amount: Number(ownedShares) + Number(amount),
+                      price: price,
+                      investment: (
+                        (Number(ownedShares) + Number(amount)) *
+                        Number(price)
+                      ).toFixed(2),
+                      ticker: ticker,
+                      logo: logo,
+                    });
+                } else {
+                  db.collection("users")
+                    .doc(user.uid)
+                    .collection("funds")
+                    .doc("practiceBalance")
+                    .set({
+                      amount: Number(balance) + Number(totalCost),
+                    });
+
+                  db.collection("users")
+                    .doc(user.uid)
+                    .collection("history")
+                    .doc(`${date}`)
+                    .set({
+                      type: type,
+                      stock: ticker,
+                      cost: strAmount,
+                      date: fullDate,
+                      amount: amount,
+                      timestamp: date,
+                      logo: logo,
+                    });
+
+                  if (Number(ownedShares) - Number(amount) == 0) {
+                    db.collection("users")
+                      .doc(user.uid)
+                      .collection("practiceInvestments")
+                      .doc(ticker)
+                      .delete()
+                      .then(() => console.log("user deleted"));
+                  } else {
+                    console.log(Number(ownedShares) - Number(amount));
+                    db.collection("users")
+                      .doc(user.uid)
+                      .collection("practiceInvestments")
+                      .doc(ticker)
+                      .set({
+                        amount: Number(ownedShares) - Number(amount),
+                        price: price,
+                        investment:
+                          (Number(ownedShares) - Number(amount)) *
+                          Number(price).toFixed(2),
+                        ticker: ticker,
+                        logo: logo,
+                      });
+                  }
+                }
+
+                props.navigation.navigate("Stock");
+                console(props.navigation);
               });
-          });
-        }}
-      >
-        <Text style={styles.buttonText}>test</Text>
-      </Button>
+            }}
+          >
+            <Text style={styles.buttonText}>Confirm</Text>
+          </Button>
+          <Button
+            style={styles.tradeCancleButton}
+            onPress={() => {
+              props.navigation.goBack();
+            }}
+          >
+            <Text style={styles.orangeButtonText}>Cancel</Text>
+          </Button>
+        </View>
+      </ScrollView>
+
+      <View style={styles.footer}></View>
+      <View style={styles.navBar}>
+        <IconButton
+          icon={"chart-line-variant"}
+          color={"white"}
+          size={35}
+          style={styles.navButton}
+          onPress={() => props.navigation.navigate("Stock")}
+        ></IconButton>
+        <IconButton
+          icon={"account"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Portfolio")}
+        ></IconButton>
+        <IconButton
+          icon={"newspaper"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("News")}
+        ></IconButton>
+        <IconButton
+          icon={"magnify"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Search")}
+        ></IconButton>
+        <IconButton
+          icon={"menu"}
+          style={styles.navButton}
+          size={35}
+          color={"white"}
+          onPress={() => props.navigation.navigate("Home")}
+        ></IconButton>
+      </View>
     </SafeAreaView>
   );
 }
