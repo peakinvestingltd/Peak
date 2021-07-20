@@ -20,7 +20,17 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-
+import header from "../../components/header";
+import navBar from "../../components/navBar";
+import {
+  bankTransferIn,
+  getToken,
+  getUserId,
+  getUserInfo,
+  getAccountInfo,
+  createOrder,
+  getSecclStock,
+} from "../../utils/functions";
 const navBarColor = "black";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
@@ -28,85 +38,113 @@ import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../../css/styles.js";
 
-export default function SettingPrivacyScreen({ navigation }) {
+export default function SettingPrivacyScreen(props) {
   useStatusBar("light-content");
 
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+        {header()}
+        <ScrollView>
+          <Button
+            style={styles.pageButton}
+            onPress={() => props.navigation.goBack()}
+          >
+            <Text style={styles.pageButtonText}>&lt; Settings and Privacy</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              console.log("yay");
+              getToken().then((token) => {
+                console.log(token);
+                console.log("tokk");
+                bankTransferIn(50000, token);
+              });
             }}
           >
-            <IconButton
-              onPress={() => this.props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button mode="contained" style={styles.headerBall}>
-                <Text style={{ color: "white" }}>£add funds</Text>
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-          </View>
-        </Card>
-        {/* --------------header------------------------------ */}
-        <ScrollView>
-          <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.pageButtonText}>&lt; Settings and Privacy</Text>
+            <Text style={styles.pageButtonText}>add 50000 to account</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              console.log("yay");
+              getToken().then((token) => {
+                console.log(token);
+                console.log("tokk");
+                getUserId().then((user) => {
+                  getUserInfo(user.uid).then((doc) => {
+                    let data = doc.data();
+                    getAccountInfo(token, data.GIA);
+                  });
+                });
+                // createOrder(token, "2921C", 2);
+              });
+            }}
+          >
+            <Text style={styles.pageButtonText}>get account info</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              console.log("yay");
+              getToken().then((token) => {
+                createOrder(token, "2921C", 2);
+              });
+            }}
+          >
+            <Text style={styles.pageButtonText}>buy stock</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              console.log("yay");
+              getToken().then((token) => {
+                console.log(token);
+                console.log("tokk");
+
+                fetch(
+                  "https://pfolio-api-staging.seccl.tech/portfoliotransaction/PKINV?transactionType=Order",
+                  {
+                    method: "GET",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                      "api-token": token,
+                    },
+                  }
+                )
+                  .then((response) => response.json())
+                  .then((res) => {
+                    console.log(res);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              });
+            }}
+          >
+            <Text style={styles.pageButtonText}>retrive orders</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              let isin = "GB0031215220";
+              console.log("yay");
+              getToken().then((token) => {
+                console.log(token);
+                console.log("tokk");
+
+                getSecclStock(isin, token);
+              });
+            }}
+          >
+            <Text style={styles.pageButtonText}>get stock id</Text>
           </Button>
         </ScrollView>
 
         <View style={styles.footer}></View>
-        <View style={styles.navBar}>
-          <IconButton
-            icon={"chart-line-variant"}
-            color={"white"}
-            size={35}
-            style={styles.navButton}
-            onPress={() => navigation.navigate("Stock")}
-          ></IconButton>
-          <IconButton
-            icon={"account"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Portfolio")}
-          ></IconButton>
-          <IconButton
-            icon={"newspaper"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("News")}
-          ></IconButton>
-          <IconButton
-            icon={"magnify"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Search")}
-          ></IconButton>
-          <IconButton
-            icon={"menu"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Home")}
-          ></IconButton>
-        </View>
+        {navBar(props, props.route.params.funds, "menu")}
       </SafeAreaView>
     </PaperProvider>
   );

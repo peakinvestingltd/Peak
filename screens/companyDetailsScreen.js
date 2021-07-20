@@ -19,7 +19,8 @@ import { LineChart } from "react-native-chart-kit";
 import { Separator } from "native-base";
 import { AccordionList } from "accordion-collapse-react-native";
 import { styles } from "../css/styles.js";
-
+import header from "../components/header.js";
+import navBar from "../components/navBar.js";
 const screenWidth = Dimensions.get("window").width;
 
 let timestamp = Math.round(Date.now() / 1000);
@@ -99,33 +100,7 @@ export default function DetailsScreen(props) {
   console.log(params);
   return (
     <SafeAreaView style={styles.container}>
-      <Card style={styles.topCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            // alignItems: "center",
-          }}
-        >
-          <IconButton
-            onPress={() => props.navigation.navigate("Chat")}
-            icon="chat-outline"
-            color={Colors.orange500}
-            size={30}
-          />
-          <View>
-            <Title style={styles.titleText}>Portfolio balance</Title>
-            <Button
-              mode="contained"
-              style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
-            >
-              £{props.route.params.funds}
-            </Button>
-          </View>
-          <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
-        </View>
-      </Card>
-
+      {header()}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -359,131 +334,10 @@ export default function DetailsScreen(props) {
         <View style={styles.infoContents}>
           <Text style={styles.infoText}>{props.route.params.desc}</Text>
         </View>
-        {/* <AccordionList
-          style={{ margin: 20, borderRadius: 20 }}
-          list={state.list}
-          header={_head}
-          body={_body}
-          keyExtractor={(item) => `${item.id}`}
-        /> */}
       </ScrollView>
 
       <View style={styles.footer}></View>
-      <View style={styles.navBar}>
-        <IconButton
-          icon={"chart-line-variant"}
-          color={"white"}
-          size={35}
-          style={styles.navButton}
-          onPress={() => props.navigation.navigate("Stock")}
-        ></IconButton>
-        <IconButton
-          icon={"account"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Portfolio")}
-        ></IconButton>
-        <IconButton
-          icon={"newspaper"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("News")}
-        ></IconButton>
-        <IconButton
-          icon={"magnify"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Search")}
-        ></IconButton>
-        <IconButton
-          icon={"menu"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Home")}
-        ></IconButton>
-      </View>
+      {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
 }
-
-// constructor(props) {
-//   super(props);
-//   state = {
-//     candles: {},
-//     list: [
-//       {
-//         id: 1,
-//         title: "Your Investments",
-//         body: "React native Accordion/Collapse component, very good to use in toggles & show/hide content",
-//       },
-//       {
-//         id: 2,
-//         title: "Company info",
-//         body: props.route.params.desc,
-//       },
-//       {
-//         id: 3,
-//         title: "Company news",
-//         body: props.route.params.desc,
-//       },
-//       {
-//         id: 4,
-//         title: "History",
-//         body: props.route.params.desc,
-//       },
-//     ],
-//   };
-// }
-
-// _head(item) {
-//   return (
-//     <Separator
-//       style={{
-//         alignItems: "flex-start",
-//         backgroundColor: "transparent",
-//         fontFamily: "normal",
-//       }}
-//     >
-//       <View
-//         style={{
-//           flexDirection: "row",
-//           justifyContent: "space-around",
-//           alignItems: "center",
-//         }}
-//       >
-//         <Text
-//           style={{
-//             fontSize: 18,
-//             fontFamily: "normal",
-//             marginLeft: 20,
-//             color: "whitesmoke",
-//           }}
-//         >
-//           {item.title}
-//         </Text>
-//         <IconButton
-//           style={{ position: "absolute", left: screenWidth - 100 }}
-//           icon="chevron-right"
-//           color={Colors.white}
-//           size={20}
-//         />
-//       </View>
-//     </Separator>
-//   );
-// }
-
-// _body(item) {
-//   return (
-//     <View style={{ padding: 10 }}>
-//       <Text
-//         style={{ color: "whitesmoke", fontSize: 12, fontFamily: "Futura" }}
-//       >
-//         {item.body}
-//       </Text>
-//     </View>
-//   );
-// }

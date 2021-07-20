@@ -20,6 +20,7 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
+import navBar from "../components/navBar";
 
 const navBarColor = "black";
 
@@ -31,7 +32,7 @@ import { logout, user } from "../components/Firebase/firebase";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../css/styles.js";
 
-export default function MenuScreen({ navigation }) {
+export default function MenuScreen(props) {
   useStatusBar("light-content");
 
   async function handleSignOut() {
@@ -55,7 +56,7 @@ export default function MenuScreen({ navigation }) {
             }}
           >
             <IconButton
-              onPress={() => this.props.navigation.navigate("Chat")}
+              onPress={() => props.navigation.navigate("Chat")}
               icon="chat-outline"
               color={Colors.orange500}
               size={30}
@@ -86,7 +87,7 @@ export default function MenuScreen({ navigation }) {
 
           <Button
             style={styles.button}
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => props.navigation.navigate("Profile")}
           >
             <Text style={styles.buttonText}>View Profille</Text>
           </Button>
@@ -95,7 +96,9 @@ export default function MenuScreen({ navigation }) {
               color="white"
               style={styles.settingsButtonTop}
               onPress={() => {
-                navigation.navigate("History");
+                props.navigation.navigate("History", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               History
@@ -103,7 +106,7 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButton}
               onPress={() => {
-                navigation.navigate("NotificationSettings");
+                props.navigation.navigate("NotificationSettings");
               }}
             >
               Notifacation Settings
@@ -111,7 +114,7 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButton}
               onPress={() => {
-                navigation.navigate("ManageFunds");
+                props.navigation.navigate("ManageFunds");
               }}
             >
               Manage Funds
@@ -119,7 +122,7 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButton}
               onPress={() => {
-                navigation.navigate("InviteFriends");
+                props.navigation.navigate("InviteFriends");
               }}
             >
               Invite Friends
@@ -127,7 +130,7 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButtonBottom}
               onPress={() => {
-                navigation.navigate("PeakStore");
+                props.navigation.navigate("PeakStore");
               }}
             >
               Peak Store
@@ -137,7 +140,9 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButtonTop}
               onPress={() => {
-                navigation.navigate("SettingPrivacy");
+                props.navigation.navigate("SettingPrivacy", {
+                  funds: 1000,
+                });
               }}
             >
               Settings and Privacy
@@ -146,7 +151,7 @@ export default function MenuScreen({ navigation }) {
             <Button
               style={styles.settingsButtonBottom}
               onPress={() => {
-                navigation.navigate("HelpCenter");
+                props.navigation.navigate("HelpCenter");
               }}
             >
               Help Center
@@ -160,43 +165,7 @@ export default function MenuScreen({ navigation }) {
         </ScrollView>
 
         <View style={styles.footer}></View>
-        <View style={styles.navBar}>
-          <IconButton
-            icon={"chart-line-variant"}
-            color={"white"}
-            size={35}
-            style={styles.navButton}
-            onPress={() => navigation.navigate("Stock")}
-          ></IconButton>
-          <IconButton
-            icon={"account"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Portfolio")}
-          ></IconButton>
-          <IconButton
-            icon={"newspaper"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("News")}
-          ></IconButton>
-          <IconButton
-            icon={"magnify"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Search")}
-          ></IconButton>
-          <IconButton
-            icon={"menu"}
-            style={styles.navButton}
-            size={35}
-            color={"#ff7f00"}
-            onPress={() => navigation.navigate("Home")}
-          ></IconButton>
-        </View>
+        {navBar(props, props.route.params.funds, "menu")}
       </SafeAreaView>
     </PaperProvider>
   );

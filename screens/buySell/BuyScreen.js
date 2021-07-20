@@ -23,9 +23,8 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 import { styles } from "../../css/styles.js";
-
-import { Value } from "react-native-reanimated";
-import { ThemeConsumer } from "react-native-elements";
+import header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -60,27 +59,7 @@ export default function BuyScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Card style={styles.topCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <IconButton icon="chat-outline" color={Colors.orange500} size={30} />
-          <View>
-            <Title style={styles.titleText}>Portfolio Balance</Title>
-            <Button
-              mode="contained"
-              style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
-            >
-              £{currentFunds}
-            </Button>
-          </View>
-          <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
-        </View>
-      </Card>
+      {header()}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -212,22 +191,24 @@ export default function BuyScreen(props) {
           <Button
             style={styles.tradeReviewButton}
             onPress={() => {
-              let total = count * price;
-              props.navigation.navigate("Review", {
-                price: price,
-                amount: count,
-                totalPrice: total.toFixed(2),
-                stockName: stockName,
-                funds: currentFunds,
-                logo: props.route.params.logo,
-                ticker: ticker,
-                balance: currentFunds,
-                type: type,
-                ownedShares: ownedShares,
-                ticker: ticker,
-                country: params.country,
-                orderType: orderType,
-              });
+              if (count != 0) {
+                let total = count * price;
+                props.navigation.navigate("Review", {
+                  price: price,
+                  amount: count,
+                  totalPrice: total.toFixed(2),
+                  stockName: stockName,
+                  funds: currentFunds,
+                  logo: props.route.params.logo,
+                  ticker: ticker,
+                  balance: currentFunds,
+                  type: type,
+                  ownedShares: ownedShares,
+                  ticker: ticker,
+                  country: params.country,
+                  orderType: orderType,
+                });
+              }
             }}
           >
             <Text style={styles.buttonText}>Review Order</Text>
@@ -244,43 +225,7 @@ export default function BuyScreen(props) {
       </ScrollView>
 
       <View style={styles.footer}></View>
-      <View style={styles.navBar}>
-        <IconButton
-          icon={"chart-line-variant"}
-          color={"white"}
-          size={35}
-          style={styles.navButton}
-          onPress={() => props.navigation.navigate("Stock")}
-        ></IconButton>
-        <IconButton
-          icon={"account"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Portfolio")}
-        ></IconButton>
-        <IconButton
-          icon={"newspaper"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("News")}
-        ></IconButton>
-        <IconButton
-          icon={"magnify"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Search")}
-        ></IconButton>
-        <IconButton
-          icon={"menu"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Home")}
-        ></IconButton>
-      </View>
+      {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
 }

@@ -27,9 +27,9 @@ export default function Routes() {
     return unsubscribeAuth;
   }, []);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
   return (
     <NavigationContainer theme={navigationTheme}>

@@ -1,206 +1,371 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
-import { Text, LinearProgress } from "react-native-elements";
-import { CheckBox } from "react-native-elements";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  ScrollView,
+  Image,
+} from "react-native";
+import { IconButton, Colors, Button } from "react-native-paper";
+import { styles } from "../css/styles.js";
+import DropDownPicker from "react-native-dropdown-picker";
+import Logo from "../assets/Peak-App-Logo.svg";
 import { registerWithEmail } from "../components/Firebase/firebase";
 
-// Stylesheets
-import { Sizes } from "../css/size";
+//-------------firebase-------------
+import * as firebase from "firebase";
+import "firebase/database";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
+const db = firebase.firestore();
+//-------------firebase-------------
 
-// Components
-import SafeViewCentered from "../components/SafeViewCentered";
-import Form from "../components/Forms/Form";
-import FormField from "../components/Forms/FormField";
-import ActionButton from "../components/Forms/ActionButton";
-import FormErrorMessage from "../components/Forms/FormErrorMessage";
-import FormButton from "../components/Forms/FormButton";
-
-// Images
-import Logo from "../assets/Peak-App-Logo.svg";
-
-export default function RegisterScreen({ navigation }) {
-  const [passwordVisibility, setPasswordVisibility] = useState(true);
-  const [checked, setChecked] = React.useState(false);
+export default function RegisterScreen2(props) {
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState(" ");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [registerError, setRegisterError] = useState("");
+  const [emailStyle, setEmailStyle] = useState(styles.noWarning);
+  const [passwordStyle, setPasswordStyle] = useState(styles.noWarning);
+  const [password2Style, setPassword2Style] = useState(styles.noWarning);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSubmit(vaules) {
-    const { email, password } = vaules;
+  async function handleSubmit(email, password) {
     try {
       await registerWithEmail(email, password).then(() => {
-        props.navigation.navigate("Register2");
+        props.navigation.navigate("Register2", {
+          phone: phone,
+        });
       });
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error.message);
+      setEmailStyle(styles.warning);
+    }
+  }
+
+  function nextButtonPressed() {
+    let re = /^(?=.*\d)(?=.*[!-@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (password === password2 && re.test(password)) {
+      handleSubmit(email, password);
+      console.log("passed");
+    } else {
+      console.log("fail");
     }
   }
 
   return (
-    <SafeViewCentered style={{ backgroundColor: "#172040" }}>
-      <View style={internal_styles.imageContainer}>
-        <Logo />
-      </View>
-      <LinearProgress
-        color="#FF8001"
-        value={0.2}
-        variant={"determinate"}
-        trackColor="#787D92"
-        style={{ width: "80%", alignSelf: "center", marginTop: "5%" }}
-      />
-      <View style={internal_styles.formContainer}>
-        <Text h3 style={internal_styles.screenTitle}>
-          Sign Up
-        </Text>
-        <Form
-          initialValues={{
-            username: "",
-            email: "",
-            contact: "",
-            password: "",
-            confirmPassword: "",
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <View>
+          <View>
+            <Image
+              style={{
+                height: ScreenWidth / 3,
+                width: "33%",
+                marginTop: 40,
+                alignSelf: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../assets/newLogo.png")}
+            />
+            <Image
+              style={{
+                height: ScreenWidth / 3,
+                width: "50%",
+
+                marginBottom: 0,
+                alignSelf: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../assets/Logotext.png")}
+            />
+          </View>
+        </View>
+
+        <View>
+          <View style={styles.loadBar}>
+            <View style={styles.loadBar2Compleated}></View>
+          </View>
+          <View style={styles.signupCard}>
+            <Text style={styles.head1}>
+              Sign Up <Text style={styles.head2}>| Step 1 of 5</Text>
+            </Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Email*"
+              keyboardType="email-address"
+              onChangeText={(val) => setEmail(val)}
+            ></TextInput>
+            <Text style={emailStyle}>{errorMessage}</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="phone number"
+              keyboardType="phone-pad"
+              onChangeText={(val) => setPhone(val)}
+            ></TextInput>
+
+            <Text style={styles.noWarning}>.</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Password*"
+              secureTextEntry={true}
+              onChangeText={(val) => setPassword(val)}
+            ></TextInput>
+            <Text style={passwordStyle}>please input password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Confirm password*"
+              secureTextEntry={true}
+              onChangeText={(val) => setPassword2(val)}
+            ></TextInput>
+            <Text style={styles.noWarning}>passwords do not match</Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginBottom: 20,
           }}
-          onSubmit={(values) => handleSubmit(values)}
         >
-          <FormField
-            name="username"
-            autoCapitalize="none"
-            placeholder="Username"
-            autoFocus={true}
-            style={{ color: "white", height: 15 }}
-          />
-
-          <FormField
-            name="email"
-            placeholder="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            style={{ color: "white", height: 15 }}
-          />
-
-          <FormField
-            name="contact"
-            placeholder="Phone Number"
-            style={{ color: "white", height: 15 }}
-          />
-
-          <FormField
-            name="password"
-            placeholder="Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={passwordVisibility}
-            textContentType="password"
-            style={{ color: "white", height: 15 }}
-          />
-
-          <FormField
-            name="confirmPassword"
-            placeholder="Confirm password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={passwordVisibility}
-            textContentType="password"
-            style={{ color: "white", height: 15 }}
-          />
-
-          <CheckBox
-            Component={TouchableWithoutFeedback}
-            containerStyle={{
-              backgroundColor: "#1B2754",
-              borderColor: "#1B2754",
+          <Button
+            style={styles.buttonReg}
+            title="Next"
+            onPress={() => {
+              nextButtonPressed();
             }}
-            checked={checked}
-            checkedColor={"#FF8001"}
-            uncheckedColor={"#FF8001"}
-            title={
-              <Text
-                style={{
-                  backgroundColor: "#1B2754",
-                  color: "white",
-                  width: "94%",
-                  marginVertical: "2%",
-                }}
-              >
-                By signing up you accept the
-                <Text style={internal_styles.hyperlinkText}>
-                  {" "}
-                  Terms of Service
-                </Text>{" "}
-                and
-                <Text style={internal_styles.hyperlinkText}>
-                  {" "}
-                  Privacy Policy
-                </Text>
-              </Text>
-            }
-            onIconPress={() => {
-              setChecked(!checked);
-            }}
-          />
-
-          <FormButton
-            buttonStyles={internal_styles.actionButton}
-            textStyles={internal_styles.actionButtonText}
-            title={"Sign Up"}
-            // onPress={() => {
-            //   navigation.navigate("Register2");
-            // }}
-          />
-          {<FormErrorMessage error={registerError} visible={true} />}
-        </Form>
-        <Text
-          style={{ color: "white", textAlign: "center", marginVertical: "5%" }}
-        >
-          Already have an account?
-          <Text
-            style={internal_styles.hyperlinkText}
-            onPress={() => navigation.navigate("Login")}
           >
-            {" "}
-            Sign In
-          </Text>
-        </Text>
-      </View>
-    </SafeViewCentered>
+            <Text style={styles.buttonText}>Next</Text>
+          </Button>
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "row",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={styles.bottomSubText}>
+              Already hane an account?{" "}
+              <Text style={{ color: "#ff7f00" }}>Sign In</Text>
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-const internal_styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    height: "30%",
-    alignItems: "center",
-    marginBottom: "2%",
-  },
-  formContainer: {
-    flex: 1,
-    marginTop: "5%",
-    marginHorizontal: "3%",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    padding: "2%",
-    backgroundColor: "#1B2754",
-  },
-  screenTitle: {
-    color: "white",
-    paddingLeft: "1%",
-  },
-  hyperlinkText: {
-    color: "#FF8001",
-    fontWeight: "bold",
-  },
-  actionButton: {
-    ...Sizes.medium,
-    height: 50,
-    borderRadius: 10,
-    marginHorizontal: "25%",
-    marginTop: "5%",
-    backgroundColor: "#FF8001",
-  },
-  actionButtonText: {
-    color: "white",
-  },
-});
+// import React, { useState } from "react";
+// import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
+// import { Text, LinearProgress } from "react-native-elements";
+// import { CheckBox } from "react-native-elements";
+// import { registerWithEmail } from "../components/Firebase/firebase";
+
+// // Stylesheets
+// import { Sizes } from "../css/size";
+
+// // Components
+// import SafeViewCentered from "../components/SafeViewCentered";
+// import Form from "../components/Forms/Form";
+// import FormField from "../components/Forms/FormField";
+// import ActionButton from "../components/Forms/ActionButton";
+// import FormErrorMessage from "../components/Forms/FormErrorMessage";
+// import FormButton from "../components/Forms/FormButton";
+
+// // Images
+// import Logo from "../assets/Peak-App-Logo.svg";
+
+// export default function RegisterScreen({ navigation }) {
+//   const [passwordVisibility, setPasswordVisibility] = useState(true);
+//   const [checked, setChecked] = React.useState(false);
+//   const [registerError, setRegisterError] = useState("");
+
+//   async function handleSubmit(vaules) {
+//     const { email, password } = vaules;
+//     try {
+//       await registerWithEmail(email, password).then(() => {
+//         props.navigation.navigate("Register2");
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   return (
+//     <SafeViewCentered style={{ backgroundColor: "#172040" }}>
+//       <View style={internal_styles.imageContainer}>
+//         <Logo />
+//       </View>
+//       <LinearProgress
+//         color="#FF8001"
+//         value={0.2}
+//         variant={"determinate"}
+//         trackColor="#787D92"
+//         style={{ width: "80%", alignSelf: "center", marginTop: "5%" }}
+//       />
+//       <View style={internal_styles.formContainer}>
+//         <Text h3 style={internal_styles.screenTitle}>
+//           Sign Up
+//         </Text>
+//         <Form
+//           initialValues={{
+//             username: "",
+//             email: "",
+//             contact: "",
+//             password: "",
+//             confirmPassword: "",
+//           }}
+//           onSubmit={(values) => handleSubmit(values)}
+//         >
+//           <FormField
+//             name="username"
+//             autoCapitalize="none"
+//             placeholder="Username"
+//             autoFocus={true}
+//             style={{ color: "white", height: 15 }}
+//           />
+
+//           <FormField
+//             name="email"
+//             placeholder="Email"
+//             autoCapitalize="none"
+//             keyboardType="email-address"
+//             textContentType="emailAddress"
+//             style={{ color: "white", height: 15 }}
+//           />
+
+//           <FormField
+//             name="contact"
+//             placeholder="Phone Number"
+//             style={{ color: "white", height: 15 }}
+//           />
+
+//           <FormField
+//             name="password"
+//             placeholder="Password"
+//             autoCapitalize="none"
+//             autoCorrect={false}
+//             secureTextEntry={passwordVisibility}
+//             textContentType="password"
+//             style={{ color: "white", height: 15 }}
+//           />
+
+//           <FormField
+//             name="confirmPassword"
+//             placeholder="Confirm password"
+//             autoCapitalize="none"
+//             autoCorrect={false}
+//             secureTextEntry={passwordVisibility}
+//             textContentType="password"
+//             style={{ color: "white", height: 15 }}
+//           />
+
+//           <CheckBox
+//             Component={TouchableWithoutFeedback}
+//             containerStyle={{
+//               backgroundColor: "#1B2754",
+//               borderColor: "#1B2754",
+//             }}
+//             checked={checked}
+//             checkedColor={"#FF8001"}
+//             uncheckedColor={"#FF8001"}
+//             title={
+//               <Text
+//                 style={{
+//                   backgroundColor: "#1B2754",
+//                   color: "white",
+//                   width: "94%",
+//                   marginVertical: "2%",
+//                 }}
+//               >
+//                 By signing up you accept the
+//                 <Text style={internal_styles.hyperlinkText}>
+//                   {" "}
+//                   Terms of Service
+//                 </Text>{" "}
+//                 and
+//                 <Text style={internal_styles.hyperlinkText}>
+//                   {" "}
+//                   Privacy Policy
+//                 </Text>
+//               </Text>
+//             }
+//             onIconPress={() => {
+//               setChecked(!checked);
+//             }}
+//           />
+
+//           <FormButton
+//             buttonStyles={internal_styles.actionButton}
+//             textStyles={internal_styles.actionButtonText}
+//             title={"Sign Up"}
+//             // onPress={() => {
+//             //   navigation.navigate("Register2");
+//             // }}
+//           />
+//           {<FormErrorMessage error={registerError} visible={true} />}
+//         </Form>
+//         <Text
+//           style={{ color: "white", textAlign: "center", marginVertical: "5%" }}
+//         >
+//           Already have an account?
+//           <Text
+//             style={internal_styles.hyperlinkText}
+//             onPress={() => navigation.navigate("Login")}
+//           >
+//             {" "}
+//             Sign In
+//           </Text>
+//         </Text>
+//       </View>
+//     </SafeViewCentered>
+//   );
+// }
+
+// const internal_styles = StyleSheet.create({
+//   imageContainer: {
+//     flex: 1,
+//     height: "30%",
+//     alignItems: "center",
+//     marginBottom: "2%",
+//   },
+//   formContainer: {
+//     flex: 1,
+//     marginTop: "5%",
+//     marginHorizontal: "3%",
+//     borderTopLeftRadius: 30,
+//     borderTopRightRadius: 30,
+//     padding: "2%",
+//     backgroundColor: "#1B2754",
+//   },
+//   screenTitle: {
+//     color: "white",
+//     paddingLeft: "1%",
+//   },
+//   hyperlinkText: {
+//     color: "#FF8001",
+//     fontWeight: "bold",
+//   },
+//   actionButton: {
+//     ...Sizes.medium,
+//     height: 50,
+//     borderRadius: 10,
+//     marginHorizontal: "25%",
+//     marginTop: "5%",
+//     backgroundColor: "#FF8001",
+//   },
+//   actionButtonText: {
+//     color: "white",
+//   },
+// });
 
 // import React, { useState } from "react";
 // import {

@@ -28,11 +28,14 @@ import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../../css/styles.js";
 
+import header from "../../components/header";
+import navBar from "../../components/navBar";
+
 import * as firebase from "firebase";
 import "firebase/database";
 const db = firebase.firestore();
 
-export default function HistoryScreen({ navigation }) {
+export default function HistoryScreen(props) {
   useStatusBar("light-content");
 
   const [history, setHistory] = useState(null);
@@ -80,41 +83,15 @@ export default function HistoryScreen({ navigation }) {
     getData();
   }
 
-
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              onPress={() => this.props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button mode="contained" style={styles.headerBall}>
-                <Text style={{ color: "white" }}>£add funds</Text>
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-          </View>
-        </Card>
-        {/* --------------header------------------------------ */}
+        {header()}
         <ScrollView>
-          <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
+          <Button
+            style={styles.pageButton}
+            onPress={() => props.navigation.goBack()}
+          >
             <Text style={styles.pageButtonText}>&lt; History</Text>
           </Button>
           {/* {cardItem()} */}
@@ -161,43 +138,7 @@ export default function HistoryScreen({ navigation }) {
           })}
         </ScrollView>
         <View style={styles.footer}></View>
-        <View style={styles.navBar}>
-          <IconButton
-            icon={"chart-line-variant"}
-            color={"white"}
-            size={35}
-            style={styles.navButton}
-            onPress={() => navigation.navigate("Stock")}
-          ></IconButton>
-          <IconButton
-            icon={"account"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Portfolio")}
-          ></IconButton>
-          <IconButton
-            icon={"newspaper"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("News")}
-          ></IconButton>
-          <IconButton
-            icon={"magnify"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Search")}
-          ></IconButton>
-          <IconButton
-            icon={"menu"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Home")}
-          ></IconButton>
-        </View>
+        {navBar(props, props.route.params.funds)}
       </SafeAreaView>
     </PaperProvider>
   );

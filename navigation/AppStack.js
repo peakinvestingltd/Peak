@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import WelcomeScreen from "../screens/WelcomeScreen";
+import LoginScreen from "../screens/LoginScreen";
 import MenuScreen from "../screens/MenuScreen";
 import DetailsScreen from "../screens/companyDetailsScreen";
 import StockScreen from "../screens/StockScreen.js";
@@ -28,11 +29,12 @@ const Stack = createStackNavigator();
 export default function AppStack() {
   return (
     <Stack.Navigator headerMode="none">
+      {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
       <Stack.Screen name="Stock" component={StockScreen} />
       <Stack.Screen name="Home" component={MenuScreen} />
       <Stack.Screen name="Portfolio" component={PortfolioScreen} />
       <Stack.Screen name="News" component={NewsScreen} />
-
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Screen name="Buy" component={BuyScreen} />
       <Stack.Screen name="Review" component={ReviewScreen} />

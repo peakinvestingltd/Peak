@@ -3,8 +3,23 @@ import React, { Component, useEffect, useState } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../css/styles.js";
+import { Transitioning, Transition } from "react-native-reanimated";
+import Logo from "../assets/Peak-App-Logo.svg";
 
 import navBar from "../components/navBar.js";
+import {
+  getBalance,
+  getFinnhubPrices,
+  getFinnhubChart,
+  getFinnhubCompanyProfile,
+  getToken,
+  getSecclStock,
+  bankTransferIn,
+  createOrder,
+  getAccountInfo,
+  getUserInfo,
+  getUserId,
+} from "../utils/functions";
 
 import {
   DefaultTheme,
@@ -29,9 +44,10 @@ import {
   Linking,
   StatusBar,
 } from "react-native";
-
+import header from "../components/header.js";
 import * as firebase from "firebase";
 import "firebase/database";
+//import { Transition } from "react-transition-group";
 const db = firebase.firestore();
 
 const screenWidth = Dimensions.get("window").width;
@@ -46,76 +62,61 @@ const apiKey = "c29d3o2ad3ib4ac2prkg";
 
 export let userBalance = "loading...";
 
+const transition = (
+  <Transition.Together>
+    <Transition.In type="fade" duration={400} />
+    <Transition.Change />
+    <Transition.Out type="fade" duration={400} />
+  </Transition.Together>
+);
+
 export default function StockScreen(props) {
+  const [GIASelected, setGIASelected] = useState(styles.GIACardUnselected);
+  const [ISASelected, setISASelected] = useState(styles.ISACardUnselected);
+  const [practiceSelected, setPracticeSelected] = useState(styles.practiceCard);
+
+  const ref = React.useRef();
+  const [headerStyle, setHeaderStyle] = useState(styles.topCard);
+  const [expanded, setExpanded] = useState(false);
   const [justLoaded, setJustLoaded] = useState(true);
   const [loaded, setLoaded] = useState([]);
-  const [dataPrice, setDataPrice] = useState([]);
-  const [dataCandle, setDataCandle] = useState([]);
   const [data, setData] = useState([]);
-  const [stocks, setStocks] = useState([]);
   const [candles, setCandles] = useState([]);
   const [price, setPrice] = useState([]);
-  const [funds, setFunds] = useState([]);
   const [stockList, setStockList] = useState([
-    "AAPL",
-    "TSLA",
-    "GOOG",
-    "FB",
-    "BP",
-    "TWTR",
-    "AMZN",
-    "BAC",
-    "BA",
-    "AXS",
-    "ADCT",
-    "ATR",
-    "ALV",
-    "ALK",
-    "AU",
-    "ASPN",
-    "AAT",
-    "SPOT",
-    "AMC",
+    "CCL",
     "NFLX",
-    "PK",
+    "WTB.L",
+    "NXT.L",
+    "FB",
   ]);
+  const [stockObject, setStockObject] = useState({
+    CCL: {
+      id: "285FM",
+    },
+    NFLX: {
+      id: "2921C",
+    },
+    "NXT.L": {
+      id: "284nl",
+    },
+    "WTB.L": {
+      id: "284NL",
+    },
+  });
+  const [currentAccount, setCurrentAccount] = useState("practice");
 
-  function getBalance() {
-    async function adddata(user) {
-      const userRef = db
-        .collection("users")
-        .doc(user.uid)
-        .collection("funds")
-        .doc("practiceBalance");
-      const doc = await userRef.get();
-      if (!doc.exists) {
-        console.log("No such document!");
-
-        db.collection("users")
-          .doc(user.uid)
-          .collection("funds")
-          .doc("practiceBalance")
-          .set({
-            amount: 60000,
-          });
-        let bal = 60000;
-        return bal;
-      } else {
-        let bal = doc.data()["amount"];
-        console.log("Document data:", bal);
-        return bal;
-      }
-    }
-
+  function triggerGetBalance() {
     firebase.auth().onAuthStateChanged((user) => {
-      adddata(user).then((bal) => {
+      //  signupUpdate({ test: 123, test2: "one" });
+      getBalance(user).then((bal) => {
         userBalance = bal.toFixed(2);
-        setFunds(bal.toFixed(2));
+        //   setFunds(bal.toFixed(2));
       });
     });
   }
 
-  function callApi(stockList) {
+  async function callApi(stockList) {
     let loaded = [];
     let stockData = {
       price: {},
@@ -124,8 +125,7 @@ export default function StockScreen(props) {
     };
 
     stockList.forEach((stock) => {
-      fetch(`https://finnhub.io/api/v1/quote?symbol=${stock}&token=${apiKey}`)
-        .then((response) => response.json())
+      getFinnhubPrices(stock)
         .then((priceList) => {
           let priceChange = priceList.c - priceList.pc;
           let percentage = (100 / priceList.pc) * priceChange;
@@ -151,35 +151,19 @@ export default function StockScreen(props) {
           };
         })
         .then(() => {
-          fetch(
-            `https://finnhub.io/api/v1/stock/candle?symbol=${stock}&resolution=60&from=${from}&to=${to}&token=${apiKey}`
-          )
-            .then((response) => response.json())
+          getFinnhubChart(stock, from, to)
             .then((chartData) => {
               stockData.chart[stock] = {
                 open: chartData.o,
-                high: chartData.h,
-                low: chartData.l,
-                close: chartData.c,
-                volume: chartData.v,
-                timestamp: chartData.t,
-                status: chartData.s,
               };
               if (chartData.s == "no_data" || chartData.o == null) {
                 stockCandle[stock] = {
                   open: [0, 0],
-                  high: [0, 0],
-                  low: [0, 0],
-                  close: [0, 0],
-                  volume: [0, 0],
                 };
               }
             })
             .then(() => {
-              fetch(
-                `https://finnhub.io/api/v1/stock/profile?symbol=${stock}&token=c29d3o2ad3ib4ac2prkg`
-              ) // hide api key from
-                .then((response) => response.json())
+              getFinnhubCompanyProfile(stock)
                 .then((stocksList) => {
                   let symbol;
                   if (stocksList.currency == "USD") {
@@ -233,9 +217,13 @@ export default function StockScreen(props) {
         });
     });
   }
-
+  triggerGetBalance();
   if (justLoaded) {
-    getBalance();
+    getToken().then((token) => {
+      console.log(token);
+      getSecclStock("US30303M1027", token);
+    });
+
     callApi(stockList);
     setJustLoaded(false);
   }
@@ -252,7 +240,7 @@ export default function StockScreen(props) {
           priceChange: price[stock].priceChange.toFixed(2),
           percentChange: price[stock].percentage.toFixed(2),
           chartData: candles[stock].open,
-          funds: funds,
+          funds: userBalance,
           chartColor: price[stock].color,
           stockColor: price[stock].stockColor,
           desc: data[stock].desc,
@@ -358,44 +346,8 @@ export default function StockScreen(props) {
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <StatusBar
-          style={styles.statusBar}
-          // backgroundColor="red"
-        />
-        <Card style={styles.topCard}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              onPress={() => props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button
-                mode="contained"
-                style={{
-                  backgroundColor: Colors.orange500,
-                  borderRadius: 20,
-                }}
-              >
-                £{userBalance}
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-          </View>
-        </Card>
-
+        <StatusBar style={styles.statusBar} />
+        {header()}
         <ScrollView style={{ marginTop: 0 }}>
           <View
             style={{
@@ -409,64 +361,7 @@ export default function StockScreen(props) {
         </ScrollView>
 
         <View style={styles.footer}></View>
-        {navBar(props, funds)}
-        {/* <View style={styles.navBar}>
-          <IconButton
-            icon={"chart-line-variant"}
-            color={"#ff7f00"}
-            size={35}
-            style={styles.navButton}
-            onPress={() =>
-              props.navigation.navigate("Stock", {
-                funds: funds,
-              })
-            }
-          ></IconButton>
-          <IconButton
-            icon={"account"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() =>
-              props.navigation.navigate("Portfolio", {
-                funds: funds,
-              })
-            }
-          ></IconButton>
-          <IconButton
-            icon={"newspaper"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() =>
-              props.navigation.navigate("News", {
-                funds: funds,
-              })
-            }
-          ></IconButton>
-          <IconButton
-            icon={"magnify"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() =>
-              props.navigation.navigate("Search", {
-                funds: funds,
-              })
-            }
-          ></IconButton>
-          <IconButton
-            icon={"menu"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() =>
-              props.navigation.navigate("Home", {
-                funds: funds,
-              })
-            }
-          ></IconButton>
-        </View> */}
+        {navBar(props, userBalance, "stock")}
       </SafeAreaView>
     </PaperProvider>
   );

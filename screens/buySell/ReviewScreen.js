@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { styles } from "../../css/styles.js";
 import { uid, user } from "../../components/Firebase/firebase";
-
+import { practiceTrade, placeTrade } from "../../utils/functions";
 //-----------------------------------------------------
 
 import * as firebase from "firebase";
@@ -21,8 +21,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import Slider from "@react-native-community/slider";
-//import { Title, Button, Card } from "react-native-paper";
+
 import {
   DefaultTheme,
   Card,
@@ -34,9 +33,8 @@ import {
   Title,
   Provider as PaperProvider,
 } from "react-native-paper";
-import { Value } from "react-native-reanimated";
-import { ThemeConsumer } from "react-native-elements";
-
+import header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 const screenWidth = Dimensions.get("window").width;
 
 export default function ReviewScreen(props) {
@@ -82,29 +80,23 @@ export default function ReviewScreen(props) {
   const fullDate = DD + " " + MM + " " + YYYY;
   console.log(ticker);
 
+  const tradeObj = {
+    totalCost: review.totalPrice,
+    ticker: review.ticker,
+    price: review.price,
+    type: review.type,
+    logo: review.logo,
+    ownedShares: review.ownedShares,
+    fullDate: fullDate,
+    date: date,
+    balance: review.balance,
+    strAmount: strAmount,
+    amount: review.amount,
+    account: "GIA",
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <Card style={styles.topCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <IconButton icon="chat-outline" color={Colors.orange500} size={30} />
-          <View>
-            <Title style={styles.titleText}>Portfolio Balance</Title>
-            <Button
-              mode="contained"
-              style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
-            >
-              £{balance}
-            </Button>
-          </View>
-          <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
-        </View>
-      </Card>
+      {header()}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -214,83 +206,86 @@ export default function ReviewScreen(props) {
           <Button
             style={styles.tradeReviewButton}
             onPress={() => {
-              firebase.auth().onAuthStateChanged((user) => {
-                console.log(type);
+              placeTrade(tradeObj);
+              // practiceTrade(tradeObj);
 
-                if (type == "Bought") {
-                  db.collection("users")
-                    .doc(user.uid)
-                    .collection("funds")
-                    .doc("practiceBalance")
-                    .set({
-                      amount: Number(balance) - Number(totalCost),
-                    });
+              // firebase.auth().onAuthStateChanged((user) => {
+              //   console.log(type);
 
-                  db.collection("users")
-                    .doc(user.uid)
-                    .collection("practiceInvestments")
-                    .doc(ticker)
-                    .set({
-                      amount: Number(ownedShares) + Number(amount),
-                      price: price,
-                      investment: (
-                        (Number(ownedShares) + Number(amount)) *
-                        Number(price)
-                      ).toFixed(2),
-                      ticker: ticker,
-                      logo: logo,
-                    });
-                } else {
-                  db.collection("users")
-                    .doc(user.uid)
-                    .collection("funds")
-                    .doc("practiceBalance")
-                    .set({
-                      amount: Number(balance) + Number(totalCost),
-                    });
+              //   db.collection("users")
+              //     .doc(user.uid)
+              //     .collection("history")
+              //     .doc(`${date}`)
+              //     .set({
+              //       type: type,
+              //       stock: ticker,
+              //       cost: strAmount,
+              //       date: fullDate,
+              //       amount: amount,
+              //       timestamp: date,
+              //       logo: logo,
+              //     });
 
-                  db.collection("users")
-                    .doc(user.uid)
-                    .collection("history")
-                    .doc(`${date}`)
-                    .set({
-                      type: type,
-                      stock: ticker,
-                      cost: strAmount,
-                      date: fullDate,
-                      amount: amount,
-                      timestamp: date,
-                      logo: logo,
-                    });
+              //   if (type == "Bought") {
+              //     db.collection("users")
+              //       .doc(user.uid)
+              //       .collection("funds")
+              //       .doc("practiceBalance")
+              //       .set({
+              //         amount: Number(balance) - Number(totalCost),
+              //       });
 
-                  if (Number(ownedShares) - Number(amount) == 0) {
-                    db.collection("users")
-                      .doc(user.uid)
-                      .collection("practiceInvestments")
-                      .doc(ticker)
-                      .delete()
-                      .then(() => console.log("user deleted"));
-                  } else {
-                    console.log(Number(ownedShares) - Number(amount));
-                    db.collection("users")
-                      .doc(user.uid)
-                      .collection("practiceInvestments")
-                      .doc(ticker)
-                      .set({
-                        amount: Number(ownedShares) - Number(amount),
-                        price: price,
-                        investment:
-                          (Number(ownedShares) - Number(amount)) *
-                          Number(price).toFixed(2),
-                        ticker: ticker,
-                        logo: logo,
-                      });
-                  }
-                }
+              //     db.collection("users")
+              //       .doc(user.uid)
+              //       .collection("practiceInvestments")
+              //       .doc(ticker)
+              //       .set({
+              //         amount: Number(ownedShares) + Number(amount),
+              //         price: price,
+              //         investment: (
+              //           (Number(ownedShares) + Number(amount)) *
+              //           Number(price)
+              //         ).toFixed(2),
+              //         ticker: ticker,
+              //         logo: logo,
+              //       });
+              //   } else {
+              //     db.collection("users")
+              //       .doc(user.uid)
+              //       .collection("funds")
+              //       .doc("practiceBalance")
+              //       .set({
+              //         amount: Number(balance) + Number(totalCost),
+              //       });
 
-                props.navigation.navigate("Stock");
-                console(props.navigation);
-              });
+              //     if (Number(ownedShares) - Number(amount) == 0) {
+              //       db.collection("users")
+              //         .doc(user.uid)
+              //         .collection("practiceInvestments")
+              //         .doc(ticker)
+              //         .delete()
+              //         .then(() => console.log("user deleted"));
+              //     } else {
+              //       console.log(Number(ownedShares) - Number(amount));
+              //       db.collection("users")
+              //         .doc(user.uid)
+              //         .collection("practiceInvestments")
+              //         .doc(ticker)
+              //         .set({
+              //           amount: Number(ownedShares) - Number(amount),
+              //           price: price,
+              //           investment:
+              //             (Number(ownedShares) - Number(amount)) *
+              //             Number(price).toFixed(2),
+              //           ticker: ticker,
+              //           logo: logo,
+              //         });
+              //     }
+              //   }
+
+              //   props.navigation.navigate("Stock");
+              //   console(props.navigation);
+              // });
             }}
           >
             <Text style={styles.buttonText}>Confirm</Text>
@@ -307,43 +302,7 @@ export default function ReviewScreen(props) {
       </ScrollView>
 
       <View style={styles.footer}></View>
-      <View style={styles.navBar}>
-        <IconButton
-          icon={"chart-line-variant"}
-          color={"white"}
-          size={35}
-          style={styles.navButton}
-          onPress={() => props.navigation.navigate("Stock")}
-        ></IconButton>
-        <IconButton
-          icon={"account"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Portfolio")}
-        ></IconButton>
-        <IconButton
-          icon={"newspaper"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("News")}
-        ></IconButton>
-        <IconButton
-          icon={"magnify"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Search")}
-        ></IconButton>
-        <IconButton
-          icon={"menu"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Home")}
-        ></IconButton>
-      </View>
+      {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
 }

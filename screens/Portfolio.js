@@ -22,6 +22,9 @@ import {
   Dimensions,
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
+
+import header from "../components/header";
+import navBar from "../components/navBar";
 import { user } from "../components/Firebase/firebase";
 
 import { styles } from "../css/styles.js";
@@ -112,9 +115,10 @@ export default function PortfolioScreen(props) {
     setWait(false);
     getData();
   }
-
-  if (portfolio.length != 0 && newPortfolio.length == 0) {
-    getCurrentPrice();
+  if (portfolio) {
+    if (portfolio.length != 0 && newPortfolio.length == 0) {
+      getCurrentPrice();
+    }
   }
 
   function getCurrentPrice() {
@@ -160,7 +164,7 @@ export default function PortfolioScreen(props) {
   }
 
   const investmentCards = () => {
-    return newPortfolio.map((item) => {
+    return newPortfolio.map((item, index) => {
       let profit = (item.currentPrice * item.amount - item.investment).toFixed(
         2
       );
@@ -183,7 +187,7 @@ export default function PortfolioScreen(props) {
         };
       }
       return (
-        <View style={styles.defaultCard}>
+        <View style={styles.defaultCard} key={index}>
           <View
             style={{
               flexDirection: "row",
@@ -298,32 +302,7 @@ export default function PortfolioScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Card style={styles.topCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            onPress={() => this.navigation.navigate("Chat")}
-            icon="chat-outline"
-            color={Colors.orange500}
-            size={30}
-          />
-          <View>
-            <Title style={styles.titleText}>Portfolio balance</Title>
-            <Button
-              mode="contained"
-              style={{ backgroundColor: Colors.orange500, borderRadius: 20 }}
-            >
-              £{funds}
-            </Button>
-          </View>
-          <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
-        </View>
-      </Card>
+      {header()}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -610,43 +589,7 @@ export default function PortfolioScreen(props) {
       </ScrollView>
 
       <View style={styles.footer}></View>
-      <View style={styles.navBar}>
-        <IconButton
-          icon={"chart-line-variant"}
-          color={"white"}
-          size={35}
-          style={styles.navButton}
-          onPress={() => props.navigation.navigate("Stock")}
-        ></IconButton>
-        <IconButton
-          icon={"account"}
-          style={styles.navButton}
-          size={35}
-          color={"#ff7f00"}
-          onPress={() => props.navigation.navigate("Portfolio")}
-        ></IconButton>
-        <IconButton
-          icon={"newspaper"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("News")}
-        ></IconButton>
-        <IconButton
-          icon={"magnify"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Search")}
-        ></IconButton>
-        <IconButton
-          icon={"menu"}
-          style={styles.navButton}
-          size={35}
-          color={"white"}
-          onPress={() => props.navigation.navigate("Home")}
-        ></IconButton>
-      </View>
+      {navBar(props, props.route.params.funds, "portfolio")}
     </SafeAreaView>
   );
 }
