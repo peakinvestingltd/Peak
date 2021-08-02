@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { LineChart } from "react-native-chart-kit";
 import {
   Avatar,
   DefaultTheme,
@@ -20,19 +21,146 @@ import {
   ScrollView,
   Linking,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { user } from "../components/Firebase/firebase";
-
 import { styles } from "../css/styles.js";
 
 import * as firebase from "firebase";
 import "firebase/database";
 
+let axios = require("axios");
 const db = firebase.firestore();
+const screenWidth = Dimensions.get("window").width;
 
 const finnhubApiKey = "c29d3o2ad3ib4ac2prkg";
 // =========================================app functions=====================================
+
+const currentStock = (loaded, stockData, props, userBalance) => {
+  let data = stockData.data;
+  let candles = stockData.chart;
+  let price = stockData.price;
+
+  const listItems = loaded.map((stock) => (
+    <TouchableOpacity
+      key={stock}
+      onPress={() => {
+        props.navigation.navigate("Details", {
+          stock: stock,
+          price: price[stock],
+          logo: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+          name: data[stock].name,
+          priceChange: price[stock].priceChange.toFixed(2),
+          percentChange: price[stock].percentage.toFixed(2),
+          chartData: candles[stock].open,
+          funds: userBalance,
+          chartColor: price[stock].color,
+          stockColor: price[stock].stockColor,
+          desc: data[stock].desc,
+          country: data[stock].country,
+          color: price[stock].stockColor,
+          currency: data[stock].currency,
+          industry: data[stock].industry,
+          address: data[stock].address,
+          city: data[stock].city,
+          state: data[stock].state,
+          employeeTotal: data[stock].employeeTotal,
+          group: data[stock].group,
+          sector: data[stock].sector,
+          marketCap: data[stock].marketCap,
+          shareOutstanding: data[stock].shareOutstanding,
+          exchange: data[stock].exchange,
+        });
+      }}
+    >
+      <Card style={styles.card}>
+        <View style={styles.cardTopList}>
+          <View
+            style={{
+              display: "flex",
+              marginRight: 30,
+              justifyContent: "space-between",
+              flexDirection: "row",
+            }}
+          >
+            <Image
+              style={styles.image}
+              source={{
+                uri: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+              }}
+            />
+
+            <View style={styles.stockNameView}>
+              <Text style={styles.stockName}>{data[stock].name}</Text>
+              <Text style={styles.stockTicker}>
+                {stock}-{data[stock].country}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.priceContainer}>
+            <Text style={styles.price}>
+              {data[stock].currency}
+              {price[stock].currentPrice}
+            </Text>
+
+            <Text style={styles[price[stock].stockColor]}>
+              {price[stock].priceChange.toFixed(2)}
+              {"("}
+              {price[stock].percentage.toFixed(2)}%{")"}
+            </Text>
+          </View>
+        </View>
+
+        <LineChart
+          bezier
+          hideLegend={true}
+          segments={1}
+          withHorizontalLabels={false}
+          data={{
+            datasets: [
+              {
+                data: candles[stock].open,
+              },
+            ],
+          }}
+          width={screenWidth - 25} // from react-native
+          height={65}
+          withHorizontalLabels={false}
+          chartConfig={{
+            withDots: false,
+            strokeWidth: 1.5,
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientToOpacity: 0,
+            decimalPlaces: 0, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(${price[stock].color}1)`,
+            fillShadowGradientOpacity: 1,
+            //  fillShadowGradient: priceData[stock].stockColor,
+
+            propsForBackgroundLines: {
+              stroke: "transparent",
+            },
+            propsForDots: {
+              r: "0",
+              strokeWidth: "5",
+              stroke: "#fff",
+            },
+          }}
+          style={{
+            paddingRight: 0,
+            margin: 5,
+            borderRadius: 20,
+            marginRight: 0,
+            bottom: 1,
+            position: "absolute",
+          }}
+        />
+      </Card>
+    </TouchableOpacity>
+  ));
+  return listItems;
+};
 
 const placeTrade = (obj) => {
   getToken().then((token) => {
@@ -224,10 +352,10 @@ async function getFinnhubPrices(ticker) {
   return obj;
 }
 
-async function getFinnhubChart(ticker, from, to) {
+async function getFinnhubChart(ticker, from, to, resolution) {
   let obj = {};
   await fetch(
-    `https://finnhub.io/api/v1/stock/candle?symbol=${ticker}&resolution=60&from=${from}&to=${to}&token=${finnhubApiKey}`
+    `https://finnhub.io/api/v1/stock/candle?symbol=${ticker}&resolution=${resolution}&from=${from}&to=${to}&token=${finnhubApiKey}`
   )
     .then((response) => response.json())
     .then((chartData) => {
@@ -258,24 +386,29 @@ async function getFinnhubCompanyProfile(ticker) {
 
 async function getToken() {
   let token = "";
-  await fetch("https://pfolio-api-staging.seccl.tech/authenticate", {
-    method: "POST",
+
+  var data = JSON.stringify({
+    firmId: "PKINV",
+    id: "029B5J4",
+    password: "Peakofficial2023!",
+  });
+
+  var config = {
+    method: "post",
+    url: "https://pfolio-api-staging.seccl.tech/authenticate",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      firmId: "PKINV",
-      id: "029B5J4",
-      password: "Peakofficial2023!",
-    }),
-  })
-    .then((response) => response.json())
-    .then((res) => {
-      token = res.data.token;
+    data: data,
+  };
+
+  await axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data.data.token));
+      token = response.data.data.token;
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(function (error) {
+      console.log(error);
     });
   return token;
 }
@@ -289,6 +422,7 @@ async function createClient(userData, token, user) {
 
   */
   let id = "";
+
   await fetch("https://pfolio-api-staging.seccl.tech/client", {
     method: "POST",
     headers: {
@@ -316,12 +450,12 @@ async function createClient(userData, token, user) {
       language: "en",
       email: user.email,
       mobile: {
-        number: "07777000000",
+        number: userData.phoneNumber,
         locale: "en-GB",
         isMobile: true,
       },
       nationalInsuranceNo: userData.NI,
-      dateOfBirth: "1982-10-01",
+      dateOfBirth: userData.dob,
       taxDomicile: "GB",
       amlStatus: "Approved",
       termsAccepted: true,
@@ -472,8 +606,12 @@ async function getSecclStock(isin, token) {
       return res.json();
     })
     .then((res) => {
-      console.log(res.data[0].id);
-      result = res.data[0].id;
+      console.log(res);
+      //result = res.data[0].id;
+      console.log("=============");
+      console.log("=============");
+      console.log("=============");
+      console.log("=============");
     });
   return result;
 }
@@ -593,4 +731,5 @@ module.exports = {
   completePayment,
   placeTrade,
   practiceTrade,
+  currentStock,
 };

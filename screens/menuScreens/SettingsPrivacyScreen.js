@@ -132,14 +132,21 @@ export default function SettingPrivacyScreen(props) {
               let isin = "GB0031215220";
               console.log("yay");
               getToken().then((token) => {
-                console.log(token);
-                console.log("tokk");
-
                 getSecclStock(isin, token);
               });
             }}
           >
             <Text style={styles.pageButtonText}>get stock id</Text>
+          </Button>
+          <Button
+            style={styles.pageButton}
+            onPress={() => {
+              let isin = "GB0031215220";
+              console.log("yay");
+              getToken();
+            }}
+          >
+            <Text style={styles.pageButtonText}>get token</Text>
           </Button>
         </ScrollView>
 

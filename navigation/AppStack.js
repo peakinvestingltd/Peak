@@ -5,6 +5,8 @@ import LoginScreen from "../screens/LoginScreen";
 import MenuScreen from "../screens/MenuScreen";
 import DetailsScreen from "../screens/companyDetailsScreen";
 import StockScreen from "../screens/StockScreen.js";
+import StockScreen2 from "../screens/StockScreen2.js";
+
 import BuyScreen from "../screens/buySell/BuyScreen.js";
 import ReviewScreen from "../screens/buySell/ReviewScreen.js";
 import ChatScreen from "../screens/ChatScreen.js";
@@ -23,6 +25,7 @@ import PeakStoreScreen from "../screens/menuScreens/PeakStoreScreen";
 import SettingPrivacyScreen from "../screens/menuScreens/SettingsPrivacyScreen";
 import HelpCenterScreen from "../screens/menuScreens/HelpCenterScreen";
 import ProfileScreen from "../screens/menuScreens/ProfileScreen";
+import SearchScreen from "../screens/searchScreen";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +34,8 @@ export default function AppStack() {
     <Stack.Navigator headerMode="none">
       {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
       <Stack.Screen name="Stock" component={StockScreen} />
+      <Stack.Screen name="Stock2" component={StockScreen2} />
+
       <Stack.Screen name="Home" component={MenuScreen} />
       <Stack.Screen name="Portfolio" component={PortfolioScreen} />
       <Stack.Screen name="News" component={NewsScreen} />
@@ -40,6 +45,8 @@ export default function AppStack() {
       <Stack.Screen name="Review" component={ReviewScreen} />
       <Stack.Screen name="Chat" component={ChatScreen} />
       <Stack.Screen name="History" component={HistoryScreen} />
+      <Stack.Screen name="Search" component={SearchScreen} />
+
       <Stack.Screen
         name="NotificationSettings"
         component={NotificationSettingsScreen}

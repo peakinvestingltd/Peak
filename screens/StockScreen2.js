@@ -60,18 +60,12 @@ export let userBalance = "loading...";
 
 let count = 1;
 
-export default function StockScreen(props) {
+export default function StockScreen2(props) {
   const [justLoaded, setJustLoaded] = useState(true);
   const [loaded, setLoaded] = useState([]);
   const [stockData, setStockData] = useState([]);
-  const [stockList, setStockList] = useState([
-    "VOD",
-    "SHOP",
-    "WTB.L",
-    "NXT.L",
-    "FB",
-  ]);
-  const [catagory, setCatagory] = useState("Watchlist");
+  const [stockList, setStockList] = useState(props.route.params.assets);
+  const [catagory, setCatagory] = useState(props.route.params.cat);
 
   function triggerGetBalance() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -82,7 +76,7 @@ export default function StockScreen(props) {
       });
     });
   }
-
+  console.log(props);
   async function callApi(stockList) {
     let loaded = [];
     let stockData = {
@@ -119,7 +113,7 @@ export default function StockScreen(props) {
           };
         })
         .then(() => {
-          getFinnhubChart(stock, from, to, "30")
+          getFinnhubChart(stock, from, to, "60")
             .then((chartData) => {
               stockData.chart[stock] = {
                 open: chartData.o,
@@ -190,25 +184,25 @@ export default function StockScreen(props) {
   }
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    count = count + 1;
-    console.log(props);
-    console.log("look here!!!");
-    if (props.route.params) {
-      if (props.route.params.cat) {
-        console.log(props.route.params.cat);
+  // useEffect(() => {
+  //   count = count + 1;
+  //   console.log(props);
+  //   console.log("look here!!!");
+  //   if (props.route.params) {
+  //     if (props.route.params.cat) {
+  //       console.log(props.route.params.cat);
 
-        setCatagory(props.route.params.cat);
-        setStockList(props.route.params.assets);
+  //       setCatagory(props.route.params.cat);
+  //       setStockList(props.route.params.assets);
 
-        console.log(stockList);
+  //       console.log(stockList);
 
-        callApi(stockList);
-      }
-    } else {
-      console.log("dosnt exist");
-    }
-  }, [isFocused]);
+  //       callApi(stockList);
+  //     }
+  //   } else {
+  //     console.log("dosnt exist");
+  //   }
+  // }, [isFocused]);
 
   return (
     <PaperProvider theme={theme}>

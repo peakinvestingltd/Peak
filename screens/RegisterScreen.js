@@ -23,13 +23,13 @@ const db = firebase.firestore();
 
 export default function RegisterScreen2(props) {
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState(" ");
+  const [phone, setPhone] = useState("00000000000");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [registerError, setRegisterError] = useState("");
   const [emailStyle, setEmailStyle] = useState(styles.noWarning);
   const [passwordStyle, setPasswordStyle] = useState(styles.noWarning);
-  const [password2Style, setPassword2Style] = useState(styles.noWarning);
+  const [passwordMessage, setPasswordMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(email, password) {
@@ -46,12 +46,30 @@ export default function RegisterScreen2(props) {
   }
 
   function nextButtonPressed() {
-    let re = /^(?=.*\d)(?=.*[!-@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    if (password === password2 && re.test(password)) {
-      handleSubmit(email, password);
-      console.log("passed");
+    if (!password) {
+      setPasswordMessage("* password must be filled in");
+      setPasswordStyle(styles.warning);
     } else {
-      console.log("fail");
+    }
+    if (!email) {
+      setErrorMessage("* email must be filled in");
+      setEmailStyle(styles.warning);
+    }
+    let re = /^(?=.*\d)(?=.*[!-@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (re.test(password)) {
+      if (password === password2) {
+        handleSubmit(email, password);
+        console.log("passed");
+      } else {
+        console.log("fail");
+        setPasswordMessage("* passwords do not match");
+        setPasswordStyle(styles.warning);
+      }
+    } else if (password) {
+      setPasswordMessage(
+        "* password must be at least 8 characters long and contain 1 upper + lower case letter a number and a special character"
+      );
+      setPasswordStyle(styles.warning);
     }
   }
 
@@ -120,14 +138,14 @@ export default function RegisterScreen2(props) {
               secureTextEntry={true}
               onChangeText={(val) => setPassword(val)}
             ></TextInput>
-            <Text style={passwordStyle}>please input password</Text>
+            <Text style={styles.noWarning}>.</Text>
             <TextInput
               style={styles.input}
               placeholder="Confirm password*"
               secureTextEntry={true}
               onChangeText={(val) => setPassword2(val)}
             ></TextInput>
-            <Text style={styles.noWarning}>passwords do not match</Text>
+            <Text style={passwordStyle}>{passwordMessage}</Text>
           </View>
         </View>
 

@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, View, TextInput, Text } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  Image,
+} from "react-native";
 import { Button } from "react-native-paper";
 import Logo from "../assets/Peak-App-Logo.svg";
 import { styles } from "../css/styles.js";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 //-------------firebase-------------
 import * as firebase from "firebase";
@@ -58,9 +66,32 @@ export default function RegisterScreen3(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Logo />
+      <View>
+        <View>
+          <Image
+            style={{
+              height: ScreenWidth / 3,
+              width: "33%",
+              marginTop: 40,
+              alignSelf: "center",
+              resizeMode: "contain",
+            }}
+            source={require("../assets/newLogo.png")}
+          />
+          <Image
+            style={{
+              height: ScreenWidth / 3,
+              width: "50%",
+
+              marginBottom: 0,
+              alignSelf: "center",
+              resizeMode: "contain",
+            }}
+            source={require("../assets/Logotext.png")}
+          />
+        </View>
       </View>
+
       <View style={styles.loadBar}>
         <View style={styles.loadBar3Compleated}></View>
       </View>
