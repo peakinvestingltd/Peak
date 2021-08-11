@@ -41,7 +41,9 @@ export default function RegisterScreen3(props) {
   const [nationalityStyle, setNationalityStyle] = useState(styles.noWarning);
   const [genderStyle, setGenderStyle] = useState(styles.noWarning);
   const [ageStyle, setAgeStyle] = useState(styles.noWarning);
-
+  const [datePlaceHolder, setDatePlaceHolder] = useState(
+    "Select your date of birth"
+  );
   function validateAge() {
     let todayDate = Date.now();
     let minAge = moment(todayDate).subtract(18, "years");
@@ -56,8 +58,6 @@ export default function RegisterScreen3(props) {
     }
   }
   function nextButtonPressed() {
-    let dob = new Date(date);
-    let dobMilli = dob.getTime();
     let age = validateAge();
     if (nationality && value && age) {
       firebase.auth().onAuthStateChanged((user) => {
@@ -66,7 +66,7 @@ export default function RegisterScreen3(props) {
           .collection("userInfo")
           .doc("signUp")
           .update({
-            dob: dobMilli,
+            dob: datePlaceHolder,
             gender: value,
             nationality: nationality,
             signUp: 5,
@@ -82,16 +82,16 @@ export default function RegisterScreen3(props) {
       }
     }
   }
-  const [datePlaceHolder, setDatePlaceHolder] = useState(
-    "Select your date of birth"
-  );
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
-    let dob = moment(currentDate).calendar();
+    let dob = moment(currentDate).format("YYYY-MM-DD");
     let c = new Date(dob);
+    console.log(dob);
+
+    console.log(currentDate);
     setDatePlaceHolder(dob);
   };
   const showMode = (currentMode) => {

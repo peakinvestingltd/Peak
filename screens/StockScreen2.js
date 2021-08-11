@@ -184,31 +184,11 @@ export default function StockScreen2(props) {
   }
   const isFocused = useIsFocused();
 
-  // useEffect(() => {
-  //   count = count + 1;
-  //   console.log(props);
-  //   console.log("look here!!!");
-  //   if (props.route.params) {
-  //     if (props.route.params.cat) {
-  //       console.log(props.route.params.cat);
-
-  //       setCatagory(props.route.params.cat);
-  //       setStockList(props.route.params.assets);
-
-  //       console.log(stockList);
-
-  //       callApi(stockList);
-  //     }
-  //   } else {
-  //     console.log("dosnt exist");
-  //   }
-  // }, [isFocused]);
-
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
         <StatusBar style={styles.statusBar} />
-        {header()}
+        {header(props, userBalance)}
         <ScrollView style={{ marginTop: 0 }}>
           <Button
             style={styles.pageButton}

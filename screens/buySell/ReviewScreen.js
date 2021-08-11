@@ -96,7 +96,7 @@ export default function ReviewScreen(props) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {header()}
+      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -206,8 +206,8 @@ export default function ReviewScreen(props) {
           <Button
             style={styles.tradeReviewButton}
             onPress={() => {
-              placeTrade(tradeObj);
-              // practiceTrade(tradeObj);
+              //placeTrade(tradeObj);
+              practiceTrade(tradeObj);
 
               // firebase.auth().onAuthStateChanged((user) => {
               //   console.log(type);

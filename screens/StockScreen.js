@@ -48,7 +48,6 @@ import header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import * as firebase from "firebase";
 import "firebase/database";
-//import { Transition } from "react-transition-group";
 import assetUnivers from "../utils/assetUniverse.js";
 
 let timestamp = Math.round(Date.now() / 1000);
@@ -75,10 +74,8 @@ export default function StockScreen(props) {
 
   function triggerGetBalance() {
     firebase.auth().onAuthStateChanged((user) => {
-      //  signupUpdate({ test: 123, test2: "one" });
       getBalance(user).then((bal) => {
         userBalance = bal.toFixed(2);
-        //   setFunds(bal.toFixed(2));
       });
     });
   }
@@ -90,8 +87,6 @@ export default function StockScreen(props) {
       data: {},
       chart: {},
     };
-    console.log(stockList);
-    console.log(2345342645734756475678464378643785634275832);
     stockList.forEach((stock) => {
       getFinnhubPrices(stock)
         .then((priceList) => {
@@ -106,6 +101,7 @@ export default function StockScreen(props) {
             color = "231,24,0,";
             profit = "red";
           }
+
           stockData.price[stock] = {
             currentPrice: priceList.c.toFixed(2),
             open: priceList.o,
@@ -213,8 +209,8 @@ export default function StockScreen(props) {
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <StatusBar style={styles.statusBar} />
-        {header()}
+        <StatusBar backgroundColor="#1b2855" />
+        {header(props, userBalance)}
         <ScrollView style={{ marginTop: 0 }}>
           <Button
             style={styles.pageButton}

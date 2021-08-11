@@ -76,38 +76,7 @@ export default class NewsScreen extends React.Component {
     return (
       <PaperProvider theme={theme}>
         <SafeAreaView style={styles.container}>
-          <Card style={styles.topCard}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                icon="chat-outline"
-                color={Colors.orange500}
-                size={30}
-              />
-              <View>
-                <Title style={styles.titleText}>Portfolio balance</Title>
-                <Button
-                  mode="contained"
-                  style={{
-                    backgroundColor: Colors.orange500,
-                    borderRadius: 20,
-                  }}
-                >
-                  £{this.state.funds}
-                </Button>
-              </View>
-              <IconButton
-                icon="bell-outline"
-                color={Colors.orange500}
-                size={30}
-              />
-            </View>
-          </Card>
+          {/* {header(this.props, this.props.route.params.funds)} */}
           <ScrollView>{listItems}</ScrollView>
         </SafeAreaView>
         <View style={styles.footer}></View>

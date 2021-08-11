@@ -27,6 +27,9 @@ import { BarChart } from "react-native-chart-kit";
 import { user } from "../components/Firebase/firebase";
 import { styles } from "../css/styles.js";
 
+import * as shape from "d3-shape";
+import { scaleTime, scaleLinear, scaleQuantile } from "d3-scale";
+
 import * as firebase from "firebase";
 import "firebase/database";
 
@@ -36,6 +39,85 @@ const screenWidth = Dimensions.get("window").width;
 
 const finnhubApiKey = "c29d3o2ad3ib4ac2prkg";
 // =========================================app functions=====================================
+const chart = (data, low, high) => {
+  const label = React.useRef(null);
+  const width = screenWidth - 30;
+  const height = 200;
+  return (
+    <View style={styles.chartContainer}>
+      <View
+        style={{
+          width,
+          height,
+          // backgroundColor: "white",
+          marginTop: 50,
+          alignSelf: "center",
+        }}
+      >
+        <Svg>
+          <Path
+            d={buildChart(data, low, high)}
+            stroke={"#1D9440"}
+            strokeWidth={1}
+          />
+
+          <Path
+            d={`${buildChart(
+              data,
+              low,
+              high
+            )} L ${width} ${height} L 0 ${height}`}
+            fill={"#1D9440"}
+            opacity={0.5}
+          />
+        </Svg>
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              top: -50,
+              left: 0,
+              backgroundColor: "lightgray",
+              padding: 2,
+              paddingRight: 5,
+              paddingLeft: 5,
+              marginTop: 5,
+              marginLeft: 5,
+            },
+          ]}
+        >
+          <TextInput ref={label}></TextInput>
+        </Animated.View>
+      </View>
+    </View>
+  );
+};
+
+const buildChart = (data, low, high) => {
+  const height = 150;
+  const width = screenWidth - 30;
+  const d3 = {
+    shape,
+  };
+
+  const scaleX = scaleLinear()
+    .domain([0, data.length - 1])
+    .range([0, width]);
+
+  const scaleY = scaleLinear()
+    .domain([
+      Number(low) - Number(low) / 100,
+      Number(high) + Number(high) / 100,
+    ])
+    .range([height, 0]);
+
+  const line = d3.shape
+    .line()
+    .x((d) => scaleX(d.x))
+    .y((d) => scaleY(d.y))
+    .curve(d3.shape.curveBasis)(data);
+  return line;
+};
 
 const currentStock = (loaded, stockData, props, userBalance) => {
   let data = stockData.data;
@@ -307,8 +389,23 @@ async function getUserId() {
   return res;
 }
 
-//=========================================================FINNHUB==================================================================================
+async function getOwnedStock(user, stock) {
+  const userRef = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("practiceInvestments")
+    .doc(stock);
 
+  const doc = await userRef.get();
+
+  if (!doc.exists) {
+    return 0;
+  } else {
+    let amount = doc.data()["amount"];
+    console.log("Document data:", amount);
+    return amount;
+  }
+}
 async function getBalance(user) {
   const userRef = db
     .collection("users")
@@ -336,6 +433,7 @@ async function getBalance(user) {
     return bal;
   }
 }
+//=========================================================FINNHUB==================================================================================
 
 async function getFinnhubPrices(ticker) {
   let obj = {};
@@ -422,7 +520,9 @@ async function createClient(userData, token, user) {
 
   */
   let id = "";
-
+  console.log("in create client seccl");
+  console.log(userData);
+  console.log(user);
   await fetch("https://pfolio-api-staging.seccl.tech/client", {
     method: "POST",
     headers: {
@@ -463,8 +563,9 @@ async function createClient(userData, token, user) {
   })
     .then((result) => result.json())
     .then((res) => {
-      id = res.data.id;
       console.log(res);
+      console.log("result++++++++++");
+      id = res.data.id;
     })
     .catch((err) => {
       console.log(err);
@@ -474,6 +575,7 @@ async function createClient(userData, token, user) {
 
 async function createAccount(type, id, token) {
   let accountId;
+  console.log("in create account seccl GIA");
   await fetch("https://pfolio-api-staging.seccl.tech/account", {
     method: "POST",
     headers: {
@@ -498,11 +600,13 @@ async function createAccount(type, id, token) {
     .then((res) => {
       console.log("sign up compleated");
       console.log(res);
+      console.log("res");
       accountId = res.data.id;
     })
     .catch((err) => {
       console.log(err);
     });
+  console.log(accountId);
   return accountId;
 }
 
@@ -732,4 +836,7 @@ module.exports = {
   placeTrade,
   practiceTrade,
   currentStock,
+  buildChart,
+  chart,
+  getOwnedStock,
 };

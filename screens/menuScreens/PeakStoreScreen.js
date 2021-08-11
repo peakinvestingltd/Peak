@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useValue } from "react";
 import {
   SafeAreaView,
   View,
@@ -20,7 +20,8 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-
+import header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 const navBarColor = "black";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
@@ -28,85 +29,78 @@ import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../../css/styles.js";
 
-export default function PeakStoreScreen({ navigation }) {
-  useStatusBar("light-content");
+import { getFinnhubChart, buildChart } from "../../utils/functions";
+import Animated from "react-native-reanimated";
+
+let timestamp = Math.round(Date.now() / 1000);
+let yesterday = timestamp - 604800;
+let from = yesterday.toString();
+let to = timestamp.toString();
+
+export default function PeakStoreScreen(props) {
+  const [loaded, setLoaded] = useState(false);
+  const [low, setLow] = useState();
+  const [high, setHigh] = useState();
+  const [data, setData] = useState();
+
+  const x = useValue(new Animated.Value(0)).current;
+
+  const label = useRef(null);
+
+  function moveCursor(value) {
+    if (loaded) {
+      const scaleY = scaleLinear()
+        .domain([low - low / 100, high + high / 100])
+        .range([height, 0]);
+      const properties = path.svgPathProperties(buildChart(data, low, high));
+      const lineLength = properties.getTotalLength();
+      const { x, y } = properties.getPointAtLength(lineLength - value);
+      this.cursor.current.setNativeProps({
+        top: y - cursorRadius,
+        left: x - cursorRadius,
+      });
+      const label = scaleY.invert(y);
+      label.current.setNativeProps({ text: `${label.toFixed(2)}` });
+    }
+  }
+
+  useEffect(() => {
+    console.log(x);
+    if (!loaded) {
+      getFinnhubChart("TSLA", from, to, "30").then((chartData) => {
+        let open = chartData.o;
+        let data = [];
+        let low = open[0];
+        let high = open[0];
+        for (let i = 0; i < open.length; i++) {
+          data.push({ x: i, y: open[i] });
+          if (open[i] < low) {
+            low = open[i];
+          }
+          if (open[i] > high) {
+            high = open[i];
+          }
+        }
+        setLoaded(true);
+        setLow(low);
+        setHigh(high);
+        setData(data);
+      });
+    }
+  });
 
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              onPress={() => this.props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button mode="contained" style={styles.headerBall}>
-                <Text style={{ color: "white" }}>£add funds</Text>
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-          </View>
-        </Card>
-        {/* --------------header------------------------------ */}
+        {header()}
         <ScrollView>
           <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.pageButtonText}>&lt; Peak Store </Text>
+            <Text style={styles.pageButtonText}>&lt; Peak Store</Text>
           </Button>
         </ScrollView>
 
         <View style={styles.footer}></View>
-        <View style={styles.navBar}>
-          <IconButton
-            icon={"chart-line-variant"}
-            color={"white"}
-            size={35}
-            style={styles.navButton}
-            onPress={() => navigation.navigate("Stock")}
-          ></IconButton>
-          <IconButton
-            icon={"account"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Portfolio")}
-          ></IconButton>
-          <IconButton
-            icon={"newspaper"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("News")}
-          ></IconButton>
-          <IconButton
-            icon={"magnify"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Search")}
-          ></IconButton>
-          <IconButton
-            icon={"menu"}
-            style={styles.navButton}
-            size={35}
-            color={"white"}
-            onPress={() => navigation.navigate("Home")}
-          ></IconButton>
-        </View>
+        {navBar()}
       </SafeAreaView>
     </PaperProvider>
   );

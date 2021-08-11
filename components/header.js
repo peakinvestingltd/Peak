@@ -32,6 +32,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { ScreenWidth, ScreenHeight } from "react-native-elements/dist/helpers";
+
 import * as firebase from "firebase";
 import "firebase/database";
 const db = firebase.firestore();
@@ -42,9 +44,9 @@ export let userBalance = "Wallet";
 
 const transition = (
   <Transition.Together>
-    <Transition.In type="fade" duration={0} />
+    <Transition.In type="fade" durationMs={400} />
     <Transition.Change />
-    <Transition.Out type="fade" duration={100} />
+    <Transition.Out type="fade" duration={400} />
   </Transition.Together>
 );
 
@@ -54,16 +56,61 @@ export default function header(props, funds) {
   const [expanded, setExpanded] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("practice");
 
+  function setStyle(box, selected, unselected) {
+    if (box == selectedBox) {
+      return selected;
+    } else {
+      return unselected;
+    }
+  }
+  const selected = {
+    height: 200,
+    width: ScreenWidth / 4,
+    backgroundColor: "orange",
+    margin: 15,
+  };
+  const unselected = {
+    height: 200,
+    width: ScreenWidth / 4,
+    backgroundColor: "red",
+    margin: 15,
+  };
+  const [selectedBox, setSelectedBox] = useState("one");
   const [GIASelected, setGIASelected] = useState(styles.GIACardUnselected);
   const [ISASelected, setISASelected] = useState(styles.ISACardUnselected);
   const [practiceSelected, setPracticeSelected] = useState(styles.practiceCard);
+  const [selectedFunds, setSelectedFunds] = useState(funds);
+  const [practiceFunds, setPracticeFunds] = useState(null);
 
   function triggerGetBalance() {
-    firebase.auth().onAuthStateChanged((user) => {
-      getBalance(user).then((bal) => {
-        userBalance = bal.toFixed(2);
+    if (selectedBox == "one") {
+      firebase.auth().onAuthStateChanged((user) => {
+        getBalance(user).then((bal) => {
+          setSelectedFunds(bal.toFixed(2));
+          setPracticeFunds(
+            `£${bal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}`
+          );
+        });
       });
-    });
+    }
+  }
+  function setCardBalance(account) {
+    if (account == "practice") {
+      if (practiceFunds == null) {
+        triggerGetBalance();
+      } else {
+        return practiceFunds;
+      }
+    }
+  }
+
+  function setFunds() {
+    if (selectedFunds == "loading...") {
+      triggerGetBalance();
+      return selectedFunds;
+    }
+
+    return `£${selectedFunds.replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
   }
 
   const portfolio = () => {
@@ -82,108 +129,221 @@ export default function header(props, funds) {
         </View>
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={GIASelected}
-              onPress={() => {
-                console.log("press");
-                if (GIASelected == styles.GIACardUnselected) {
-                  setGIASelected(styles.GIACard);
-                  if (practiceSelected == styles.practiceCard) {
-                    setPracticeSelected(styles.practiceCardUnselected);
-                  } else {
-                    setISASelected(styles.ISACardUnselected);
-                  }
-                }
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 18,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                }}
+            <TouchableOpacity onPress={() => setSelectedBox("one")}>
+              <View
+                style={setStyle(
+                  "one",
+                  styles.GIACard,
+                  styles.GIACardUnselected
+                )}
               >
-                GIA Account
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 26,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                }}
-              >
-                {userBalance}
-              </Text>
+                <View style={{ height: 50, width: 50, margin: 5 }}>
+                  <View
+                    style={{
+                      position: "absolute",
+                      height: 50,
+                      width: 50,
+                      backgroundColor: "black",
+                      borderRadius: 25,
+                      opacity: 0.1,
+                    }}
+                  />
+                  <Image
+                    source={require("../assets/wallet.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      margin: 5,
+                      borderRadius: 25,
+                    }}
+                  />
+                </View>
+
+                <View
+                  style={{
+                    height: ScreenHeight / 3.4 - 40,
+                    width: "100%",
+                    justifyContent: "center",
+                    marginLeft: 15,
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 25,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {setCardBalance("practice")}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        marginTop: 10,
+                      }}
+                    >
+                      Practice account
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={ISASelected}
-              onPress={() => {
-                if (ISASelected == styles.ISACardUnselected) {
-                  setISASelected(styles.ISACard);
-                  if (practiceSelected == styles.practiceCard) {
-                    setPracticeSelected(styles.practiceCardUnselected);
-                  } else {
-                    setGIASelected(styles.GIACardUnselected);
-                  }
-                }
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 18,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                }}
+            <TouchableOpacity onPress={() => setSelectedBox("two")}>
+              <View
+                style={setStyle(
+                  "two",
+                  styles.ISACard,
+                  styles.ISACardUnselected
+                )}
               >
-                ISA Account
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 26,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                  textTransform: "none",
-                }}
-              >
-                {userBalance}
-              </Text>
+                <View style={{ height: 50, width: 50, margin: 5 }}>
+                  <View
+                    style={{
+                      position: "absolute",
+                      height: 50,
+                      width: 50,
+                      backgroundColor: "black",
+                      borderRadius: 25,
+                      opacity: 0.1,
+                    }}
+                  />
+                  <Image
+                    source={require("../assets/wallet.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      margin: 5,
+                      borderRadius: 25,
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    height: ScreenHeight / 3.4 - 40,
+                    width: "100%",
+                    justifyContent: "center",
+                    marginLeft: 15,
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 30,
+                        fontWeight: "bold",
+                        letterSpacing: 1.2,
+                      }}
+                    >
+                      Coming soon!
+                    </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        marginTop: 10,
+                      }}
+                    >
+                      ISA account
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity style={practiceSelected} onPress={() => {}}>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 18,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                }}
+            <TouchableOpacity onPress={() => setSelectedBox("three")}>
+              <View
+                style={setStyle(
+                  "three",
+                  styles.practiceCard,
+                  styles.practiceCardUnselected
+                )}
               >
-                Practice Account
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 26,
-                  fontWeight: "700",
-                  marginLeft: 15,
-                  marginBottom: 15,
-                  textTransform: "none",
-                }}
-              >
-                {userBalance}
-              </Text>
+                <View style={{ height: 50, width: 50, margin: 5 }}>
+                  <View
+                    style={{
+                      position: "absolute",
+                      height: 50,
+                      width: 50,
+                      backgroundColor: "black",
+                      borderRadius: 25,
+                      opacity: 0.1,
+                    }}
+                  />
+                  <Image
+                    source={require("../assets/wallet.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      margin: 5,
+                      borderRadius: 25,
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    height: ScreenHeight / 3.4 - 40,
+                    width: "100%",
+                    justifyContent: "center",
+                    marginLeft: 15,
+                  }}
+                >
+                  <View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 30,
+                        fontWeight: "bold",
+                        letterSpacing: 1.2,
+                      }}
+                    >
+                      Coming soon!
+                    </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        marginTop: 10,
+                      }}
+                    >
+                      Peak account
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <View></View>
+        <View
+          style={{
+            flexDirection: "row",
+            marginLeft: 15,
+            marginRight: 15,
+            marginTop: 30,
+            //   justifyContent: "space-around",
+          }}
+        >
+          <Button
+            onPress={() => {
+              console.log("deposit");
+            }}
+            //  width={screenWidth / 2 - 50}
+            style={styles.tradeButton}
+            mode="contained"
+          >
+            Deposit
+          </Button>
+          <Button
+            marginLeft={10}
+            color={"#ff7f00"}
+            style={styles.FavouriteButton}
+            onPress={() => {
+              console.log("withdraw");
+            }}
+          >
+            Withdraw
+          </Button>
+        </View>
       </View>
     );
     if (expanded == true) {
@@ -199,6 +359,7 @@ export default function header(props, funds) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
+          marginTop: 15,
         }}
       >
         <IconButton
@@ -212,19 +373,21 @@ export default function header(props, funds) {
             mode="contained"
             style={styles.ballButton}
             onPress={() => {
-              getToken().then((token) => {
-                getUserId().then((user) => {
-                  getUserInfo(user.uid).then((doc) => {
-                    let data = doc.data();
-                    getAccountInfo(token, data.GIA).then((res) => {
-                      console.log(res);
-                    });
-                  });
-                });
-                // createOrder(token, "2921C", 2);
-              });
+              //-------------only practice account in beta --------------------
 
-              if (userBalance == "loading...") triggerGetBalance();
+              // getToken().then((token) => {
+              //   getUserId().then((user) => {
+              //     getUserInfo(user.uid).then((doc) => {
+              //       let data = doc.data();
+              //       console.log(data);
+              //       getAccountInfo(token, data.GIA).then((res) => {
+              //         console.log(res);
+              //       });
+              //     });
+              //   });
+              //   // createOrder(token, "2921C", 2);
+              // });
+
               ref.current.animateNextTransition();
               if (headerStyle == styles.topCard) {
                 setHeaderStyle(styles.topCardExpanded);
@@ -235,7 +398,7 @@ export default function header(props, funds) {
               }
             }}
           >
-            {userBalance}
+            {setFunds()}
           </Button>
         </View>
         <IconButton icon="bell-outline" color={Colors.orange500} size={30} />

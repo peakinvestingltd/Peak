@@ -30,10 +30,14 @@ export default function Routes() {
   // if (isLoading) {
   //   return <Spinner />;
   // }
-
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer>
       {user ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   );
+  // return (
+  //   <NavigationContainer theme={navigationTheme}>
+  //     {user ? <AppStack /> : <AuthStack />}
+  //   </NavigationContainer>
+  // );
 }

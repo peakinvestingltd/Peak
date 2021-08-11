@@ -32,295 +32,117 @@ import header from "../components/header.js";
 import navBar from "../components/navBar.js";
 
 export default function SearchScreen(props) {
-  useStatusBar("light-content");
+  function searchButton(catagory, asset) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          let assets = Object.keys(asset);
 
-  return (
-    <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.container}>
-        {header()}
-        {/* --------------header------------------------------ */}
-        <ScrollView>
-          <Button
-            style={styles.pageButton}
-            onPress={() => props.navigation.goBack()}
+          props.navigation.navigate("Stock2", {
+            funds: props.route.params.funds,
+            cat: catagory,
+            assets: assets,
+          });
+        }}
+      >
+        <View style={styles.settingsButton}>
+          <Text
+            style={{
+              textTransform: "none",
+              color: "white",
+              flexDirection: "row",
+            }}
           >
-            <Text style={styles.pageButtonText}>&lt; Search </Text>
-          </Button>
+            {catagory}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+  return (
+    <SafeAreaView style={styles.container}>
+      {header(props, props.route.params.funds)}
+      {/* --------------header------------------------------ */}
+      <ScrollView>
+        <Button
+          style={styles.pageButton}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text style={styles.pageButtonText}>&lt; Search </Text>
+        </Button>
 
-          <View style={styles.settingsCard}>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(
-                  assetUnivers.assetUnivers.communicationServices
-                );
+        <View style={styles.settingsCard}>
+          <TouchableOpacity
+            onPress={() => {
+              let assets = Object.keys(
+                assetUnivers.assetUnivers.communicationServices
+              );
 
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Communication Services",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButtonTop}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Communication Services
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(
-                  assetUnivers.assetUnivers.consumerDiscretionary
-                );
+              props.navigation.navigate("Stock2", {
+                funds: props.route.params.funds,
+                cat: "Communication Services",
+                assets: assets,
+              });
+            }}
+          >
+            <View style={styles.settingsButtonTop}>
+              <Text
+                style={{
+                  textTransform: "none",
+                  color: "white",
+                  flexDirection: "row",
+                }}
+              >
+                Communication Services
+              </Text>
+            </View>
+          </TouchableOpacity>
+          {searchButton(
+            "Consumer Discretionary",
+            assetUnivers.assetUnivers.consumerDiscretionary
+          )}
+          {searchButton(
+            "Consumer Staples",
+            assetUnivers.assetUnivers.consumerStaples
+          )}
+          {searchButton("Energy", assetUnivers.assetUnivers.energy)}
+          {searchButton("Financials", assetUnivers.assetUnivers.financials)}
+          {searchButton("Healthcare", assetUnivers.assetUnivers.healthcare)}
+          {searchButton("Industrials", assetUnivers.assetUnivers.industrials)}
+          {searchButton(
+            "Information Technology",
+            assetUnivers.assetUnivers.informationTechnology
+          )}
+          {searchButton("Materials", assetUnivers.assetUnivers.materials)}
+          {searchButton("Real Estate", assetUnivers.assetUnivers.realEstate)}
 
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Consumer Discretionary",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Consumer Discretionary
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(
-                  assetUnivers.assetUnivers.consumerStaples
-                );
+          <TouchableOpacity
+            onPress={() => {
+              let assets = Object.keys(assetUnivers.assetUnivers.utilities);
+              props.navigation.navigate("Stock2", {
+                funds: props.route.params.funds,
+                cat: "Utilities",
+                assets: assets,
+              });
+            }}
+          >
+            <View style={styles.settingsButtonBottom}>
+              <Text
+                style={{
+                  textTransform: "none",
+                  color: "white",
+                  flexDirection: "row",
+                }}
+              >
+                Utilities
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
 
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Consumer Staples ",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Consumer Staples
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.energy);
-
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Energy",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Energy
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.financials);
-
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Financials",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Financials
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.healthcare);
-
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Healthcare",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Healthcare
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.industrials);
-
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Industrials",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Industrials
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(
-                  assetUnivers.assetUnivers.informationTechnology
-                );
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Information Technology",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Information Technology
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.materials);
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Materials",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Materials
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.realEstate);
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Real Estate",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButton}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Real Estate
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                let assets = Object.keys(assetUnivers.assetUnivers.utilities);
-                props.navigation.navigate("Stock2", {
-                  funds: props.route.params.funds,
-                  cat: "Utilities",
-                  assets: assets,
-                });
-              }}
-            >
-              <View style={styles.settingsButtonBottom}>
-                <Text
-                  style={{
-                    textTransform: "none",
-                    color: "white",
-                    flexDirection: "row",
-                  }}
-                >
-                  Utilities
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.footer}></View>
-        {navBar(props, props.route.params.funds, "search")}
-      </SafeAreaView>
-    </PaperProvider>
+      <View style={styles.footer}></View>
+      {navBar(props, props.route.params.funds, "search")}
+    </SafeAreaView>
   );
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#fff",
-    accent: "#95ff55",
-  },
-};

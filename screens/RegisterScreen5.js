@@ -51,7 +51,7 @@ export default function RegisterScreen3(props) {
               gender: data.gender,
               nationality: data.nationality,
               NI: NI,
-              dob: data.dob,
+              dob: "1991-09-17",
               phoneNumber: data.phoneNumber,
             };
             getToken()
@@ -59,6 +59,8 @@ export default function RegisterScreen3(props) {
                 createClient(userData, token, user)
                   .then((id) => {
                     createAccount("GIA", id, token).then((res) => {
+                      console.log(user);
+                      console.log(res);
                       signUp4(id, NI, true, user, res);
                     });
                   })

@@ -302,7 +302,7 @@ export default function PortfolioScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {header()}
+      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}

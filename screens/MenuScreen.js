@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import {
   Text,
@@ -20,9 +21,8 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-import navBar from "../components/navBar";
-
-const navBarColor = "black";
+import header from "../components/header.js";
+import navBar from "../components/navBar.js";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../hooks/useStatusBar";
@@ -33,8 +33,6 @@ import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../css/styles.js";
 
 export default function MenuScreen(props) {
-  useStatusBar("light-content");
-
   async function handleSignOut() {
     try {
       await logout();
@@ -44,53 +42,22 @@ export default function MenuScreen(props) {
   }
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider>
       <SafeAreaView style={styles.container}>
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
+        <StatusBar backgroundColor="#1b2855" />
+        {header(props, props.route.params.funds)}
+        <ScrollView>
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              justifyContent: "space-evenly",
+              height: 40,
             }}
           >
-            <IconButton
-              onPress={() => props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button mode="contained" style={styles.headerBall}>
-                <Text style={{ color: "white" }}>£add funds</Text>
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
+            <Text style={styles.menuName}>Jhon Doe</Text>
+            <Text style={styles.menuEmail}>Jhondoe@gmail.com</Text>
           </View>
-        </Card>
-        {/* --------------header------------------------------ */}
-        <ScrollView>
-          <Image
-            style={styles.avatar}
-            source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSO6BJZGYecexQmJTsc-OPa4IFiyJsOUP7Hw&usqp=CAU",
-            }}
-          />
-          <Text style={styles.menuName}>Jhon Doe</Text>
-          <Text style={styles.menuEmail}>Jhondoe@gmail.com</Text>
 
-          <Button
-            style={styles.button}
-            onPress={() => props.navigation.navigate("Profile")}
-          >
-            <Text style={styles.buttonText}>View Profille</Text>
-          </Button>
           <View style={styles.settingsCard}>
             <Button
               color="white"
@@ -104,6 +71,7 @@ export default function MenuScreen(props) {
               History
             </Button>
             <Button
+              color="white"
               style={styles.settingsButton}
               onPress={() => {
                 props.navigation.navigate("NotificationSettings");
@@ -112,6 +80,7 @@ export default function MenuScreen(props) {
               Notifacation Settings
             </Button>
             <Button
+              color="white"
               style={styles.settingsButton}
               onPress={() => {
                 props.navigation.navigate("ManageFunds");
@@ -120,6 +89,7 @@ export default function MenuScreen(props) {
               Manage Funds
             </Button>
             <Button
+              color="white"
               style={styles.settingsButton}
               onPress={() => {
                 props.navigation.navigate("InviteFriends");
@@ -128,6 +98,7 @@ export default function MenuScreen(props) {
               Invite Friends
             </Button>
             <Button
+              color="white"
               style={styles.settingsButtonBottom}
               onPress={() => {
                 props.navigation.navigate("PeakStore");
@@ -138,6 +109,7 @@ export default function MenuScreen(props) {
           </View>
           <View style={styles.settingsCard}>
             <Button
+              color="white"
               style={styles.settingsButtonTop}
               onPress={() => {
                 props.navigation.navigate("SettingPrivacy", {
@@ -149,6 +121,7 @@ export default function MenuScreen(props) {
             </Button>
 
             <Button
+              color="white"
               style={styles.settingsButtonBottom}
               onPress={() => {
                 props.navigation.navigate("HelpCenter");
@@ -157,7 +130,37 @@ export default function MenuScreen(props) {
               Help Center
             </Button>
           </View>
+          <Button
+            mode="outlined"
+            style={styles.logout}
+            onPress={() => {
+              async function signUp(user) {
+                const userRef = db
+                  .collection("users")
+                  .doc(user.uid)
+                  .collection("userInfo")
+                  .doc("signUp");
+                const doc = await userRef.get();
+                if (!doc.exists) {
+                  console.log("No such document!");
+                  goToRegister2();
+                } else {
+                  console.log("Document data:", doc.data().signUp);
+                  if (signUp != "compleat") {
+                    goToNextRegister(doc.data().signUp);
+                  } else {
+                    console.log("h");
+                  }
+                }
+              }
 
+              firebase.auth().onAuthStateChanged((user) => {
+                signUp(user);
+              });
+            }}
+          >
+            <Text style={styles.logoutText}>Logout</Text>
+          </Button>
           <Button mode="outlined" style={styles.logout} onPress={handleSignOut}>
             <Text style={styles.logoutText}>Logout</Text>
           </Button>
@@ -170,16 +173,6 @@ export default function MenuScreen(props) {
     </PaperProvider>
   );
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#fff",
-    accent: "#95ff55",
-  },
-};
 
 // const [expanded, setExpanded] = React.useState(true);
 
