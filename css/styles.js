@@ -5,6 +5,7 @@ import Constants from "expo-constants";
 import { or } from "react-native-reanimated";
 
 const darkBlue = "#172041";
+const lightBlue = "#26325F";
 const cardBlue = "#1b2855";
 const orange = "#ff7f00";
 const gray = "#8d93a3";
@@ -41,22 +42,23 @@ const styles = StyleSheet.create({
   },
   //-------------------navbar---------------------
   navBar: {
-    backgroundColor: secondaryColor,
+    backgroundColor: "#26325F",
     width: screenWidth,
     height: 70,
     position: "absolute",
     bottom: 0,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    // borderTopLeftRadius: 20,
+    // borderTopRightRadius: 20,
     justifyContent: "space-evenly",
     flexDirection: "row",
-    shadowColor: secondaryColor,
-    shadowOffset: { width: -1, height: -1 },
+    shadowColor: "white",
+    shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 1,
     shadowRadius: 4,
-    elevation: 20,
-    borderTopColor: orange,
-    borderTopWidth: 2,
+    elevation: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    shadowOpacity: 1,
   },
   navButtonView: {
     width: "20%",
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: secondaryColor,
+    backgroundColor: lightBlue,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     shadowColor: primaryColor,
@@ -299,6 +301,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: red,
     fontWeight: "bold",
+    alignSelf: "flex-end",
   },
   text: {
     fontSize: fontSizeTitle,
@@ -381,11 +384,32 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   //------------------------registration------------
-  signupCard: {
-    marginLeft: 20,
-    marginRight: 20,
+  welcomeCard: {
+    marginLeft: 10,
+    marginRight: 10,
     backgroundColor: secondaryColor,
-
+    borderRadius: 15,
+    height: 500,
+  },
+  logoStyle1: {
+    height: screenWidth / 4,
+    width: "25%",
+    marginTop: 70,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  logoStyle2: {
+    height: screenWidth / 3,
+    width: "40%",
+    marginTop: -12,
+    marginBottom: 0,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  signupCard: {
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: secondaryColor,
     borderRadius: 15,
   },
   topView: {
@@ -396,11 +420,10 @@ const styles = StyleSheet.create({
   input: {
     width: screenWidth - 80,
     height: 40,
-    backgroundColor: "white",
+    backgroundColor: "lightgray",
     marginTop: 8,
     marginBottom: 0,
-    marginLeft: 20,
-    marginRight: 20,
+    alignSelf: "center",
     padding: 7,
     borderRadius: 10,
   },
@@ -432,6 +455,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 20,
     marginTop: 20,
+    marginBottom: 10,
   },
   head2: {
     color: "white",
@@ -673,8 +697,6 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginLeft: 15,
     marginTop: 2,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
   chartButtons: {
     width: "100%",
@@ -753,6 +775,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  infoCardBottom: {
+    marginTop: 2,
+    marginLeft: 15,
+    marginRight: 15,
+    height: 50,
+    width: screenWidth - 30,
+    backgroundColor: secondaryColor,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   infoSection: {
     marginTop: 2,
     marginLeft: 15,
@@ -770,7 +804,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   infoContents: {
-    backgroundColor: secondaryColor,
+    backgroundColor: "#26325F",
     marginTop: 2,
     marginLeft: 15,
     marginBottom: 0,
@@ -881,9 +915,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   defaultEndView: {
-    marginTop: 2,
+    marginTop: 0,
     marginLeft: 15,
     marginRight: 15,
+    marginBottom: 10,
     width: screenWidth - 30,
     backgroundColor: secondaryColor,
     borderBottomLeftRadius: 10,
@@ -984,6 +1019,34 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     margin: 15,
     borderRadius: 10,
+  },
+  backgroundCard: {
+    backgroundColor: secondaryColor,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginTop: 5,
+    marginRight: 10,
+    borderRadius: 10,
+    padding: 0,
+    shadowColor: secondaryColor,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  backgroundSmallCardx3: {
+    backgroundColor: secondaryColor,
+    width: 130,
+    height: 150,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginTop: 0,
+    marginRight: 0,
+    borderRadius: 10,
+    padding: 0,
+    shadowColor: secondaryColor,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
   },
 });
 

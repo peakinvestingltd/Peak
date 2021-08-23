@@ -62,7 +62,6 @@ export default function SearchScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
-      {/* --------------header------------------------------ */}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -115,7 +114,6 @@ export default function SearchScreen(props) {
           )}
           {searchButton("Materials", assetUnivers.assetUnivers.materials)}
           {searchButton("Real Estate", assetUnivers.assetUnivers.realEstate)}
-
           <TouchableOpacity
             onPress={() => {
               let assets = Object.keys(assetUnivers.assetUnivers.utilities);

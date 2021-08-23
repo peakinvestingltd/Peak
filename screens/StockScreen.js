@@ -5,7 +5,12 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { styles } from "../css/styles.js";
 import { Transitioning, Transition } from "react-native-reanimated";
 import Logo from "../assets/Peak-App-Logo.svg";
-
+//font v
+import {
+  useFonts,
+  NunitoSans_200ExtraLight,
+} from "@expo-google-fonts/nunito-sans";
+//font ^
 import {
   getBalance,
   getFinnhubPrices,
@@ -60,6 +65,10 @@ export let userBalance = "loading...";
 let count = 1;
 
 export default function StockScreen(props) {
+  const [fontLoading, error] = useFonts({
+    NunitoSans_200ExtraLight,
+  });
+
   const [justLoaded, setJustLoaded] = useState(true);
   const [loaded, setLoaded] = useState([]);
   const [stockData, setStockData] = useState([]);
@@ -71,7 +80,6 @@ export default function StockScreen(props) {
     "FB",
   ]);
   const [catagory, setCatagory] = useState("Watchlist");
-
   function triggerGetBalance() {
     firebase.auth().onAuthStateChanged((user) => {
       getBalance(user).then((bal) => {
@@ -209,7 +217,7 @@ export default function StockScreen(props) {
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#1b2855" />
+        <StatusBar backgroundColor="#26325F" />
         {header(props, userBalance)}
         <ScrollView style={{ marginTop: 0 }}>
           <Button

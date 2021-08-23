@@ -85,20 +85,14 @@ export default function RegisterScreen2(props) {
         <View>
           <View>
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "33%",
-                marginTop: 40,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={styles.logoStyle1}
               source={require("../assets/newLogo.png")}
             />
             <Image
               style={{
                 height: ScreenWidth / 3,
-                width: "50%",
-
+                width: "40%",
+                marginTop: -12,
                 marginBottom: 0,
                 alignSelf: "center",
                 resizeMode: "contain",

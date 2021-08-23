@@ -1,50 +1,26 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   DefaultTheme,
-  IconButton,
-  Colors,
-  Title,
   Button,
-  Card,
   Text,
   Provider as PaperProvider,
 } from "react-native-paper";
 import {
   SafeAreaView,
   Image,
-  ImageBackground,
   View,
-  FlatList,
-  StyleSheet,
   ScrollView,
-  Linking,
   Dimensions,
 } from "react-native";
-import { BarChart } from "react-native-chart-kit";
-
 import header from "../components/header";
 import navBar from "../components/navBar";
 import { user } from "../components/Firebase/firebase";
-
 import { styles } from "../css/styles.js";
-
 import * as firebase from "firebase";
 import "firebase/database";
-
+import { TouchableOpacity } from "react-native";
 const db = firebase.firestore();
-
 const screenWidth = Dimensions.get("window").width;
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#3498db",
-    accent: "#f1c40f",
-  },
-};
 
 const months = [
   "Jan",
@@ -66,32 +42,48 @@ let loaded = false;
 
 export default function PortfolioScreen(props) {
   const [funds, setFunds] = useState(props.route.params.funds);
-  const [portfolio, setPortfolio] = useState([]);
-  const [newPortfolio, setNewPortfolio] = useState([]);
-  const [totalReturn, setTotalReturn] = useState(0);
-  const [Totalinvested, setTotalInvested] = useState(0);
+  const [portfolioStock, setPortfolioStock] = useState([]);
+  const [newStock, setStock] = useState([]);
+  const [totalStockReturn, setTotalStockReturn] = useState(0);
+  const [totalStockInvested, setTotalStockInvested] = useState(0);
   const [stockPrice, setStockPrice] = useState({});
   const [wait, setWait] = useState(true);
   const [returnColor, setReturnColor] = useState("gray");
-  let test = Number(0);
-  let invested = Number(0);
-  function goToRegister2() {
-    props.navigation.navigate("Register2");
-  }
 
-  function goToNextRegister(num) {
-    props.navigation.navigate(`Register${num}`);
-  }
+  let test = Number(0);
+
+  let invested = Number(0);
+
+  const setStyle = (num) => {
+    const dif = num.priceDif;
+
+    const green = {
+      color: "#1D9440",
+      marginLeft: 10,
+      fontSize: 20,
+    };
+    const red = {
+      color: "#d20c0d",
+      marginLeft: 10,
+      fontSize: 20,
+    };
+    if (dif >= 0) {
+      return green;
+    } else {
+      return red;
+    }
+  };
 
   function getData() {
     let portfolioArr = [];
-    async function getHistory(user) {
-      const historyRef = db
+    async function getStock(user) {
+      const stockRef = db
         .collection("users")
         .doc(user)
-        .collection("practiceInvestments");
+        .collection("practiceStock");
 
-      const snapshot = await historyRef.get();
+      const snapshot = await stockRef.get();
+
       if (snapshot.empty) {
         console.log("No matching documents.");
       } else {
@@ -104,9 +96,9 @@ export default function PortfolioScreen(props) {
     }
 
     firebase.auth().onAuthStateChanged((user) => {
-      getHistory(user.uid).then((arr) => {
+      getStock(user.uid).then((arr) => {
         loaded = true;
-        setPortfolio(arr);
+        setPortfolioStock(arr);
       });
     });
   }
@@ -115,19 +107,21 @@ export default function PortfolioScreen(props) {
     setWait(false);
     getData();
   }
-  if (portfolio) {
-    if (portfolio.length != 0 && newPortfolio.length == 0) {
+  if (portfolioStock) {
+    if (portfolioStock.length != 0 && newStock.length == 0) {
       getCurrentPrice();
     }
   }
 
   function getCurrentPrice() {
     let arr = [];
-    portfolio.map((item) => {
+    portfolioStock.map((item) => {
       let ticker = item.ticker;
       let amount = item.amount;
       let logo = item.logo;
       let investment = item.investment;
+      let color = "";
+      let colorText = "";
       invested = Number(invested) + Number(investment);
       let obj = {};
       fetch(
@@ -138,15 +132,34 @@ export default function PortfolioScreen(props) {
           let profit = (amount * price.c - investment).toFixed(2);
           test = Number(test) + Number(profit);
           console.log(test);
+          const priceDif = Number(price.c) - Number(price.pc);
+          const percentage = (Number(priceDif) / Number(price.c)) * 100;
+          if (priceDif > 0) {
+            color = "0,151,50,";
+            colorText = "green";
+          } else {
+            color = "231,24,0,";
+            colorText = "red";
+          }
+
           obj = {
-            currentPrice: price.c,
+            currentPrice: price.c.toFixed(2),
             ticker: ticker,
             logo: logo,
             amount: amount,
             investment: investment,
+            priceDif: priceDif.toFixed(2),
+            percentage: percentage.toFixed(2),
+            name: item.name,
+            color,
+            stockColor: colorText,
+            low: price.l,
+            high: price.h,
+            open: price.o,
+            pc: price.pc,
           };
           arr.push(obj);
-          if (arr.length == portfolio.length) {
+          if (arr.length == portfolioStock.length) {
             if (test < 0) {
               setReturnColor("#d20c0d");
             } else {
@@ -154,9 +167,9 @@ export default function PortfolioScreen(props) {
             }
             console.log(invested);
             console.log("invested");
-            setTotalInvested(invested.toFixed(2));
-            setTotalReturn(test.toFixed(2));
-            setNewPortfolio(arr);
+            setTotalStockInvested(invested.toFixed(2));
+            setTotalStockReturn(test.toFixed(2));
+            setStock(arr);
           }
         })
         .catch((err) => console.log(err));
@@ -164,7 +177,7 @@ export default function PortfolioScreen(props) {
   }
 
   const investmentCards = () => {
-    return newPortfolio.map((item, index) => {
+    return newStock.map((item, index) => {
       let profit = (item.currentPrice * item.amount - item.investment).toFixed(
         2
       );
@@ -339,7 +352,7 @@ export default function PortfolioScreen(props) {
                   letterSpacing: 2,
                 }}
               >
-                £{Totalinvested}
+                £{totalStockInvested}
               </Text>
             </View>
           </View>
@@ -373,12 +386,13 @@ export default function PortfolioScreen(props) {
                   letterSpacing: 2,
                 }}
               >
-                £{totalReturn}
+                £{totalStockReturn}
               </Text>
             </View>
           </View>
         </View>
-        <View style={styles.portfolioChartHolder}>
+
+        {/* <View style={styles.portfolioChartHolder}>
           <View
             style={{
               flexDirection: "row",
@@ -545,47 +559,157 @@ export default function PortfolioScreen(props) {
               <Text style={{ fontSize: 10, color: "white" }}>Dec</Text>
             </View>
           </View>
-        </View>
-
-        {investmentCards()}
-
-        <View style={{ margin: 10 }}>
-          <Button
+        </View> */}
+        <View style={styles.backgroundCard}>
+          <Text
+            style={{ color: "white", fontSize: 18, margin: 5, marginLeft: 15 }}
+          >
+            Voting
+          </Text>
+          <Text
             style={{
-              width: screenWidth - 40,
-              height: 40,
-              backgroundColor: "whitesmoke",
-              margin: 10,
-            }}
-            onPress={() => {
-              async function signUp(user) {
-                const userRef = db
-                  .collection("users")
-                  .doc(user.uid)
-                  .collection("userInfo")
-                  .doc("signUp");
-                const doc = await userRef.get();
-                if (!doc.exists) {
-                  console.log("No such document!");
-                  goToRegister2();
-                } else {
-                  console.log("Document data:", doc.data().signUp);
-                  if (signUp != "compleat") {
-                    goToNextRegister(doc.data().signUp);
-                  } else {
-                    console.log("h");
-                  }
-                }
-              }
-
-              firebase.auth().onAuthStateChanged((user) => {
-                signUp(user);
-              });
+              color: "white",
+              fontSize: 13,
+              margin: 5,
+              marginLeft: 15,
+              opacity: 0.75,
             }}
           >
-            <Text>Complete Sign Up</Text>
-          </Button>
+            Have your say and vote on important matters within the businesses
+            you own shares in.
+          </Text>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 15,
+              marginBottom: 10,
+              marginLeft: 15,
+            }}
+          >
+            You have <Text style={{ color: "#ff7f00" }}>0</Text> votes
+            available!
+          </Text>
         </View>
+        <ScrollView horizontal={true}>
+          <View style={{ flexDirection: "row", height: 160 }}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate("OwnedStock", {
+                  funds: props.route.params.funds,
+                  stocks: newStock,
+                });
+              }}
+            >
+              <View style={styles.backgroundSmallCardx3}>
+                <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+                  Stock
+                </Text>
+                <Text
+                  style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}
+                >
+                  {portfolioStock.length}
+                </Text>
+                <Text
+                  style={{
+                    color: "white",
+                    marginLeft: 10,
+                    fontSize: 12,
+                    opacity: 0.6,
+                  }}
+                >
+                  Invested
+                </Text>
+                <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
+                  £{totalStockInvested}
+                </Text>
+                <Text
+                  style={{
+                    color: "white",
+                    marginLeft: 10,
+                    fontSize: 12,
+                    opacity: 0.6,
+                  }}
+                >
+                  Return
+                </Text>
+                <Text style={setStyle(totalStockReturn)}>
+                  £{totalStockReturn}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View style={styles.backgroundSmallCardx3}>
+              <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+                Funds
+              </Text>
+              <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
+                0
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 10,
+                  fontSize: 12,
+                  opacity: 0.6,
+                }}
+              >
+                Invested
+              </Text>
+              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
+                £0
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 10,
+                  fontSize: 12,
+                  opacity: 0.6,
+                }}
+              >
+                Return
+              </Text>
+              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
+                £0
+              </Text>
+            </View>
+
+            <View style={styles.backgroundSmallCardx3}>
+              <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+                ETFs
+              </Text>
+              <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
+                0
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 10,
+                  fontSize: 12,
+                  opacity: 0.6,
+                }}
+              >
+                Invested
+              </Text>
+              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
+                £0
+              </Text>
+              <Text
+                style={{
+                  color: "white",
+                  marginLeft: 10,
+                  fontSize: 12,
+                  opacity: 0.6,
+                }}
+              >
+                Return
+              </Text>
+              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
+                £0
+              </Text>
+            </View>
+          </View>
+          <View style={{ width: 10 }} />
+        </ScrollView>
       </ScrollView>
 
       <View style={styles.footer}></View>

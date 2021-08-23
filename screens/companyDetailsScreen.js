@@ -8,6 +8,7 @@ import {
   ScrollView,
   Animated,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import {
   Text,
@@ -25,9 +26,9 @@ import {
 } from "react-native-paper";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 const navBarColor = "black";
-
+const screenWidth = Dimensions.get("window").width;
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
-import { ScreenWidth } from "react-native-elements/dist/helpers";
+import { color, ScreenWidth } from "react-native-elements/dist/helpers";
 import { styles } from "../css/styles.js";
 import { getFinnhubChart, buildChart, getOwnedStock } from "../utils/functions";
 
@@ -68,6 +69,7 @@ export default class DetailsScreen extends React.Component {
     stock: this.props.route.params.stock,
     infoSelected: false,
     descSelected: false,
+    yourInvestmentSelected: false,
     selectedChart: "7D",
     x: new Animated.Value(200),
     high: this.props.route.params.price.currentPrice,
@@ -122,6 +124,158 @@ export default class DetailsScreen extends React.Component {
       );
     }
   }
+  toggleYourInvestment() {
+    if (this.state.yourInvestmentSelected) {
+      console.log(this.state.ownedShares);
+      if (this.state.ownedShares) {
+        console.log("has owned shares");
+        return (
+          <View style={styles.infoContents}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText1}>Owned shares</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText2}>{this.state.ownedShares}</Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText1}>Invested</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText2}>{this.state.invested}</Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText1}>Bought at</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText2}>
+                  {this.state.currency}
+                  {this.state.boughtPrice}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText1}>Total value</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              >
+                <Text style={styles.listText2}>
+                  {this.state.ownedShares *
+                    this.props.route.params.price.currentPrice}
+                </Text>
+              </View>
+            </View>
+          </View>
+        );
+      } else {
+        console.log("dosnt have owned shares");
+        return (
+          <View style={styles.infoContents}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                  opacity: 0.4,
+                }}
+              >
+                <Text style={styles.listText1}>
+                  You are not yet invested in this company
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: 50,
+                }}
+              ></View>
+            </View>
+          </View>
+        );
+      }
+    }
+  }
   ToggleInfo() {
     const params = this.props.route.params;
     if (this.state.infoSelected) {
@@ -160,7 +314,7 @@ export default class DetailsScreen extends React.Component {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={styles.listText1}>groupe</Text>
+            <Text style={styles.listText1}>group</Text>
             <Text style={styles.listText2}>{params.group}</Text>
           </View>
 
@@ -480,22 +634,26 @@ export default class DetailsScreen extends React.Component {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       console.log("user");
-      getOwnedStock(user, this.state.stock).then((bal) => {
+      getOwnedStock(user, this.state.stock).then((investment) => {
         console.log("amount---");
-        console.log(bal);
+        console.log(investment.currency);
         this.setState({
-          ownedShares: bal,
+          ownedShares: investment.amount,
+          boughtPrice: investment.buyPrice,
+          invested: investment.invested,
+          currency: investment.currency,
         });
       });
     });
   }
   render() {
+    console.log(this.props.route.params);
     const params = this.props.route.params;
     const navigation = this.props.navigation;
     return (
       <PaperProvider>
         <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#1b2855" />
+          <StatusBar backgroundColor="#26325F" />
           <Card style={styles.topCard}>
             {/* --------------header------------------------------ */}
             <View
@@ -549,49 +707,7 @@ export default class DetailsScreen extends React.Component {
 
               {this.chart(this.state.loaded)}
             </View>
-            <View style={styles.defaultEndView}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    height: 50,
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginLeft: 10,
-                      color: "white",
-                      opacity: 0.9,
-                    }}
-                  >
-                    Owned shares
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    height: 50,
-                  }}
-                >
-                  <Text
-                    style={{
-                      marginRight: 10,
-                      color: "white",
-                      opacity: 0.9,
-                    }}
-                  >
-                    {this.state.ownedShares}
-                  </Text>
-                </View>
-              </View>
-            </View>
+
             <View
               style={{
                 flexDirection: "row",
@@ -635,11 +751,41 @@ export default class DetailsScreen extends React.Component {
             <TouchableOpacity
               onPress={() => {
                 this.setState({
-                  infoSelected: !this.state.infoSelected,
+                  yourInvestmentSelected: !this.state.yourInvestmentSelected,
                 });
               }}
             >
               <View style={styles.infoCardTop}>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    marginLeft: 10,
+                  }}
+                >
+                  <Text style={styles.infoTopText}>Your investment</Text>
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    marginRight: 10,
+                  }}
+                >
+                  {this.icon(this.state.yourInvestmentSelected)}
+                </View>
+              </View>
+            </TouchableOpacity>
+            {this.toggleYourInvestment()}
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({
+                  infoSelected: !this.state.infoSelected,
+                });
+              }}
+            >
+              <View style={styles.infoSection}>
                 <View
                   style={{
                     flexDirection: "column",
@@ -669,7 +815,7 @@ export default class DetailsScreen extends React.Component {
                 });
               }}
             >
-              <View style={styles.infoSection}>
+              <View style={styles.infoCardBottom}>
                 <View
                   style={{
                     flexDirection: "column",
@@ -696,43 +842,6 @@ export default class DetailsScreen extends React.Component {
 
           <View style={styles.footer}></View>
           {navBar(this.props, this.props.route.params.funds)}
-          {/* <View style={styles.navBar}>
-            <IconButton
-              icon={"chart-line-variant"}
-              color={"white"}
-              size={35}
-              style={styles.navButton}
-              onPress={() => navigation.navigate("Stock")}
-            ></IconButton>
-            <IconButton
-              icon={"account"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => navigation.navigate("Portfolio")}
-            ></IconButton>
-            <IconButton
-              icon={"newspaper"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => navigation.navigate("News")}
-            ></IconButton>
-            <IconButton
-              icon={"magnify"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => navigation.navigate("Search")}
-            ></IconButton>
-            <IconButton
-              icon={"menu"}
-              style={styles.navButton}
-              size={35}
-              color={"white"}
-              onPress={() => navigation.navigate("Home")}
-            ></IconButton>
-          </View> */}
         </SafeAreaView>
       </PaperProvider>
     );
@@ -748,3 +857,136 @@ const theme = {
     accent: "#95ff55",
   },
 };
+
+// {
+//   "address": "Vodafone House, The Connection",
+//   "chartColor": "0,151,50,",
+//   "chartData": Array [
+//     16.81,
+//     16.82,
+//     16.82,
+//     16.82,
+//     16.83,
+//     16.81,
+//     16.76,
+//     16.77,
+//     16.82,
+//     16.82,
+//     16.87,
+//     16.88,
+//     16.885,
+//     16.895,
+//     16.895,
+//     16.89,
+//     16.895,
+//     16.895,
+//     16.73,
+//     16.78,
+//     16.72,
+//     16.75,
+//     16.73,
+//     16.72,
+//     16.84,
+//     16.865,
+//     16.82,
+//     16.825,
+//     16.835,
+//     16.81,
+//     16.745,
+//     16.775,
+//     16.785,
+//     16.75,
+//     16.755,
+//     16.77,
+//     16.96,
+//     16.99,
+//     17.04,
+//     17.01,
+//     16.97,
+//     17.06,
+//     17.01,
+//     17.03,
+//     17.045,
+//     17.025,
+//     17,
+//     17.025,
+//     17.045,
+//     17.04,
+//     17.065,
+//     17.045,
+//     17.015,
+//     16.74,
+//     16.6,
+//     16.76,
+//     16.8,
+//     16.78,
+//     16.82,
+//     16.83,
+//     16.88,
+//     16.83,
+//     16.79,
+//     16.79,
+//     16.845,
+//     16.84,
+//     16.85,
+//     16.815,
+//     16.805,
+//     16.755,
+//     16.81,
+//     16.805,
+//     16.68,
+//     16.71,
+//     16.69,
+//     16.68,
+//     16.72,
+//     16.74,
+//     16.78,
+//     16.92,
+//     16.94,
+//     16.955,
+//     16.97,
+//     17,
+//     17.02,
+//     17.03,
+//     17,
+//     17,
+//     17,
+//     16.995,
+//     17.02,
+//     17,
+//     17.04,
+//     16.98,
+//     16.95,
+//   ],
+//   "city": "NEWBURY",
+//   "color": "green",
+//   "country": "GB",
+//   "currency": "£",
+//   "desc": "Vodafone Group Plc engages in telecommunication services in Europe and internationally. The company is headquartered in Newbury, Berkshire and currently employs 96,506 full-time employees.  The firm's business is organized into two geographic regions: Europe, and Africa, Middle East and Asia Pacific (AMAP). Its segments include Europe and AMAP. Its Europe segment includes geographic regions, such as Germany, Italy, the United Kingdom, Spain and Other Europe. The Other Europe includes the Netherlands, Portugal, Greece, Hungary and Romania, among others. Its AMAP segment includes India, South Africa, Tanzania, Mozambique, Lesotho, Africa, Turkey, Australia, Egypt, Ghana, Kenya, and among others. The firm provides a range of services, including voice, messaging and data across mobile and fixed networks.",
+//   "employeeTotal": 96506,
+//   "exchange": "LONDON STOCK EXCHANGE",
+//   "funds": "26511.16",
+//   "group": "Telecommunication Services",
+//   "industry": "Telecommunication",
+//   "logo": "https://storage.googleapis.com/iex/api/logos/VOD.png",
+//   "marketCap": 33976.14,
+//   "name": "Vodafone Group PLC",
+//   "percentChange": "1.13",
+//   "price": Object {
+//     "color": "0,151,50,",
+//     "currentPrice": "16.99",
+//     "high": 17.03,
+//     "low": 16.775,
+//     "open": 16.8,
+//     "percentage": 1.1309523809523674,
+//     "previousClose": 16.8,
+//     "priceChange": 0.18999999999999773,
+//     "stockColor": "green",
+//   },
+//   "priceChange": "0.19",
+//   "sector": "Communication Services",
+//   "shareOutstanding": 27694.929375,
+//   "state": "BERKSHIRE",
+//   "stock": "VOD",
+//   "stockColor": "green",
+// }

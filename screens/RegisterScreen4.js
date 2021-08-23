@@ -148,7 +148,7 @@ export default function RegisterScreen3(props) {
             style={{
               width: screenWidth - 80,
               height: 40,
-              backgroundColor: "white",
+              backgroundColor: "lightgray",
               marginTop: 8,
               marginBottom: 0,
               marginLeft: 20,
@@ -156,7 +156,7 @@ export default function RegisterScreen3(props) {
               padding: 0,
               borderRadius: 10,
               flexDirection: "row",
-              justifyContent: "flex-start",
+              alignSelf: "center",
             }}
             onPress={showDatepicker}
             title="Show time picker!"
@@ -166,8 +166,8 @@ export default function RegisterScreen3(props) {
                 color: "black",
                 textTransform: "none",
                 alignSelf: "center",
-
                 height: 40,
+                width: screenWidth - 80,
               }}
             >
               {datePlaceHolder}
@@ -222,10 +222,21 @@ export default function RegisterScreen3(props) {
               marginBottom: 10,
             }}
           >
-            <Text style={styles.bottomSubText}>
-              Already hane an account?{" "}
-              <Text style={{ color: "#ff7f00" }}>Sign In</Text>
-            </Text>
+            <Button
+              onPress={() => {
+                props.navigation.navigate("Stock");
+              }}
+            >
+              <Text
+                style={{
+                  color: "#ff7f00",
+                  marginTop: 5,
+                  textTransform: "none",
+                }}
+              >
+                Skip
+              </Text>
+            </Button>
           </View>
         </View>
       </ScrollView>

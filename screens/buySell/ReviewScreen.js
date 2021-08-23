@@ -50,7 +50,6 @@ export default function ReviewScreen(props) {
   const price = review.price;
   const type = review.type;
   const logo = review.logo;
-  const ownedShares = review.ownedShares;
 
   if (type == "Bought") {
     strAmount = `-£${props.route.params.totalPrice}`;
@@ -79,21 +78,29 @@ export default function ReviewScreen(props) {
   const MM = mounths[MMnum];
   const fullDate = DD + " " + MM + " " + YYYY;
   console.log(ticker);
-
+  let ownedShares = review.ownedShares;
+  if (!ownedShares) {
+    ownedShares = 0;
+  }
   const tradeObj = {
     totalCost: review.totalPrice,
     ticker: review.ticker,
-    price: review.price,
+    price: Number(review.price),
     type: review.type,
     logo: review.logo,
-    ownedShares: review.ownedShares,
+    ownedShares: ownedShares,
     fullDate: fullDate,
     date: date,
-    balance: review.balance,
+    balance: Number(review.balance),
     strAmount: strAmount,
     amount: review.amount,
     account: "GIA",
+    currency: review.currency,
+    stockType: "practiceStock",
+    name: review.stockName,
   };
+  console.log(review.type);
+  console.log("fsda");
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
@@ -208,7 +215,7 @@ export default function ReviewScreen(props) {
             onPress={() => {
               //placeTrade(tradeObj);
               practiceTrade(tradeObj);
-
+              props.navigation.navigate("Stock");
               // firebase.auth().onAuthStateChanged((user) => {
               //   console.log(type);
 

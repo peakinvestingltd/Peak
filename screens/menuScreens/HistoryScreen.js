@@ -84,72 +84,60 @@ export default function HistoryScreen(props) {
   }
 
   return (
-    <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.container}>
-        {header(props, props.route.params.funds)}
-        <ScrollView>
-          <Button
-            style={styles.pageButton}
-            onPress={() => props.navigation.goBack()}
-          >
-            <Text style={styles.pageButtonText}>&lt; History</Text>
-          </Button>
-          {/* {cardItem()} */}
-          {Object.keys(object).map((card) => {
-            return (
-              <View style={styles.cardHistory}>
-                <Text style={styles.cardHeader}>{card}</Text>
-                <View style={styles.cardDevider}></View>
-                {object[card].map((transaction) => {
-                  return (
-                    <View>
-                      <View style={{ flexDirection: "row" }}>
-                        {/* add image url to firebase when buying or selling stock */}
+    <SafeAreaView style={styles.container}>
+      {header(props, props.route.params.funds)}
+      <ScrollView>
+        <Button
+          style={styles.pageButton}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Text style={styles.pageButtonText}>&lt; History</Text>
+        </Button>
+        {/* {cardItem()} */}
+        {Object.keys(object).map((card) => {
+          return (
+            <View style={styles.cardHistory}>
+              <Text style={styles.cardHeader}>{card}</Text>
+              <View style={styles.cardDevider}></View>
+              {object[card].map((transaction) => {
+                return (
+                  <View>
+                    <View style={{ flexDirection: "row" }}>
+                      {/* add image url to firebase when buying or selling stock */}
 
-                        <Image
-                          style={styles.image}
-                          source={{
-                            uri: `https://storage.googleapis.com/iex/api/logos/${transaction.stock}.png`,
-                          }}
-                        />
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: `https://storage.googleapis.com/iex/api/logos/${transaction.stock}.png`,
+                        }}
+                      />
 
-                        <View style={{ alignSelf: "center", marginLeft: 5 }}>
-                          <Text style={styles.historyName}>
-                            {transaction.stock}
-                          </Text>
-                          <Text style={styles.historyAction}>
-                            {transaction.type + " - " + transaction.amount}
-                          </Text>
-                        </View>
-
-                        <View style={styles.historyValueBox}>
-                          <Text style={styles.historyValue}>
-                            {transaction.cost}
-                          </Text>
-                        </View>
+                      <View style={{ alignSelf: "center", marginLeft: 5 }}>
+                        <Text style={styles.historyName}>
+                          {transaction.stock}
+                        </Text>
+                        <Text style={styles.historyAction}>
+                          {transaction.type + " - " + transaction.amount}
+                        </Text>
                       </View>
 
-                      <View style={styles.cardDevider}></View>
+                      <View style={styles.historyValueBox}>
+                        <Text style={styles.historyValue}>
+                          {transaction.cost}
+                        </Text>
+                      </View>
                     </View>
-                  );
-                })}
-              </View>
-            );
-          })}
-        </ScrollView>
-        <View style={styles.footer}></View>
-        {navBar(props, props.route.params.funds)}
-      </SafeAreaView>
-    </PaperProvider>
+
+                    <View style={styles.cardDevider}></View>
+                  </View>
+                );
+              })}
+            </View>
+          );
+        })}
+      </ScrollView>
+      <View style={styles.footer}></View>
+      {navBar(props, props.route.params.funds)}
+    </SafeAreaView>
   );
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#fff",
-    accent: "#95ff55",
-  },
-};

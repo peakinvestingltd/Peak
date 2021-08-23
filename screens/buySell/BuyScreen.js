@@ -8,6 +8,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import Slider from "@react-native-community/slider";
 //import { Title, Button, Card } from "react-native-paper";
@@ -27,7 +28,7 @@ import header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 
 const screenWidth = Dimensions.get("window").width;
-
+let a = 0;
 export default function BuyScreen(props) {
   const params = props.route.params;
   const price = params.price.currentPrice;
@@ -113,38 +114,42 @@ export default function BuyScreen(props) {
           </View>
         </View>
         <View style={styles.defaultView}>
-          <View
-            style={{
-              display: "flex",
-              marginRight: 30,
-              justifyContent: "space-between",
-              flexDirection: "row",
-            }}
-          >
-            <Image
-              style={styles.image}
-              source={{
-                uri: props.route.params.logo,
+          <View style={styles.cardTopList}>
+            <View
+              style={{
+                display: "flex",
+                marginRight: 30,
+                justifyContent: "space-between",
+                flexDirection: "row",
               }}
-            />
+            >
+              <Image
+                style={styles.image}
+                source={{
+                  uri: props.route.params.logo,
+                }}
+              />
 
-            <View style={styles.stockNameView}>
-              <Text style={styles.stockName}>{props.route.params.name}</Text>
-              <Text style={styles.stockTicker}>
-                {props.route.params.ticker}-{props.route.params.country}
+              <View style={styles.stockNameView}>
+                <Text style={styles.stockName}>{props.route.params.name}</Text>
+                <Text style={styles.stockTicker}>
+                  {props.route.params.ticker}-{props.route.params.country}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>
+                {props.route.params.currency}
+                {price}
+              </Text>
+
+              <Text style={styles[props.route.params.color]}>
+                {props.route.params.priceChange}
+                {"("}
+                {params.percentage}%{")"}
               </Text>
             </View>
-          </View>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>
-              {props.route.params.currency}
-              {price}
-            </Text>
-            <Text style={styles[props.route.params.color]}>
-              {props.route.params.priceChange}
-              {"("}
-              {params.percentage}%{")"}
-            </Text>
           </View>
         </View>
         {buyOrSell()}
@@ -207,6 +212,7 @@ export default function BuyScreen(props) {
                   ticker: ticker,
                   country: params.country,
                   orderType: orderType,
+                  currency: props.route.params.currency,
                 });
               }
             }}

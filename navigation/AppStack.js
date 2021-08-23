@@ -6,17 +6,19 @@ import MenuScreen from "../screens/MenuScreen";
 import DetailsScreen from "../screens/companyDetailsScreen";
 import StockScreen from "../screens/StockScreen.js";
 import StockScreen2 from "../screens/StockScreen2.js";
-
 import BuyScreen from "../screens/buySell/BuyScreen.js";
 import ReviewScreen from "../screens/buySell/ReviewScreen.js";
 import ChatScreen from "../screens/ChatScreen.js";
 import PortfolioScreen from "../screens/Portfolio.js";
 //--------------------registration----------------------
+import RegisterScreen from "../screens/RegisterScreen";
 import RegisterScreen2 from "../screens/RegisterScreen2";
 import RegisterScreen3 from "../screens/RegisterScreen3";
 import RegisterScreen4 from "../screens/RegisterScreen4";
 import RegisterScreen5 from "../screens/RegisterScreen5";
+
 import NewsScreen from "../screens/NewsScreen";
+//--menu--
 import HistoryScreen from "../screens/menuScreens/HistoryScreen";
 import NotificationSettingsScreen from "../screens/menuScreens/NotificationsSettingsScreen";
 import ManageFundsScreen from "../screens/menuScreens/ManageFundsScreen";
@@ -26,6 +28,7 @@ import SettingPrivacyScreen from "../screens/menuScreens/SettingsPrivacyScreen";
 import HelpCenterScreen from "../screens/menuScreens/HelpCenterScreen";
 import ProfileScreen from "../screens/menuScreens/ProfileScreen";
 import SearchScreen from "../screens/searchScreen";
+import OwnedStockScreen from "../screens/portfolio/Stock";
 
 const Stack = createStackNavigator();
 
@@ -46,6 +49,7 @@ export default function AppStack() {
       <Stack.Screen name="Chat" component={ChatScreen} />
       <Stack.Screen name="History" component={HistoryScreen} />
       <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen name="OwnedStock" component={OwnedStockScreen} />
 
       <Stack.Screen
         name="NotificationSettings"
@@ -57,7 +61,7 @@ export default function AppStack() {
       <Stack.Screen name="SettingPrivacy" component={SettingPrivacyScreen} />
       <Stack.Screen name="HelpCenter" component={HelpCenterScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
-
+      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Register2" component={RegisterScreen2} />
       <Stack.Screen name="Register3" component={RegisterScreen3} />
       <Stack.Screen name="Register4" component={RegisterScreen4} />

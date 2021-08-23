@@ -23,6 +23,9 @@ import {
   getUserInfo,
   getUserId,
 } from "../utils/functions";
+import * as firebase from "firebase";
+import "firebase/database";
+const db = firebase.firestore();
 
 export default function RegisterScreen3(props) {
   const [checked, setChecked] = React.useState(false);
@@ -33,43 +36,60 @@ export default function RegisterScreen3(props) {
 
   function nextButtonPressed() {
     if (NI && checked) {
+      console.log("in step 1");
       getUserId().then((user) => {
-        getUserInfo(user.uid).then((doc) => {
-          if (!doc.exists) {
-            console.log("No such document!");
-          } else {
-            let data = doc.data();
-            let userData = {
-              title: data.title,
-              firstName: data.firstName,
-              middleName: data.middleName,
-              lastName: data.lastName,
-              flatNumber: data.flatNumber,
-              address: data.address,
-              postcode: data.postcode,
-              city: data.city,
-              gender: data.gender,
-              nationality: data.nationality,
-              NI: NI,
-              dob: "1991-09-17",
-              phoneNumber: data.phoneNumber,
-            };
-            getToken()
-              .then((token) => {
-                createClient(userData, token, user)
-                  .then((id) => {
-                    createAccount("GIA", id, token).then((res) => {
-                      console.log(user);
-                      console.log(res);
-                      signUp4(id, NI, true, user, res);
-                    });
-                  })
-                  .catch((err) => console.log(err));
-              })
-              .catch((err) => console.log(err));
-          }
-        });
+        console.log(user);
+        db.collection("users")
+          .doc(user.uid)
+          .collection("userInfo")
+          .doc("signUp")
+          .update({
+            secclID: id,
+            NI: NI,
+            termsAcepted: checked,
+            signUp: "compleat",
+            GIA: "GIAnum",
+          });
+
+        // getUserInfo(user.uid).then((doc) => {
+        //   if (!doc.exists) {
+        //     console.log("No such document!");
+        //   } else {
+
+        //     let data = doc.data();
+        //     let userData = {
+        //       title: data.title,
+        //       firstName: data.firstName,
+        //       middleName: data.middleName,
+        //       lastName: data.lastName,
+        //       flatNumber: data.flatNumber,
+        //       address: data.address,
+        //       postcode: data.postcode,
+        //       city: data.city,
+        //       gender: data.gender,
+        //       nationality: data.nationality,
+        //       NI: NI,
+        //       dob: "1991-09-17",
+        //       phoneNumber: data.phoneNumber,
+        //     };
+        //     // getToken()
+        //     //   .then((token) => {
+        //     //     createClient(userData, token, user)
+        //     //       .then((id) => {
+        //     //         createAccount("GIA", id, token).then((res) => {
+        //     //           console.log(user);
+        //     //           console.log(res);
+        //     //           signUp4(id, NI, true, user, res);
+        //     //         });
+        //     //       })
+        //     //       .catch((err) => console.log(err));
+        //     //   })
+        //     //   .catch((err) => console.log(err));
+
+        //   }
+        // });
       });
+
       props.navigation.navigate("Stock");
     } else {
       if (!NI) {
@@ -172,6 +192,7 @@ export default function RegisterScreen3(props) {
               <Text style={{ color: "#ff7f00" }}>Sign In</Text>
             </Text>
           </View>
+          <View style={{ height: 10, width: 10 }} />
         </View>
       </ScrollView>
     </SafeAreaView>

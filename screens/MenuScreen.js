@@ -24,6 +24,11 @@ import {
 import header from "../components/header.js";
 import navBar from "../components/navBar.js";
 
+import * as firebase from "firebase";
+import "firebase/database";
+
+const db = firebase.firestore();
+
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../hooks/useStatusBar";
 
@@ -40,11 +45,16 @@ export default function MenuScreen(props) {
       console.log(error);
     }
   }
+  function goToNextRegister(num) {
+    props.navigation.navigate(`Register${num}`);
+  }
+  function goToRegister2() {
+    props.navigation.navigate("Register2");
+  }
 
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#1b2855" />
         {header(props, props.route.params.funds)}
         <ScrollView>
           <View
@@ -73,8 +83,11 @@ export default function MenuScreen(props) {
             <Button
               color="white"
               style={styles.settingsButton}
+              disabled={true}
               onPress={() => {
-                props.navigation.navigate("NotificationSettings");
+                props.navigation.navigate("NotificationSettings", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               Notifacation Settings
@@ -82,8 +95,11 @@ export default function MenuScreen(props) {
             <Button
               color="white"
               style={styles.settingsButton}
+              disabled={true}
               onPress={() => {
-                props.navigation.navigate("ManageFunds");
+                props.navigation.navigate("ManageFunds", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               Manage Funds
@@ -92,7 +108,9 @@ export default function MenuScreen(props) {
               color="white"
               style={styles.settingsButton}
               onPress={() => {
-                props.navigation.navigate("InviteFriends");
+                props.navigation.navigate("InviteFriends", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               Invite Friends
@@ -101,7 +119,9 @@ export default function MenuScreen(props) {
               color="white"
               style={styles.settingsButtonBottom}
               onPress={() => {
-                props.navigation.navigate("PeakStore");
+                props.navigation.navigate("PeakStore", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               Peak Store
@@ -113,7 +133,7 @@ export default function MenuScreen(props) {
               style={styles.settingsButtonTop}
               onPress={() => {
                 props.navigation.navigate("SettingPrivacy", {
-                  funds: 1000,
+                  funds: props.route.params.funds,
                 });
               }}
             >
@@ -124,7 +144,9 @@ export default function MenuScreen(props) {
               color="white"
               style={styles.settingsButtonBottom}
               onPress={() => {
-                props.navigation.navigate("HelpCenter");
+                props.navigation.navigate("HelpCenter", {
+                  funds: props.route.params.funds,
+                });
               }}
             >
               Help Center
@@ -159,7 +181,7 @@ export default function MenuScreen(props) {
               });
             }}
           >
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>Complete sign up</Text>
           </Button>
           <Button mode="outlined" style={styles.logout} onPress={handleSignOut}>
             <Text style={styles.logoutText}>Logout</Text>
@@ -173,48 +195,3 @@ export default function MenuScreen(props) {
     </PaperProvider>
   );
 }
-
-// const [expanded, setExpanded] = React.useState(true);
-
-// const handlePress = () => setExpanded(!expanded);
-
-// const [index, setIndex] = React.useState(0);
-// const [routes] = React.useState([
-//   {
-//     key: "stock",
-//     title: "Home",
-//     icon: "details",
-//     color: navBarColor,
-//     params: { navigation },
-//   },
-//   {
-//     key: "home",
-//     title: "Portfolio",
-//     icon: "account",
-//     params: { navigation },
-//     color: navBarColor,
-//   },
-//   {
-//     key: "news",
-//     title: "News",
-//     icon: "newspaper",
-//     params: { navigation },
-//     color: navBarColor,
-//   },
-//   {
-//     key: "recents",
-//     title: "Settings",
-//     icon: "menu",
-//     params: { navigation },
-//     color: navBarColor,
-//   },
-// ]);
-
-// const renderScene = BottomNavigation.SceneMap({
-//   home: MenuScreen,
-//   news: NewsRoute,
-//   stock: StockScreen,
-//   recents: RecentsRoute,
-// });
-
-// useStatusBar("light-content");

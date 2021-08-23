@@ -6,6 +6,7 @@ import {
   TextInput,
   Text,
   Image,
+  ScrollView,
 } from "react-native";
 import { Button } from "react-native-paper";
 import Logo from "../assets/Peak-App-Logo.svg";
@@ -66,84 +67,97 @@ export default function RegisterScreen3(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ScrollView>
         <View>
-          <Image
-            style={{
-              height: ScreenWidth / 3,
-              width: "33%",
-              marginTop: 40,
-              alignSelf: "center",
-              resizeMode: "contain",
-            }}
-            source={require("../assets/newLogo.png")}
-          />
-          <Image
-            style={{
-              height: ScreenWidth / 3,
-              width: "50%",
+          <View>
+            <Image
+              style={{
+                height: ScreenWidth / 3,
+                width: "33%",
+                marginTop: 40,
+                alignSelf: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../assets/newLogo.png")}
+            />
+            <Image
+              style={{
+                height: ScreenWidth / 3,
+                width: "50%",
 
-              marginBottom: 0,
-              alignSelf: "center",
-              resizeMode: "contain",
-            }}
-            source={require("../assets/Logotext.png")}
-          />
+                marginBottom: 0,
+                alignSelf: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../assets/Logotext.png")}
+            />
+          </View>
         </View>
-      </View>
 
-      <View style={styles.loadBar}>
-        <View style={styles.loadBar3Compleated}></View>
-      </View>
-      <View style={styles.signupCard}>
-        <Text style={styles.head1}>
-          Sign Up <Text style={styles.head2}>| Step 2 of 4</Text>
-        </Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Postcode"
-          onChangeText={(val) => setPostcode(val)}
-        ></TextInput>
-        <Text style={postStyle}>please fill in your surname</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder=" Flat Or House Number"
-          onChangeText={(val) => setFlatNum(val)}
-        ></TextInput>
-        <Text style={numStyle}>please fill in your surname</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="Address"
-          onChangeText={(val) => setAddress(val)}
-        ></TextInput>
-        <Text style={addressStyle}>please fill in your surname</Text>
-
-        <TextInput
-          style={styles.input}
-          placeholder="City"
-          onChangeText={(val) => setCity(val)}
-        ></TextInput>
-        <Text style={cityStyle}>please fill in your surname</Text>
-
-        <Button
-          style={styles.buttonReg}
-          title="Next"
-          onPress={() => {
-            nextButtonPressed();
-          }}
-        >
-          <Text style={styles.buttonText}>Next</Text>
-        </Button>
-        <View style={{ justifyContent: "center", flexDirection: "row" }}>
-          <Text style={styles.bottomSubText}>
-            Already hane an account?{" "}
-            <Text style={{ color: "#ff7f00" }}>Sign In</Text>
+        <View style={styles.loadBar}>
+          <View style={styles.loadBar3Compleated}></View>
+        </View>
+        <View style={styles.signupCard}>
+          <Text style={styles.head1}>
+            Sign Up <Text style={styles.head2}>| Step 2 of 4</Text>
           </Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Postcode"
+            onChangeText={(val) => setPostcode(val)}
+          ></TextInput>
+          <Text style={postStyle}>please fill in your surname</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder=" Flat Or House Number"
+            onChangeText={(val) => setFlatNum(val)}
+          ></TextInput>
+          <Text style={numStyle}>please fill in your surname</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Address"
+            onChangeText={(val) => setAddress(val)}
+          ></TextInput>
+          <Text style={addressStyle}>please fill in your surname</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="City"
+            onChangeText={(val) => setCity(val)}
+          ></TextInput>
+          <Text style={cityStyle}>please fill in your surname</Text>
+
+          <Button
+            style={styles.buttonReg}
+            title="Next"
+            onPress={() => {
+              nextButtonPressed();
+            }}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </Button>
+          <View style={{ justifyContent: "center", flexDirection: "row" }}>
+            <Button
+              onPress={() => {
+                props.navigation.navigate("Stock");
+              }}
+            >
+              <Text
+                style={{
+                  color: "#ff7f00",
+                  marginTop: 5,
+                  textTransform: "none",
+                }}
+              >
+                Skip
+              </Text>
+            </Button>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

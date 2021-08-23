@@ -16,7 +16,6 @@ import { ScreenWidth } from "react-native-elements/dist/helpers";
 //-------------firebase-------------
 import * as firebase from "firebase";
 import "firebase/database";
-
 const db = firebase.firestore();
 //-------------firebase-------------
 
@@ -42,6 +41,7 @@ export default function RegisterScreen2(props) {
   function nextButtonPressed() {
     if (value && firstName && lastName) {
       firebase.auth().onAuthStateChanged((user) => {
+        console.log(user);
         db.collection("users")
           .doc(user.uid)
           .collection("userInfo")
@@ -81,24 +81,11 @@ export default function RegisterScreen2(props) {
         <View>
           <View>
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "33%",
-                marginTop: 40,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={styles.logoStyle1}
               source={require("../assets/newLogo.png")}
             />
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "50%",
-
-                marginBottom: 0,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={styles.logoStyle2}
               source={require("../assets/Logotext.png")}
             />
           </View>
@@ -163,10 +150,21 @@ export default function RegisterScreen2(props) {
               marginBottom: 10,
             }}
           >
-            <Text style={styles.bottomSubText}>
-              Already hane an account?{" "}
-              <Text style={{ color: "#ff7f00" }}>Sign In</Text>
-            </Text>
+            <Button
+              onPress={() => {
+                props.navigation.navigate("Stock");
+              }}
+            >
+              <Text
+                style={{
+                  color: "#ff7f00",
+                  marginTop: 5,
+                  textTransform: "none",
+                }}
+              >
+                Skip
+              </Text>
+            </Button>
           </View>
         </View>
       </ScrollView>

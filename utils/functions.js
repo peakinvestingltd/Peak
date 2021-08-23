@@ -39,6 +39,178 @@ const screenWidth = Dimensions.get("window").width;
 
 const finnhubApiKey = "c29d3o2ad3ib4ac2prkg";
 // =========================================app functions=====================================
+const portfolioScreenChart = () => {
+  return (
+    <View style={styles.portfolioChartHolder}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginLeft: 15,
+          marginRight: 15,
+          marginTop: 10,
+          marginBottom: 20,
+        }}
+      >
+        <Text style={{ color: "white", fontSize: 15 }}>Activity</Text>
+        <Text style={{ color: "#ff7f00", fontSize: 15 }}>
+          {date.getFullYear()}
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 50,
+              backgroundColor: "green",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Jan</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Feb</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Mar</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Apr</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>May</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Jun</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Jul</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Aug</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Sep</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Oct</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Nov</Text>
+        </View>
+        <View style={{ alignSelf: "flex-end" }}>
+          <View
+            style={{
+              width: 4,
+              height: 100,
+              backgroundColor: "gray",
+              alignSelf: "center",
+              borderRadius: 25,
+            }}
+          ></View>
+          <Text style={{ fontSize: 10, color: "white" }}>Dec</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
 const chart = (data, low, high) => {
   const label = React.useRef(null);
   const width = screenWidth - 30;
@@ -254,6 +426,7 @@ const placeTrade = (obj) => {
 };
 
 const practiceTrade = (obj) => {
+  console.log(obj);
   firebase.auth().onAuthStateChanged((user) => {
     console.log(obj.type);
     console.log(obj.fullDate);
@@ -269,6 +442,8 @@ const practiceTrade = (obj) => {
         amount: obj.amount,
         timestamp: obj.date,
         logo: obj.logo,
+        currency: obj.currency,
+        name: obj.name,
       });
 
     if (obj.type == "Bought") {
@@ -278,11 +453,12 @@ const practiceTrade = (obj) => {
         .doc("practiceBalance")
         .set({
           amount: Number(obj.balance) - Number(obj.totalCost),
+          currency: obj.currency,
         });
 
       db.collection("users")
         .doc(user.uid)
-        .collection("practiceInvestments")
+        .collection(obj.stockType)
         .doc(obj.ticker)
         .set({
           amount: Number(obj.ownedShares) + Number(obj.amount),
@@ -293,6 +469,8 @@ const practiceTrade = (obj) => {
           ).toFixed(2),
           ticker: obj.ticker,
           logo: obj.logo,
+          currency: obj.currency,
+          name: obj.name,
         });
     } else {
       db.collection("users")
@@ -301,12 +479,14 @@ const practiceTrade = (obj) => {
         .doc("practiceBalance")
         .set({
           amount: Number(obj.balance) + Number(obj.totalCost),
+          currency: obj.currency,
+          name: obj.name,
         });
 
       if (Number(obj.ownedShares) - Number(obj.amount) == 0) {
         db.collection("users")
           .doc(user.uid)
-          .collection("practiceInvestments")
+          .collection(obj.stockType)
           .doc(obj.ticker)
           .delete()
           .then(() => console.log("user deleted"));
@@ -314,7 +494,7 @@ const practiceTrade = (obj) => {
         console.log(Number(obj.ownedShares) - Number(obj.amount));
         db.collection("users")
           .doc(user.uid)
-          .collection("practiceInvestments")
+          .collection(obj.stockType)
           .doc(obj.ticker)
           .set({
             amount: Number(obj.ownedShares) - Number(obj.amount),
@@ -324,6 +504,8 @@ const practiceTrade = (obj) => {
               Number(obj.price).toFixed(2),
             ticker: obj.ticker,
             logo: obj.logo,
+            currency: obj.currency,
+            name: obj.name,
           });
       }
     }
@@ -393,7 +575,7 @@ async function getOwnedStock(user, stock) {
   const userRef = db
     .collection("users")
     .doc(user.uid)
-    .collection("practiceInvestments")
+    .collection("practiceStock")
     .doc(stock);
 
   const doc = await userRef.get();
@@ -402,8 +584,17 @@ async function getOwnedStock(user, stock) {
     return 0;
   } else {
     let amount = doc.data()["amount"];
+    let invested = doc.data()["investment"];
+    let buyPrice = doc.data()["price"];
+    let currency = doc.data()["currency"];
+    const investmentData = {
+      amount,
+      invested,
+      buyPrice,
+      currency,
+    };
     console.log("Document data:", amount);
-    return amount;
+    return investmentData;
   }
 }
 async function getBalance(user) {
@@ -839,4 +1030,5 @@ module.exports = {
   buildChart,
   chart,
   getOwnedStock,
+  portfolioScreenChart,
 };
