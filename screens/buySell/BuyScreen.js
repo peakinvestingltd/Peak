@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Dimensions,
@@ -6,29 +6,13 @@ import {
   Text,
   View,
   Image,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
 } from "react-native";
 import Slider from "@react-native-community/slider";
-//import { Title, Button, Card } from "react-native-paper";
-import {
-  DefaultTheme,
-  Card,
-  Chip,
-  Button,
-  Searchbar,
-  Colors,
-  IconButton,
-  Title,
-  Provider as PaperProvider,
-} from "react-native-paper";
+import { Button, Provider as PaperProvider } from "react-native-paper";
 import { styles } from "../../css/styles.js";
 import header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 
-const screenWidth = Dimensions.get("window").width;
-let a = 0;
 export default function BuyScreen(props) {
   const params = props.route.params;
   const price = params.price.currentPrice;
@@ -229,7 +213,6 @@ export default function BuyScreen(props) {
           </Button>
         </View>
       </ScrollView>
-
       <View style={styles.footer}></View>
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>

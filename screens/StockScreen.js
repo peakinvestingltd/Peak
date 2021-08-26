@@ -1,10 +1,6 @@
-import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
-import { LineChart } from "react-native-chart-kit";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { styles } from "../css/styles.js";
-import { Transitioning, Transition } from "react-native-reanimated";
-import Logo from "../assets/Peak-App-Logo.svg";
 //font v
 import {
   useFonts,
@@ -26,29 +22,8 @@ import {
   currentStock,
 } from "../utils/functions";
 
-import {
-  DefaultTheme,
-  Card,
-  Chip,
-  Button,
-  Searchbar,
-  Colors,
-  IconButton,
-  Title,
-  Provider as PaperProvider,
-} from "react-native-paper";
-import {
-  SafeAreaView,
-  Dimensions,
-  Image,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  Linking,
-  StatusBar,
-} from "react-native";
+import { Button, Provider as PaperProvider } from "react-native-paper";
+import { SafeAreaView, View, ScrollView, Text, StatusBar } from "react-native";
 import header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import * as firebase from "firebase";
@@ -87,6 +62,18 @@ export default function StockScreen(props) {
       });
     });
   }
+
+  React.useEffect(() => {
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+      console.log("it worked!!!!!!!!!!a");
+      setJustLoaded(true);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [props.navigation]);
 
   async function callApi(stockList) {
     let loaded = [];
@@ -196,17 +183,10 @@ export default function StockScreen(props) {
 
   useEffect(() => {
     count = count + 1;
-    console.log(props);
-    console.log("look here!!!");
     if (props.route.params) {
       if (props.route.params.cat) {
-        console.log(props.route.params.cat);
-
         setCatagory(props.route.params.cat);
         setStockList(props.route.params.assets);
-
-        console.log(stockList);
-
         callApi(stockList);
       }
     } else {
@@ -215,37 +195,25 @@ export default function StockScreen(props) {
   }, [isFocused]);
 
   return (
-    <PaperProvider theme={theme}>
-      <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#26325F" />
-        {header(props, userBalance)}
-        <ScrollView style={{ marginTop: 0 }}>
-          <Button
-            style={styles.pageButton}
-            onPress={() =>
-              props.navigation.navigate("Search", {
-                funds: userBalance,
-              })
-            }
-          >
-            <Text style={styles.pageButtonText}>&lt; {catagory}</Text>
-          </Button>
-          {currentStock(loaded, stockData, props, userBalance)}
-        </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor="#26325F" />
+      {header()}
+      <ScrollView style={{ marginTop: 0 }}>
+        <Button
+          style={styles.pageButton}
+          onPress={() =>
+            props.navigation.navigate("Search", {
+              funds: userBalance,
+            })
+          }
+        >
+          <Text style={styles.pageButtonText}>&lt; {catagory}</Text>
+        </Button>
+        {currentStock(loaded, stockData, props, userBalance)}
+      </ScrollView>
 
-        <View style={styles.footer}></View>
-        {navBar(props, userBalance, "stock")}
-      </SafeAreaView>
-    </PaperProvider>
+      <View style={styles.footer}></View>
+      {navBar(props, userBalance, "stock")}
+    </SafeAreaView>
   );
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 10,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#222948",
-    accent: "#f1c40f",
-  },
-};

@@ -313,6 +313,13 @@ export default function PortfolioScreen(props) {
     });
   };
 
+  const stockAmount = () => {
+    if (!portfolioStock) {
+      return 0;
+    } else {
+      return portfolioStock.length;
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
@@ -327,7 +334,9 @@ export default function PortfolioScreen(props) {
         <View
           style={{
             flexDirection: "row",
-            margin: 15,
+            marginTop: 5,
+            marginBottom: 5,
+            margin: 10,
             justifyContent: "space-between",
           }}
         >
@@ -607,7 +616,7 @@ export default function PortfolioScreen(props) {
                 <Text
                   style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}
                 >
-                  {portfolioStock.length}
+                  {stockAmount()}
                 </Text>
                 <Text
                   style={{

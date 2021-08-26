@@ -29,13 +29,14 @@ import HelpCenterScreen from "../screens/menuScreens/HelpCenterScreen";
 import ProfileScreen from "../screens/menuScreens/ProfileScreen";
 import SearchScreen from "../screens/searchScreen";
 import OwnedStockScreen from "../screens/portfolio/Stock";
+import ResetPassword from "../screens/menuScreens/setings/ResetPassword";
 
 const Stack = createStackNavigator();
 
 export default function AppStack() {
   return (
     <Stack.Navigator headerMode="none">
-      {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Stock" component={StockScreen} />
       <Stack.Screen name="Stock2" component={StockScreen2} />
 
@@ -50,6 +51,7 @@ export default function AppStack() {
       <Stack.Screen name="History" component={HistoryScreen} />
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="OwnedStock" component={OwnedStockScreen} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
 
       <Stack.Screen
         name="NotificationSettings"

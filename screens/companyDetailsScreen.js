@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   SafeAreaView,
   View,
@@ -8,54 +8,31 @@ import {
   ScrollView,
   Animated,
   StatusBar,
-  Dimensions,
 } from "react-native";
-import {
-  Text,
-  List,
-  Paragraph,
-  Colors,
-  Title,
-  Menu,
-  Divider,
-  Card,
-  Button,
-  BottomNavigation,
-  IconButton,
-  Icon,
-} from "react-native-paper";
+import { Text, Card, Button, IconButton } from "react-native-paper";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
-const navBarColor = "black";
-const screenWidth = Dimensions.get("window").width;
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
-import { color, ScreenWidth } from "react-native-elements/dist/helpers";
+import { Provider as PaperProvider } from "react-native-paper";
+import { ScreenWidth } from "react-native-elements/dist/helpers";
 import { styles } from "../css/styles.js";
 import { getFinnhubChart, buildChart, getOwnedStock } from "../utils/functions";
 
 const height = 150;
-const width = ScreenWidth - 30;
-const d3 = {
-  shape,
-};
+const width = ScreenWidth - 20;
+
 import Svg, { Path } from "react-native-svg";
 import * as path from "svg-path-properties";
-import * as shape from "d3-shape";
-import { scaleTime, scaleLinear, scaleQuantile } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import { TextInput } from "react-native";
-import { Label } from "native-base";
 
 import * as firebase from "firebase";
 import "firebase/database";
-import header from "../components/header.js";
 import navBar from "../components/navBar.js";
+import { interpolate } from "react-native-reanimated";
 let timestamp = Math.round(Date.now() / 1000);
 let yesterday = timestamp - 604800;
 let from = yesterday.toString();
 let to = timestamp.toString();
-
-const { Defs, LinearGradient, Stop } = Svg;
 const cursorRadius = 6;
-const lableWidth = 100;
 
 export default class DetailsScreen extends React.Component {
   cursor = React.createRef();
@@ -630,13 +607,8 @@ export default class DetailsScreen extends React.Component {
   }
 
   getStockAmount() {
-    console.log("getstock amount triggered");
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
-      console.log("user");
       getOwnedStock(user, this.state.stock).then((investment) => {
-        console.log("amount---");
-        console.log(investment.currency);
         this.setState({
           ownedShares: investment.amount,
           boughtPrice: investment.buyPrice,
@@ -647,346 +619,193 @@ export default class DetailsScreen extends React.Component {
     });
   }
   render() {
-    console.log(this.props.route.params);
     const params = this.props.route.params;
     const navigation = this.props.navigation;
+
     return (
-      <PaperProvider>
-        <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#26325F" />
-          <Card style={styles.topCard}>
-            {/* --------------header------------------------------ */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: 15,
-              }}
-            >
-              <IconButton
-                onPress={() => props.navigation.navigate("Chat")}
-                icon="chat-outline"
-                color={Colors.orange500}
-                size={30}
-              />
-              <View>
-                <Button mode="contained" style={styles.ballButton}>
-                  {`£${this.props.route.params.funds.replace(
-                    /\d(?=(\d{3})+\.)/g,
-                    "$&,"
-                  )}`}
-                </Button>
-              </View>
-              <IconButton
-                icon="bell-outline"
-                color={Colors.orange500}
-                size={30}
-              />
+      <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#26325F" />
+        <Card style={styles.topCard}>
+          {/* --------------header------------------------------ */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 15,
+            }}
+          >
+            <IconButton
+              onPress={() => props.navigation.navigate("Chat")}
+              icon="chat-outline"
+              color={"#ff7f00"}
+              size={25}
+            />
+            <View>
+              <Button mode="text" color={"#ff7f00"} style={styles.ballButton}>
+                {`£${this.props.route.params.funds.replace(
+                  /\d(?=(\d{3})+\.)/g,
+                  "$&,"
+                )}`}
+              </Button>
             </View>
-          </Card>
-          <ScrollView>
+            <IconButton icon="bell-outline" color={"#ff7f00"} size={25} />
+          </View>
+        </Card>
+        <ScrollView>
+          <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.pageButtonText}>&lt; Trade</Text>
+          </Button>
+
+          {this.stockHeader()}
+
+          <View style={styles.chartContainer}>
+            <View style={styles.chartButtons}>
+              {this.chartButtons("1D")}
+              {this.chartButtons("7D")}
+              {this.chartButtons("1M")}
+              {this.chartButtons("3M")}
+              {this.chartButtons("1Y")}
+              {this.chartButtons("MAX")}
+            </View>
+
+            {this.chart(this.state.loaded)}
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: 15,
+              marginRight: 15,
+              marginTop: 10,
+              //   justifyContent: "space-around",
+            }}
+          >
             <Button
-              style={styles.pageButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                this.props.navigation.navigate("Buy", {
+                  stock: params.stock,
+                  price: params.price,
+                  logo: params.logo,
+                  name: params.name,
+                  priceChange: params.priceChange,
+                  percentage: params.price.percentage,
+                  ticker: params.stock,
+                  funds: params.funds,
+                  country: params.country,
+                  color: params.color,
+                  currency: params.currency,
+                  ownedShares: this.state.ownedShares,
+                });
+              }}
+              //  width={screenWidth / 2 - 50}
+              style={styles.orangeFillButton}
+              mode="contained"
             >
-              <Text style={styles.pageButtonText}>&lt; Trade</Text>
+              Trade
             </Button>
-
-            {this.stockHeader()}
-
-            <View style={styles.chartContainer}>
-              <View style={styles.chartButtons}>
-                {this.chartButtons("1D")}
-                {this.chartButtons("7D")}
-                {this.chartButtons("1M")}
-                {this.chartButtons("3M")}
-                {this.chartButtons("1Y")}
-                {this.chartButtons("MAX")}
-              </View>
-
-              {this.chart(this.state.loaded)}
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                marginLeft: 15,
-                marginRight: 15,
-                marginTop: 10,
-                //   justifyContent: "space-around",
-              }}
+            <Button
+              marginLeft={10}
+              color={"#ff7f00"}
+              style={styles.FavouriteButton}
             >
-              <Button
-                onPress={() => {
-                  this.props.navigation.navigate("Buy", {
-                    stock: params.stock,
-                    price: params.price,
-                    logo: params.logo,
-                    name: params.name,
-                    priceChange: params.priceChange,
-                    percentage: params.price.percentage,
-                    ticker: params.stock,
-                    funds: params.funds,
-                    country: params.country,
-                    color: params.color,
-                    currency: params.currency,
-                    ownedShares: this.state.ownedShares,
-                  });
+              Add to List
+            </Button>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                yourInvestmentSelected: !this.state.yourInvestmentSelected,
+              });
+            }}
+          >
+            <View style={styles.infoCardTop}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginLeft: 10,
                 }}
-                //  width={screenWidth / 2 - 50}
-                style={styles.tradeButton}
-                mode="contained"
               >
-                Trade
-              </Button>
-              <Button
-                marginLeft={10}
-                color={"#ff7f00"}
-                style={styles.FavouriteButton}
+                <Text style={styles.infoTopText}>Your investment</Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginRight: 10,
+                }}
               >
-                Add to List
-              </Button>
+                {this.icon(this.state.yourInvestmentSelected)}
+              </View>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  yourInvestmentSelected: !this.state.yourInvestmentSelected,
-                });
-              }}
-            >
-              <View style={styles.infoCardTop}>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginLeft: 10,
-                  }}
-                >
-                  <Text style={styles.infoTopText}>Your investment</Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginRight: 10,
-                  }}
-                >
-                  {this.icon(this.state.yourInvestmentSelected)}
-                </View>
+          </TouchableOpacity>
+          {this.toggleYourInvestment()}
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                infoSelected: !this.state.infoSelected,
+              });
+            }}
+          >
+            <View style={styles.infoSection}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginLeft: 10,
+                }}
+              >
+                <Text style={styles.infoTopText}>Info</Text>
               </View>
-            </TouchableOpacity>
-            {this.toggleYourInvestment()}
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  infoSelected: !this.state.infoSelected,
-                });
-              }}
-            >
-              <View style={styles.infoSection}>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginLeft: 10,
-                  }}
-                >
-                  <Text style={styles.infoTopText}>Info</Text>
-                </View>
 
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginRight: 10,
-                  }}
-                >
-                  {this.icon(this.state.infoSelected)}
-                </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginRight: 10,
+                }}
+              >
+                {this.icon(this.state.infoSelected)}
               </View>
-            </TouchableOpacity>
-            {this.ToggleInfo()}
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  descSelected: !this.state.descSelected,
-                });
-              }}
-            >
-              <View style={styles.infoCardBottom}>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginLeft: 10,
-                  }}
-                >
-                  <Text style={styles.infoTopText}>Company Description</Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    marginRight: 10,
-                  }}
-                >
-                  {this.icon(this.state.descSelected)}
-                </View>
+            </View>
+          </TouchableOpacity>
+          {this.ToggleInfo()}
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                descSelected: !this.state.descSelected,
+              });
+            }}
+          >
+            <View style={styles.infoCardBottom}>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginLeft: 10,
+                }}
+              >
+                <Text style={styles.infoTopText}>Company Description</Text>
               </View>
-            </TouchableOpacity>
-            {this.toggleDesc()}
-          </ScrollView>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  marginRight: 10,
+                }}
+              >
+                {this.icon(this.state.descSelected)}
+              </View>
+            </View>
+          </TouchableOpacity>
+          {this.toggleDesc()}
+        </ScrollView>
 
-          <View style={styles.footer}></View>
-          {navBar(this.props, this.props.route.params.funds)}
-        </SafeAreaView>
-      </PaperProvider>
+        <View style={styles.footer}></View>
+        {navBar(this.props, this.props.route.params.funds)}
+      </SafeAreaView>
     );
   }
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 5,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#fff",
-    accent: "#95ff55",
-  },
-};
-
-// {
-//   "address": "Vodafone House, The Connection",
-//   "chartColor": "0,151,50,",
-//   "chartData": Array [
-//     16.81,
-//     16.82,
-//     16.82,
-//     16.82,
-//     16.83,
-//     16.81,
-//     16.76,
-//     16.77,
-//     16.82,
-//     16.82,
-//     16.87,
-//     16.88,
-//     16.885,
-//     16.895,
-//     16.895,
-//     16.89,
-//     16.895,
-//     16.895,
-//     16.73,
-//     16.78,
-//     16.72,
-//     16.75,
-//     16.73,
-//     16.72,
-//     16.84,
-//     16.865,
-//     16.82,
-//     16.825,
-//     16.835,
-//     16.81,
-//     16.745,
-//     16.775,
-//     16.785,
-//     16.75,
-//     16.755,
-//     16.77,
-//     16.96,
-//     16.99,
-//     17.04,
-//     17.01,
-//     16.97,
-//     17.06,
-//     17.01,
-//     17.03,
-//     17.045,
-//     17.025,
-//     17,
-//     17.025,
-//     17.045,
-//     17.04,
-//     17.065,
-//     17.045,
-//     17.015,
-//     16.74,
-//     16.6,
-//     16.76,
-//     16.8,
-//     16.78,
-//     16.82,
-//     16.83,
-//     16.88,
-//     16.83,
-//     16.79,
-//     16.79,
-//     16.845,
-//     16.84,
-//     16.85,
-//     16.815,
-//     16.805,
-//     16.755,
-//     16.81,
-//     16.805,
-//     16.68,
-//     16.71,
-//     16.69,
-//     16.68,
-//     16.72,
-//     16.74,
-//     16.78,
-//     16.92,
-//     16.94,
-//     16.955,
-//     16.97,
-//     17,
-//     17.02,
-//     17.03,
-//     17,
-//     17,
-//     17,
-//     16.995,
-//     17.02,
-//     17,
-//     17.04,
-//     16.98,
-//     16.95,
-//   ],
-//   "city": "NEWBURY",
-//   "color": "green",
-//   "country": "GB",
-//   "currency": "£",
-//   "desc": "Vodafone Group Plc engages in telecommunication services in Europe and internationally. The company is headquartered in Newbury, Berkshire and currently employs 96,506 full-time employees.  The firm's business is organized into two geographic regions: Europe, and Africa, Middle East and Asia Pacific (AMAP). Its segments include Europe and AMAP. Its Europe segment includes geographic regions, such as Germany, Italy, the United Kingdom, Spain and Other Europe. The Other Europe includes the Netherlands, Portugal, Greece, Hungary and Romania, among others. Its AMAP segment includes India, South Africa, Tanzania, Mozambique, Lesotho, Africa, Turkey, Australia, Egypt, Ghana, Kenya, and among others. The firm provides a range of services, including voice, messaging and data across mobile and fixed networks.",
-//   "employeeTotal": 96506,
-//   "exchange": "LONDON STOCK EXCHANGE",
-//   "funds": "26511.16",
-//   "group": "Telecommunication Services",
-//   "industry": "Telecommunication",
-//   "logo": "https://storage.googleapis.com/iex/api/logos/VOD.png",
-//   "marketCap": 33976.14,
-//   "name": "Vodafone Group PLC",
-//   "percentChange": "1.13",
-//   "price": Object {
-// "color": "0,151,50,",
-// "currentPrice": "16.99",
-// "high": 17.03,
-// "low": 16.775,
-// "open": 16.8,
-// "percentage": 1.1309523809523674,
-// "previousClose": 16.8,
-// "priceChange": 0.18999999999999773,
-// "stockColor": "green",
-//   },
-//   "priceChange": "0.19",
-//   "sector": "Communication Services",
-//   "shareOutstanding": 27694.929375,
-//   "state": "BERKSHIRE",
-//   "stock": "VOD",
-//   "stockColor": "green",
-// }

@@ -50,7 +50,8 @@ const transition = (
   </Transition.Together>
 );
 
-export default function header(props, funds) {
+export default function header(props) {
+  console.log("in header");
   const ref = React.useRef();
   const [headerStyle, setHeaderStyle] = useState(styles.topCard);
   const [expanded, setExpanded] = useState(false);
@@ -79,7 +80,7 @@ export default function header(props, funds) {
   const [GIASelected, setGIASelected] = useState(styles.GIACardUnselected);
   const [ISASelected, setISASelected] = useState(styles.ISACardUnselected);
   const [practiceSelected, setPracticeSelected] = useState(styles.practiceCard);
-  const [selectedFunds, setSelectedFunds] = useState(funds);
+  const [selectedFunds, setSelectedFunds] = useState("0");
   const [practiceFunds, setPracticeFunds] = useState(null);
 
   function triggerGetBalance() {
@@ -360,18 +361,20 @@ export default function header(props, funds) {
           justifyContent: "space-between",
           alignItems: "center",
           marginTop: 15,
+          flax: 1,
         }}
       >
         <IconButton
           onPress={() => props.navigation.navigate("Chat")}
           icon="chat-outline"
-          color={Colors.orange500}
-          size={30}
+          color={"#ff7f00"}
+          size={25}
         />
         <View>
           <Button
-            mode="contained"
+            mode="text"
             style={styles.ballButton}
+            color={"#ff7f00"}
             onPress={() => {
               //-------------only practice account in beta --------------------
 
@@ -401,7 +404,7 @@ export default function header(props, funds) {
             {setFunds()}
           </Button>
         </View>
-        <IconButton icon="bell-outline" color={Colors.orange500} size={30} />
+        <IconButton icon="bell-outline" color={"#ff7f00"} size={25} />
       </View>
       {portfolio()}
     </Transitioning.View>

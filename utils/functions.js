@@ -213,7 +213,7 @@ const portfolioScreenChart = () => {
 };
 const chart = (data, low, high) => {
   const label = React.useRef(null);
-  const width = screenWidth - 30;
+  const width = screenWidth - 20;
   const height = 200;
   return (
     <View style={styles.chartContainer}>
@@ -267,7 +267,7 @@ const chart = (data, low, high) => {
 
 const buildChart = (data, low, high) => {
   const height = 150;
-  const width = screenWidth - 30;
+  const width = screenWidth - 20;
   const d3 = {
     shape,
   };
@@ -329,87 +329,89 @@ const currentStock = (loaded, stockData, props, userBalance) => {
       }}
     >
       <Card style={styles.card}>
-        <View style={styles.cardTopList}>
-          <View
-            style={{
-              display: "flex",
-              marginRight: 30,
-              justifyContent: "space-between",
-              flexDirection: "row",
-            }}
-          >
-            <Image
-              style={styles.image}
-              source={{
-                uri: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+        <View style={{ height: 120 }}>
+          <View style={styles.cardTopList}>
+            <View
+              style={{
+                display: "flex",
+                marginRight: 30,
+                justifyContent: "space-between",
+                flexDirection: "row",
               }}
-            />
+            >
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
+                }}
+              />
 
-            <View style={styles.stockNameView}>
-              <Text style={styles.stockName}>{data[stock].name}</Text>
-              <Text style={styles.stockTicker}>
-                {stock}-{data[stock].country}
+              <View style={styles.stockNameView}>
+                <Text style={styles.stockName}>{data[stock].name}</Text>
+                <Text style={styles.stockTicker}>
+                  {stock}-{data[stock].country}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>
+                {data[stock].currency}
+                {price[stock].currentPrice}
+              </Text>
+
+              <Text style={styles[price[stock].stockColor]}>
+                {price[stock].priceChange.toFixed(2)}
+                {"("}
+                {price[stock].percentage.toFixed(2)}%{")"}
               </Text>
             </View>
           </View>
 
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>
-              {data[stock].currency}
-              {price[stock].currentPrice}
-            </Text>
+          <LineChart
+            bezier
+            hideLegend={true}
+            segments={1}
+            withHorizontalLabels={false}
+            data={{
+              datasets: [
+                {
+                  data: candles[stock].open,
+                },
+              ],
+            }}
+            width={screenWidth - 25} // from react-native
+            height={65}
+            withHorizontalLabels={false}
+            chartConfig={{
+              withDots: false,
+              strokeWidth: 1.5,
+              backgroundGradientFromOpacity: 0,
+              backgroundGradientToOpacity: 0,
+              decimalPlaces: 0, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(${price[stock].color}1)`,
+              fillShadowGradientOpacity: 1,
+              //  fillShadowGradient: priceData[stock].stockColor,
 
-            <Text style={styles[price[stock].stockColor]}>
-              {price[stock].priceChange.toFixed(2)}
-              {"("}
-              {price[stock].percentage.toFixed(2)}%{")"}
-            </Text>
-          </View>
-        </View>
-
-        <LineChart
-          bezier
-          hideLegend={true}
-          segments={1}
-          withHorizontalLabels={false}
-          data={{
-            datasets: [
-              {
-                data: candles[stock].open,
+              propsForBackgroundLines: {
+                stroke: "transparent",
               },
-            ],
-          }}
-          width={screenWidth - 25} // from react-native
-          height={65}
-          withHorizontalLabels={false}
-          chartConfig={{
-            withDots: false,
-            strokeWidth: 1.5,
-            backgroundGradientFromOpacity: 0,
-            backgroundGradientToOpacity: 0,
-            decimalPlaces: 0, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(${price[stock].color}1)`,
-            fillShadowGradientOpacity: 1,
-            //  fillShadowGradient: priceData[stock].stockColor,
-
-            propsForBackgroundLines: {
-              stroke: "transparent",
-            },
-            propsForDots: {
-              r: "0",
-              strokeWidth: "5",
-              stroke: "#fff",
-            },
-          }}
-          style={{
-            paddingRight: 0,
-            margin: 5,
-            borderRadius: 20,
-            marginRight: 0,
-            bottom: 1,
-            position: "absolute",
-          }}
-        />
+              propsForDots: {
+                r: "0",
+                strokeWidth: "5",
+                stroke: "#fff",
+              },
+            }}
+            style={{
+              paddingRight: 0,
+              margin: 5,
+              borderRadius: 20,
+              marginRight: 0,
+              bottom: 1,
+              position: "absolute",
+            }}
+          />
+        </View>
       </Card>
     </TouchableOpacity>
   ));

@@ -13,18 +13,8 @@ import navBar from "../../components/navBar.js";
 import { setStatusBarStyle } from "expo-status-bar";
 import { TouchableOpacity } from "react-native";
 import {
-  getBalance,
-  getFinnhubPrices,
   getFinnhubChart,
   getFinnhubCompanyProfile,
-  getToken,
-  getSecclStock,
-  bankTransferIn,
-  createOrder,
-  getAccountInfo,
-  getUserInfo,
-  getUserId,
-  currentStock,
 } from "../../utils/functions";
 const screenWidth = Dimensions.get("window").width;
 let timestamp = Math.round(Date.now() / 1000);

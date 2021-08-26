@@ -12,6 +12,14 @@ const gray = "#8d93a3";
 const red = "#d20c0d";
 const green = "#1D9440";
 
+// const darkBlue = "whitesmoke";
+// const lightBlue = "gray";
+// const cardBlue = "white";
+// const orange = "#ff7f00";
+// const gray = "#8d93a3";
+// const red = "#d20c0d";
+// const green = "#1D9440";
+
 const screenWidth = Dimensions.get("window").width;
 // const primaryColor = "#151D3E";
 // const secondaryColor = "#1E2456";
@@ -45,8 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#26325F",
     width: screenWidth,
     height: 70,
-    position: "absolute",
-    bottom: 0,
+
     // borderTopLeftRadius: 20,
     // borderTopRightRadius: 20,
     justifyContent: "space-evenly",
@@ -224,10 +231,14 @@ const styles = StyleSheet.create({
     height: 75,
   },
   ballButton: {
-    backgroundColor: Colors.orange500,
+    // backgroundColor: orange,
+    borderColor: "#ff7f00",
     borderRadius: 10,
+    borderWidth: 1,
     width: screenWidth / 3,
+    height: 30,
     textTransform: "none",
+    justifyContent: "center",
   },
   headerBall: {
     backgroundColor: orange,
@@ -653,7 +664,7 @@ const styles = StyleSheet.create({
   //------companyScreen------------
   card: {
     backgroundColor: secondaryColor,
-    height: 120,
+    // height: 120,
     marginLeft: 10,
     marginBottom: 10,
     marginTop: 0,
@@ -669,8 +680,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: secondaryColor,
-    marginRight: 15,
-    marginLeft: 15,
+    marginRight: 10,
+    marginLeft: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -681,21 +692,19 @@ const styles = StyleSheet.create({
   priceInfo: {
     fontSize: 25,
     color: "whitesmoke",
-    fontFamily: "Futura",
     fontWeight: "100",
   },
   percentInfo: {
     fontSize: 12,
     color: "whitesmoke",
-    fontFamily: "Futura",
     fontWeight: "bold",
     letterSpacing: 2,
     alignSelf: "flex-end",
   },
   chartContainer: {
     backgroundColor: secondaryColor,
-    marginRight: 15,
-    marginLeft: 15,
+    marginRight: 10,
+    marginLeft: 10,
     marginTop: 2,
   },
   chartButtons: {
@@ -745,7 +754,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
   },
-  tradeButton: {
+  orangeFillButton: {
     width: "48%",
     height: 45,
     paddingTop: 3.5,
@@ -765,10 +774,10 @@ const styles = StyleSheet.create({
   },
   infoCardTop: {
     marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 10,
     height: 50,
-    width: screenWidth - 30,
+    width: screenWidth - 20,
     backgroundColor: secondaryColor,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -777,10 +786,10 @@ const styles = StyleSheet.create({
   },
   infoCardBottom: {
     marginTop: 2,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 10,
     height: 50,
-    width: screenWidth - 30,
+    width: screenWidth - 20,
     backgroundColor: secondaryColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
@@ -789,10 +798,10 @@ const styles = StyleSheet.create({
   },
   infoSection: {
     marginTop: 2,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 10,
+    marginRight: 10,
     height: 50,
-    width: screenWidth - 30,
+    width: screenWidth - 20,
     backgroundColor: secondaryColor,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -806,10 +815,10 @@ const styles = StyleSheet.create({
   infoContents: {
     backgroundColor: "#26325F",
     marginTop: 2,
-    marginLeft: 15,
+    marginLeft: 10,
     marginBottom: 0,
-    marginRight: 15,
-    width: screenWidth - 30,
+    marginRight: 10,
+    width: screenWidth - 20,
   },
   infoText: {
     color: "white",

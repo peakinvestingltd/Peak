@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -38,6 +38,7 @@ import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../css/styles.js";
 
 export default function MenuScreen(props) {
+  const [email, setEmail] = useState(null);
   async function handleSignOut() {
     try {
       await logout();
@@ -52,6 +53,12 @@ export default function MenuScreen(props) {
     props.navigation.navigate("Register2");
   }
 
+  if (!email) {
+    firebase.auth().onAuthStateChanged((user) => {
+      setEmail(user.email);
+    });
+  }
+
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
@@ -64,8 +71,7 @@ export default function MenuScreen(props) {
               height: 40,
             }}
           >
-            <Text style={styles.menuName}>Jhon Doe</Text>
-            <Text style={styles.menuEmail}>Jhondoe@gmail.com</Text>
+            <Text style={styles.menuEmail}>{email}</Text>
           </View>
 
           <View style={styles.settingsCard}>
@@ -189,7 +195,7 @@ export default function MenuScreen(props) {
           <View style={{ height: 30 }}></View>
         </ScrollView>
 
-        <View style={styles.footer}></View>
+        {/* <View style={styles.footer}></View> */}
         {navBar(props, props.route.params.funds, "menu")}
       </SafeAreaView>
     </PaperProvider>
