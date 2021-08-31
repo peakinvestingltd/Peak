@@ -44,7 +44,6 @@ const db = firebase.firestore();
 
 export default function WelcomeScreen({ navigation }) {
   const [phone, setPhone] = useState(" ");
-
   const [errorStyle, setErrorStyle] = useState(styles.noWarning);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

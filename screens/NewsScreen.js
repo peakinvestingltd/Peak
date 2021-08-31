@@ -104,8 +104,6 @@ export default function NewScreen(props) {
         {newsList()}
       </ScrollView>
 
-      <View style={styles.footer}></View>
-
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );

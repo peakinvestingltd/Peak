@@ -21,7 +21,7 @@ import {
   IconButton,
 } from "react-native-paper";
 import assetUnivers from "../utils/assetUniverse.js";
-
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
 const navBarColor = "black";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
@@ -45,16 +45,25 @@ export default function SearchScreen(props) {
           });
         }}
       >
-        <View style={styles.settingsButton}>
-          <Text
+        <View style={styles.infoSection}>
+          <View
             style={{
-              textTransform: "none",
-              color: "white",
-              flexDirection: "row",
+              flexDirection: "column",
+              justifyContent: "center",
+              marginLeft: 10,
             }}
           >
-            {catagory}
-          </Text>
+            <Text style={styles.infoTopText}>{catagory}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "center",
+              marginRight: 10,
+            }}
+          >
+            <EvilIcons name="chevron-right" size={40} color="white" />
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -70,76 +79,92 @@ export default function SearchScreen(props) {
           <Text style={styles.pageButtonText}>&lt; Search </Text>
         </Button>
 
-        <View style={styles.settingsCard}>
-          <TouchableOpacity
-            onPress={() => {
-              let assets = Object.keys(
-                assetUnivers.assetUnivers.communicationServices
-              );
+        <TouchableOpacity
+          onPress={() => {
+            let assets = Object.keys(
+              assetUnivers.assetUnivers.communicationServices
+            );
 
-              props.navigation.navigate("Stock2", {
-                funds: props.route.params.funds,
-                cat: "Communication Services",
-                assets: assets,
-              });
-            }}
-          >
-            <View style={styles.settingsButtonTop}>
-              <Text
-                style={{
-                  textTransform: "none",
-                  color: "white",
-                  flexDirection: "row",
-                }}
-              >
-                Communication Services
-              </Text>
+            props.navigation.navigate("Stock2", {
+              funds: props.route.params.funds,
+              cat: "Communication Services",
+              assets: assets,
+            });
+          }}
+        >
+          <View style={styles.infoCardTop}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}>Communication Services</Text>
             </View>
-          </TouchableOpacity>
-          {searchButton(
-            "Consumer Discretionary",
-            assetUnivers.assetUnivers.consumerDiscretionary
-          )}
-          {searchButton(
-            "Consumer Staples",
-            assetUnivers.assetUnivers.consumerStaples
-          )}
-          {searchButton("Energy", assetUnivers.assetUnivers.energy)}
-          {searchButton("Financials", assetUnivers.assetUnivers.financials)}
-          {searchButton("Healthcare", assetUnivers.assetUnivers.healthcare)}
-          {searchButton("Industrials", assetUnivers.assetUnivers.industrials)}
-          {searchButton(
-            "Information Technology",
-            assetUnivers.assetUnivers.informationTechnology
-          )}
-          {searchButton("Materials", assetUnivers.assetUnivers.materials)}
-          {searchButton("Real Estate", assetUnivers.assetUnivers.realEstate)}
-          <TouchableOpacity
-            onPress={() => {
-              let assets = Object.keys(assetUnivers.assetUnivers.utilities);
-              props.navigation.navigate("Stock2", {
-                funds: props.route.params.funds,
-                cat: "Utilities",
-                assets: assets,
-              });
-            }}
-          >
-            <View style={styles.settingsButtonBottom}>
-              <Text
-                style={{
-                  textTransform: "none",
-                  color: "white",
-                  flexDirection: "row",
-                }}
-              >
-                Utilities
-              </Text>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              <EvilIcons name="chevron-right" size={40} color="white" />
             </View>
-          </TouchableOpacity>
-        </View>
+          </View>
+        </TouchableOpacity>
+        {searchButton(
+          "Consumer Discretionary",
+          assetUnivers.assetUnivers.consumerDiscretionary
+        )}
+        {searchButton(
+          "Consumer Staples",
+          assetUnivers.assetUnivers.consumerStaples
+        )}
+        {searchButton("Energy", assetUnivers.assetUnivers.energy)}
+        {searchButton("Financials", assetUnivers.assetUnivers.financials)}
+        {searchButton("Healthcare", assetUnivers.assetUnivers.healthcare)}
+        {searchButton("Industrials", assetUnivers.assetUnivers.industrials)}
+        {searchButton(
+          "Information Technology",
+          assetUnivers.assetUnivers.informationTechnology
+        )}
+        {searchButton("Materials", assetUnivers.assetUnivers.materials)}
+        {searchButton("Real Estate", assetUnivers.assetUnivers.realEstate)}
+        <TouchableOpacity
+          onPress={() => {
+            let assets = Object.keys(assetUnivers.assetUnivers.utilities);
+            props.navigation.navigate("Stock2", {
+              funds: props.route.params.funds,
+              cat: "Utilities",
+              assets: assets,
+            });
+          }}
+        >
+          <View style={styles.infoCardBottom}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}>Utilities</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              <EvilIcons name="chevron-right" size={40} color="white" />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View style={{ height: 15 }}></View>
       </ScrollView>
 
-      <View style={styles.footer}></View>
       {navBar(props, props.route.params.funds, "search")}
     </SafeAreaView>
   );

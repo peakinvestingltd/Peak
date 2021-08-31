@@ -203,7 +203,6 @@ export default function StockScreen2(props) {
           {currentStock(loaded, stockData, props, userBalance)}
         </ScrollView>
 
-        <View style={styles.footer}></View>
         {navBar(props, userBalance, "stock")}
       </SafeAreaView>
     </PaperProvider>

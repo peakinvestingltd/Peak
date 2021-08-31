@@ -7,7 +7,7 @@ import header from "../../../components/header.js";
 import navBar from "../../../components/navBar.js";
 import { passwordReset } from "../../../components/Firebase/firebase.js";
 export default function RestPassword(props) {
-  let email = "";
+  let email = "1";
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}

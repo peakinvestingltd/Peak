@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  TextInput,
 } from "react-native";
 import {
   Text,
@@ -32,13 +33,83 @@ import {
   getSecclStock,
 } from "../../utils/functions";
 const navBarColor = "black";
-
+import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../../css/styles.js";
 
 export default function SettingPrivacyScreen(props) {
+  const [privacy, setPrivacy] = useState(false);
+  const [password, setPassword] = useState(false);
+  const [terms, setTerms] = useState(false);
+  const [about, setAbout] = useState(false);
+
+  function privacySelected(selected) {
+    if (selected) {
+      return (
+        <View style={styles.infoContents}>
+          <Text style={styles.infoText}>here</Text>
+        </View>
+      );
+    }
+  }
+  function aboutSelected(selected) {
+    if (selected) {
+      return (
+        <View style={styles.infoContents}>
+          <Text style={styles.infoText}>here</Text>
+        </View>
+      );
+    }
+  }
+  function passwordSelected(selected) {
+    if (selected) {
+      return (
+        <View style={styles.infoContents}>
+          <View style={{ marginTop: 20, marginBottom: 20 }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter email"
+              onChangeText={(input) => {
+                email = input;
+              }}
+            ></TextInput>
+          </View>
+          <Button
+            color="white"
+            uppercase={false}
+            style={styles.orangeFillButton}
+            onPress={() => {
+              console.log(email);
+              passwordReset(email).then((res) => {
+                console.log(res);
+              });
+            }}
+          >
+            Reset Password
+          </Button>
+          <View style={{ height: 20 }} />
+        </View>
+      );
+    }
+  }
+  function termsSelected(selected) {
+    if (selected) {
+      return (
+        <View style={styles.infoContents}>
+          <Text style={styles.infoText}>here</Text>
+        </View>
+      );
+    }
+  }
+  function icon(section) {
+    if (section) {
+      return <EvilIcons name="chevron-down" size={40} color="white" />;
+    } else {
+      return <EvilIcons name="chevron-right" size={40} color="white" />;
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
@@ -50,50 +121,122 @@ export default function SettingPrivacyScreen(props) {
           <Text style={styles.pageButtonText}>&lt; Settings and Privacy</Text>
         </Button>
 
-        <View style={styles.settingsCard}>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("reset password");
-              props.navigation.navigate("ResetPassword", {
-                funds: props.route.params.funds,
-              });
-            }}
-          >
-            <View style={styles.settingsButtonTop}>
-              <Text
-                style={{
-                  textTransform: "none",
-                  color: "white",
-                  flexDirection: "row",
-                  marginLeft: 20,
-                  fontSize: 18,
-                }}
-              >
-                Reset Password
-              </Text>
+        <TouchableOpacity
+          onPress={() => {
+            setPassword(!password);
+          }}
+        >
+          <View style={styles.infoCardTop}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}>Reset Password</Text>
             </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              console.log("reset password");
-            }}
-          >
-            <View style={styles.settingsButtonBottom}>
-              <Text
-                style={{
-                  textTransform: "none",
-                  color: "white",
-                  flexDirection: "row",
-                  marginLeft: 20,
-                  fontSize: 18,
-                }}
-              >
-                Utilities
-              </Text>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              {icon(password)}
             </View>
-          </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+        {passwordSelected(password)}
+        <TouchableOpacity
+          onPress={() => {
+            setPrivacy(!privacy);
+          }}
+        >
+          <View style={styles.infoSection}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}>Privacy Policy</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              {icon(privacy)}
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            marginRight: 10,
+          }}
+        >
+          {privacySelected(privacy)}
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            setTerms(!terms);
+          }}
+        >
+          <View style={styles.infoSection}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}>Terms &amp; Conditions</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              {icon(terms)}
+            </View>
+          </View>
+        </TouchableOpacity>
+        {termsSelected(terms)}
+        <TouchableOpacity
+          onPress={() => {
+            setAbout(!about);
+          }}
+        >
+          <View style={styles.infoCardBottom}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={styles.infoTopText}> About Us</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                marginRight: 10,
+              }}
+            >
+              {icon(about)}
+            </View>
+          </View>
+        </TouchableOpacity>
+        {aboutSelected(about)}
       </ScrollView>
 
       <View style={styles.footer}></View>

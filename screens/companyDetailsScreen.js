@@ -803,7 +803,6 @@ export default class DetailsScreen extends React.Component {
           {this.toggleDesc()}
         </ScrollView>
 
-        <View style={styles.footer}></View>
         {navBar(this.props, this.props.route.params.funds)}
       </SafeAreaView>
     );

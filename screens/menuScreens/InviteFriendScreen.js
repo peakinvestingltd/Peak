@@ -1,54 +1,43 @@
-import React, { useState } from "react";
-import { SafeAreaView, View, ScrollView } from "react-native";
-import { Text, Button } from "react-native-paper";
-import { styles } from "../../css/styles.js";
-import header from "../../components/header.js";
-import navBar from "../../components/navBar.js";
-import { AppLoading } from "expo";
-//fonts
+import React from "react";
 import {
-  useFonts,
-  NunitoSans_200ExtraLight,
-} from "@expo-google-fonts/nunito-sans";
-export default function InviteFriendsScreen(props) {
-  const [fontLoading, error] = useFonts({
-    NunitoSans_200ExtraLight,
-  });
-  if (!fontLoading) {
-    return <AppLoading />;
-  }
+  SafeAreaView,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import {
+  Text,
+  List,
+  Paragraph,
+  Colors,
+  Title,
+  Menu,
+  Divider,
+  Card,
+  Button,
+  BottomNavigation,
+  IconButton,
+} from "react-native-paper";
 
+import header from "../../components/header";
+import navBar from "../../components/navBar";
+const navBarColor = "black";
+
+import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import { styles } from "../../css/styles.js";
+
+export default function InviteFriendsScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
       <ScrollView>
-        <Button
-          style={styles.pageButton}
-          onPress={() => props.navigation.goBack()}
-        >
+        <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
           <Text style={styles.pageButtonText}>&lt; Invite Friends</Text>
         </Button>
-        <Text
-          style={{
-            textTransform: "none",
-            color: "white",
-            fontSize: 30,
-            fontFamily: "NunitoSans_200ExtraLight",
-          }}
-        >
-          testing font
-        </Text>
-        <Text
-          style={{
-            textTransform: "none",
-            color: "white",
-            fontSize: 30,
-          }}
-        >
-          testing font
-        </Text>
       </ScrollView>
-      <View style={styles.footer}></View>
+
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );

@@ -329,7 +329,7 @@ export default function header(props) {
               console.log("deposit");
             }}
             //  width={screenWidth / 2 - 50}
-            style={styles.tradeButton}
+            style={styles.orangeFillButton}
             mode="contained"
           >
             Deposit
