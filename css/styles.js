@@ -26,7 +26,7 @@ const screenWidth = Dimensions.get("window").width;
 const primaryColor = darkBlue;
 const secondaryColor = cardBlue;
 const fontColor = "whitesmoke";
-const font = "normal";
+const font = "Futura";
 const fontSizeTitle = 15;
 
 const styles = StyleSheet.create({
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primaryColor,
-    // marginTop: Constants.statusBarHeight,
   },
   pageButton: {
     alignSelf: "flex-start",
@@ -50,34 +49,16 @@ const styles = StyleSheet.create({
   },
   //-------------------navbar---------------------
   navBar: {
+    position:'absolute',
+    bottom:0,
+    padding:10,
     backgroundColor: "#26325F",
     width: screenWidth,
-    height: 70,
-
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
     justifyContent: "space-evenly",
     flexDirection: "row",
-    shadowColor: "white",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
     elevation: 10,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    shadowOpacity: 1,
-  },
-  navButtonView: {
-    width: "20%",
-    height: "100%",
-    margin: 0,
-    // backgroundColor:'white'
-  },
-  navButton: {
-    width: "100%",
-    height: "100%",
-    margin: 0,
-    // backgroundColor:'white'
   },
   footer: {
     width: screenWidth,
@@ -104,17 +85,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
   },
-  button: {
-    alignSelf: "center",
-    justifyContent: "center",
-    width: "45%",
-    height: 45,
-    backgroundColor: orange,
-    borderRadius: 14,
-    marginBottom: 20,
-  },
+  // button: {
+  //   alignSelf: "center",
+  //   justifyContent: "center",
+  //   height: 45,
+  //   backgroundColor: orange,
+  //   borderRadius: 14,
+  //   marginBottom: 20,
+  // },
   buttonContainer: {
-    padding: 20,
     paddingBottom: 60,
     width: "80%",
     alignSelf: "center",
@@ -123,10 +102,6 @@ const styles = StyleSheet.create({
   topCard: {
     zIndex: 5,
     padding: 0,
-    //position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
     backgroundColor: lightBlue,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -136,13 +111,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     height: 80,
-
-    zIndex: 999,
+    zIndex: 2,
   },
   topCardExpanded: {
     zIndex: 5,
     padding: 0,
-    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -235,8 +208,6 @@ const styles = StyleSheet.create({
     borderColor: "#ff7f00",
     borderRadius: 10,
     borderWidth: 1,
-    width: screenWidth / 3,
-    height: 30,
     textTransform: "none",
     justifyContent: "center",
   },
@@ -282,8 +253,8 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   priceView: {
-    height: "50px",
-    width: "50px",
+    // height: "50px",
+    // width: "50px",
     borderColor: "whitesmoke",
     borderWidth: 2,
   },
@@ -296,7 +267,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: fontColor,
     fontFamily: font,
-    alignSelf: "flex-end",
   },
   percentage: {
     fontSize: 12,
@@ -928,7 +898,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 10,
-    width: screenWidth - 30,
     backgroundColor: secondaryColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
@@ -981,7 +950,6 @@ const styles = StyleSheet.create({
   },
   amountOfShares: {
     width: 75,
-    backgroundColor: gray,
     color: orange,
     textAlign: "center",
     borderRadius: 25,

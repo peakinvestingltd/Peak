@@ -27,6 +27,7 @@
     },
     "android": {
       "package": "com.mahir93.expofirebase"
-    }
+    },
+    "description": ""
   }
 }

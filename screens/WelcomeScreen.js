@@ -131,11 +131,11 @@ export default function WelcomeScreen({ navigation }) {
             }}
           >
             <Button
-              title="Login"
               style={{
                 alignSelf: "center",
                 justifyContent: "center",
               }}
+              onPress={() => navigation.navigate("ResetPassword")}
             >
               <Text
                 style={{
@@ -172,6 +172,7 @@ export default function WelcomeScreen({ navigation }) {
               style={{
                 flexDirection: "row",
                 alignSelf: "center",
+                height:50
               }}
             >
               <View
@@ -181,11 +182,9 @@ export default function WelcomeScreen({ navigation }) {
               </View>
 
               <Button
-                title="Login"
                 style={{
                   alignSelf: "center",
                   justifyContent: "center",
-                  height: 25,
                 }}
                 onPress={() => navigation.navigate("Register")}
               >
@@ -193,6 +192,7 @@ export default function WelcomeScreen({ navigation }) {
                   style={{
                     color: "#ff7f00",
                     textTransform: "none",
+                    height:50
                   }}
                 >
                   Sign Up

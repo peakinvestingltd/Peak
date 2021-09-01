@@ -23,11 +23,11 @@ export default function navBar(props, funds, screen) {
   }
   return (
     <View style={styles.navBar}>
-      <View style={{ width: 60, height: 60 }}>
+      <View>
         <IconButton
           icon={"newspaper"}
           style={styles.navButton}
-          size={25}
+          size={22}
           color={newsColor}
           onPress={() =>
             props.navigation.navigate("News", {
@@ -36,11 +36,11 @@ export default function navBar(props, funds, screen) {
           }
         ></IconButton>
       </View>
-      <View style={{ width: 60, height: 60 }}>
+      <View>
         <IconButton
           icon={"account"}
           style={styles.navButton}
-          size={25}
+          size={22}
           color={portfolioColor}
           onPress={() =>
             props.navigation.navigate("Portfolio", {
@@ -50,16 +50,11 @@ export default function navBar(props, funds, screen) {
         ></IconButton>
       </View>
 
-      <View
-        style={{
-          width: 60,
-          height: 60,
-        }}
-      >
+      <View>
         <IconButton
           icon={require("../assets/newLogo.png")}
           color={stockColor}
-          size={40}
+          size={25}
           style={styles.navButton}
           onPress={() =>
             props.navigation.navigate("Stock", {
@@ -68,16 +63,11 @@ export default function navBar(props, funds, screen) {
           }
         ></IconButton>
       </View>
-      <View
-        style={{
-          width: 60,
-          height: 60,
-        }}
-      >
+      <View>
         <IconButton
           icon={"magnify"}
           style={styles.navButton}
-          size={25}
+          size={22}
           color={searchColor}
           onPress={() =>
             props.navigation.navigate("Search", {
@@ -86,11 +76,11 @@ export default function navBar(props, funds, screen) {
           }
         ></IconButton>
       </View>
-      <View style={{ width: 60, height: 60 }}>
+      <View>
         <IconButton
           icon={"menu"}
           style={styles.navButton}
-          size={25}
+          size={22}
           color={menuColor}
           onPress={() =>
             props.navigation.navigate("Home", {

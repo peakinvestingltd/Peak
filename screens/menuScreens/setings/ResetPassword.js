@@ -10,7 +10,6 @@ export default function RestPassword(props) {
   let email = "1";
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -46,8 +45,6 @@ export default function RestPassword(props) {
       </ScrollView>
 
       <View style={styles.footer}></View>
-
-      {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
 }

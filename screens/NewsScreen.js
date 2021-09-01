@@ -34,10 +34,9 @@ export default function NewScreen(props) {
           return (
             <View
               style={{
-                margin: 10,
+                margin: 8,
                 flexDirection: "row",
                 justifyContent: "space-evenly",
-                width: ScreenWidth - 20,
                 backgroundColor: "#1b2855",
                 borderRadius: 10,
               }}
@@ -51,10 +50,8 @@ export default function NewScreen(props) {
               >
                 <Text
                   style={{
-                    width: ScreenWidth / 2,
                     color: "#ff7f00",
                     fontSize: 14,
-                    marginLeft: 5,
                   }}
                 >
                   {moment(newsStory.datetime * 1000).format("MMM Do YY")}-{" "}
@@ -65,9 +62,8 @@ export default function NewScreen(props) {
                     color: "white",
                     fontSize: 14,
                     alignSelf: "center",
-                    marginLeft: 5,
+                    marginTop:10,
                     flexWrap: "wrap",
-                    flax: 1,
                   }}
                 >
                   {newsStory.headline}
@@ -78,8 +74,7 @@ export default function NewScreen(props) {
                 style={{
                   width: 150,
                   height: 150,
-                  borderTopRightRadius: 10,
-                  borderBottomRightRadius: 10,
+                  resizeMode:'contain'
                 }}
                 source={{
                   uri: newsStory.image,
@@ -94,7 +89,7 @@ export default function NewScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
-      <ScrollView>
+      <ScrollView style={{marginBottom:50}}>
         <Button
           style={styles.pageButton}
           onPress={() => props.navigation.goBack()}
