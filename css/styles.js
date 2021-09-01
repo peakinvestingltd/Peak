@@ -227,9 +227,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: -10,
   },
-  headerBuffer: {
-    height: 75,
-  },
+  // headerBuffer: {
+  //   height: 75,
+  // },
   ballButton: {
     // backgroundColor: orange,
     borderColor: "#ff7f00",

@@ -33,7 +33,10 @@ export default function InviteFriendsScreen(props) {
     <SafeAreaView style={styles.container}>
       {header(props, props.route.params.funds)}
       <ScrollView>
-        <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
+        <Button
+          style={styles.pageButton}
+          onPress={() => props.navigation.goBack()}
+        >
           <Text style={styles.pageButtonText}>&lt; Invite Friends</Text>
         </Button>
       </ScrollView>
