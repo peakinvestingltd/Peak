@@ -30,6 +30,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  Linking
 } from "react-native";
 
 import { ScreenWidth, ScreenHeight } from "react-native-elements/dist/helpers";
@@ -365,10 +366,10 @@ export default function header(props) {
         }}
       >
         <IconButton
-          onPress={() => props.navigation.navigate("Chat")}
+          onPress={() => Linking.openURL('https://www.peakinvesting.co.uk')}
           icon="chat-outline"
           color={"#ff7f00"}
-          size={25}
+          size={22}
         />
         <View>
           <Button
@@ -404,7 +405,7 @@ export default function header(props) {
             {setFunds()}
           </Button>
         </View>
-        <IconButton icon="bell-outline" color={"#ff7f00"} size={25} />
+        <IconButton icon="bell-outline" color={"#ff7f00"} size={22} />
       </View>
       {portfolio()}
     </Transitioning.View>

@@ -154,7 +154,6 @@ export default function OwnedStockScreen(props) {
             <View
               style={{
                 display: "flex",
-                marginRight: 30,
                 justifyContent: "space-between",
                 flexDirection: "row",
               }}
@@ -176,7 +175,7 @@ export default function OwnedStockScreen(props) {
 
             <View style={styles.priceContainer}>
               <Text style={styles.price}>
-                $£
+                £
                 {item.currentPrice}
               </Text>
               <Text style={setStyle(item)}>
@@ -191,26 +190,19 @@ export default function OwnedStockScreen(props) {
             <View
               style={{
                 flexDirection: "row",
-                height: 60,
               }}
             >
               <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-evenly",
-                  height: 60,
                   width: screenWidth - 30,
                 }}
               >
                 <View
                   style={{
                     justifyContent: "center",
-                    width: (screenWidth - 30) / 3 - 10,
-                    backgroundColor: "#26325F",
-                    height: 40,
                     alignSelf: "center",
-                    borderRadius: 10,
-                    margin: 5,
                   }}
                 >
                   <Text
@@ -237,12 +229,7 @@ export default function OwnedStockScreen(props) {
                 <View
                   style={{
                     justifyContent: "center",
-                    width: (screenWidth - 30) / 3 - 10,
-                    backgroundColor: "#26325F",
-                    height: 40,
                     alignSelf: "center",
-                    borderRadius: 10,
-                    margin: 5,
                   }}
                 >
                   <Text
@@ -269,12 +256,7 @@ export default function OwnedStockScreen(props) {
                 <View
                   style={{
                     justifyContent: "center",
-                    width: (screenWidth - 30) / 3 - 10,
-                    backgroundColor: "#26325F",
-                    height: 40,
                     alignSelf: "center",
-                    borderRadius: 10,
-                    margin: 5,
                   }}
                 >
                   <Text
