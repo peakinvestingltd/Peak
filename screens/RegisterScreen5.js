@@ -50,52 +50,14 @@ export default function RegisterScreen3(props) {
             signUp: "compleat",
             GIA: "GIAnum",
           });
-
-        // getUserInfo(user.uid).then((doc) => {
-        //   if (!doc.exists) {
-        //     console.log("No such document!");
-        //   } else {
-
-        //     let data = doc.data();
-        //     let userData = {
-        //       title: data.title,
-        //       firstName: data.firstName,
-        //       middleName: data.middleName,
-        //       lastName: data.lastName,
-        //       flatNumber: data.flatNumber,
-        //       address: data.address,
-        //       postcode: data.postcode,
-        //       city: data.city,
-        //       gender: data.gender,
-        //       nationality: data.nationality,
-        //       NI: NI,
-        //       dob: "1991-09-17",
-        //       phoneNumber: data.phoneNumber,
-        //     };
-        //     // getToken()
-        //     //   .then((token) => {
-        //     //     createClient(userData, token, user)
-        //     //       .then((id) => {
-        //     //         createAccount("GIA", id, token).then((res) => {
-        //     //           console.log(user);
-        //     //           console.log(res);
-        //     //           signUp4(id, NI, true, user, res);
-        //     //         });
-        //     //       })
-        //     //       .catch((err) => console.log(err));
-        //     //   })
-        //     //   .catch((err) => console.log(err));
-
-        //   }
-        // });
       });
 
       props.navigation.navigate("Stock");
     } else {
       if (!NI) {
-        setWarning("* please fill in your National Insurance number");
+        setWarning("* Please fill in your National Insurance number");
       } else {
-        setWarning("* you must accept the terms and conditions");
+        setWarning("* You must accept the terms and conditions");
       }
       setNIStyle(styles.warning);
     }
@@ -188,7 +150,7 @@ export default function RegisterScreen3(props) {
           </Button>
           <View style={{ justifyContent: "center", flexDirection: "row" }}>
             <Text style={styles.bottomSubText}>
-              Already hane an account?{" "}
+              Already have an account?{" "}
               <Text style={{ color: "#ff7f00" }}>Sign In</Text>
             </Text>
           </View>

@@ -1,34 +1,5 @@
-// import React from "react";
-// import { View, StyleSheet, Text, Image } from "react-native";
-
-// import { styles } from "../css/styles.js";
-// import AppButton from "../components/AppButton";
-// import Colors from "../utils/colors";
-// import useStatusBar from "../hooks/useStatusBar";
-
-// export default function WelcomeScreen({ navigation }) {
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.logo}>
-//         <Image source={require("../assets/newLogo.png")} style={styles.logo} />
-//       </View>
-
-//       <View style={styles.buttonContainer}>
-//         <AppButton title="Login" onPress={() => navigation.navigate("Login")} />
-//         <AppButton
-//           style={styles.buttonText}
-//           title="Register"
-//           color="secondary"
-//           onPress={() => navigation.navigate("Register")}
-//         />
-//       </View>
-//       <Text style={styles.footerText}>Peak ltd. ™ - 2021</Text>
-//     </View>
-//   );
-// }
-
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Image, TextInput } from "react-native";
+import { View, Alert, Text, Image, TextInput } from "react-native";
 import { Button } from "react-native-paper";
 import { styles } from "../css/styles.js";
 import AppButton from "../components/AppButton";
@@ -38,6 +9,7 @@ import { getUserId } from "../utils/functions";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 import { loginWithEmail } from "../components/Firebase/firebase";
 import * as firebase from "firebase";
+import * as LocalAuthentication from 'expo-local-authentication';
 import "firebase/database";
 
 const db = firebase.firestore();
@@ -54,24 +26,31 @@ export default function WelcomeScreen({ navigation }) {
 
   useStatusBar("light-content");
 
-  // const userValid = () => {
-  //   getUserId().then((user) => {
-  //     if (user) {
-  //       setUser(true);
-  //     } else {
-  //       setUser(false);
-  //     }
-  //   });
-  // };
-  // userValid();
+  const onFaceId = async () => {
+    try {
+      // Checking if device is compatible
+      const isCompatible = await LocalAuthentication.hasHardwareAsync();
+      
+      if (!isCompatible) {
+        throw new Error('Your device isn\'t compatible.')
+      }
 
-  // firebase.auth().onAuthStateChanged((user) => {
-  //   console.log(user.uid);
-  //   if (user.uid) {
-  //     navigation.navigate("Stock");
-  //   }
-  // });
+      // Checking if device has biometrics records
+      const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+      
+      if (!isEnrolled) {
+        throw new Error('No Faces / Fingers found.')
+      }
 
+      // Authenticate user
+      await LocalAuthentication.authenticateAsync();
+
+     navigation.navigate("Stock")
+    } catch (error) {
+      Alert.alert('An error as occured', error?.message);
+    }
+  };
+  
   async function logginTapped() {
     console.log(email);
     if (email && password) {
@@ -178,7 +157,7 @@ export default function WelcomeScreen({ navigation }) {
               <View
                 style={{ flexDirection: "column", justifyContent: "center" }}
               >
-                <Text style={{ color: "white" }}>Dont have an account?</Text>
+                <Text style={{ color: "white" }}>Don't have an account?</Text>
               </View>
 
               <Button
@@ -198,9 +177,12 @@ export default function WelcomeScreen({ navigation }) {
                   Sign Up
                 </Text>
               </Button>
+              
             </View>
+            
           </View>
         </View>
+        <Button title="Sign in with Face ID" onPress={onFaceId}> Face ID</Button>
       </View>
     </View>
   );

@@ -401,177 +401,10 @@ export default function PortfolioScreen(props) {
           </View>
         </View>
 
-        {/* <View style={styles.portfolioChartHolder}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 10,
-              marginBottom: 20,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 15 }}>Activity</Text>
-            <Text style={{ color: "#ff7f00", fontSize: 15 }}>
-              {date.getFullYear()}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 50,
-                  backgroundColor: "green",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Jan</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Feb</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Mar</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Apr</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>May</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Jun</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Jul</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Aug</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Sep</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Oct</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Nov</Text>
-            </View>
-            <View style={{ alignSelf: "flex-end" }}>
-              <View
-                style={{
-                  width: 4,
-                  height: 100,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                  borderRadius: 25,
-                }}
-              ></View>
-              <Text style={{ fontSize: 10, color: "white" }}>Dec</Text>
-            </View>
-          </View>
-        </View> */}
+        
         <View style={styles.backgroundCard}>
           <Text
-            style={{ color: "white", fontSize: 18, margin: 5, marginLeft: 15 }}
+            style={{ color: "white", fontSize: 14, margin: 5, fontWeight:'bold', marginLeft: 15 }}
           >
             Voting
           </Text>
@@ -610,7 +443,7 @@ export default function PortfolioScreen(props) {
               }}
             >
               <View style={styles.backgroundSmallCardx3}>
-                <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+                <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
                   Stock
                 </Text>
                 <Text
@@ -648,7 +481,7 @@ export default function PortfolioScreen(props) {
             </TouchableOpacity>
 
             <View style={styles.backgroundSmallCardx3}>
-              <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+              <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
                 Funds
               </Text>
               <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
@@ -665,7 +498,7 @@ export default function PortfolioScreen(props) {
                 Invested
               </Text>
               <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0
+                £0 
               </Text>
               <Text
                 style={{
@@ -683,7 +516,7 @@ export default function PortfolioScreen(props) {
             </View>
 
             <View style={styles.backgroundSmallCardx3}>
-              <Text style={{ color: "white", marginTop: 8, marginLeft: 12 }}>
+              <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
                 ETFs
               </Text>
               <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
@@ -720,8 +553,6 @@ export default function PortfolioScreen(props) {
           <View style={{ width: 10 }} />
         </ScrollView>
       </ScrollView>
-
-      <View style={styles.footer}></View>
       {navBar(props, props.route.params.funds, "portfolio")}
     </SafeAreaView>
   );

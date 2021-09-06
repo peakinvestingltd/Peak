@@ -291,14 +291,14 @@ export default class DetailsScreen extends React.Component {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={styles.listText1}>group</Text>
+            <Text style={styles.listText1}>Group</Text>
             <Text style={styles.listText2}>{params.group}</Text>
           </View>
 
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={styles.listText1}>sector</Text>
+            <Text style={styles.listText1}>Sector</Text>
             <Text style={styles.listText2}>{params.sector}</Text>
           </View>
 
@@ -733,7 +733,7 @@ export default class DetailsScreen extends React.Component {
                   marginLeft: 10,
                 }}
               >
-                <Text style={styles.infoTopText}>Your investment</Text>
+                <Text style={styles.infoTopText}>Your Investment</Text>
               </View>
 
               <View
