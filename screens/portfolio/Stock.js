@@ -150,6 +150,8 @@ export default function OwnedStockScreen(props) {
               });
           }}
         >
+
+          <View style={{marginBottom:5, marginLeft:10, marginRight:10,}}>
           <View style={styles.cardTop}>
             <View
               style={{
@@ -277,6 +279,7 @@ export default function OwnedStockScreen(props) {
                 </View>
               </View>
             </View>
+          </View>
           </View>
         </TouchableOpacity>
       );

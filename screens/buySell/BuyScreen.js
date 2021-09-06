@@ -131,7 +131,7 @@ export default function BuyScreen(props) {
               <Text style={styles[props.route.params.color]}>
                 {props.route.params.priceChange}
                 {"("}
-                {params.percentage}%{")"}
+                {params.percentage.toFixed(2)}%{")"}
               </Text>
             </View>
           </View>
@@ -206,7 +206,7 @@ export default function BuyScreen(props) {
           <Button
             style={styles.tradeCancleButton}
             onPress={() => {
-              console.log("here");
+              props.navigation.goBack();
             }}
           >
             <Text style={styles.orangeButtonText}>Cancel</Text>

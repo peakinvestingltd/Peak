@@ -53,10 +53,7 @@ export default function AppStack() {
       <Stack.Screen name="OwnedStock" component={OwnedStockScreen} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
 
-      <Stack.Screen
-        name="NotificationSettings"
-        component={NotificationSettingsScreen}
-      />
+      <Stack.Screen name="NotificationSettings"component={NotificationSettingsScreen}/>
       <Stack.Screen name="ManageFunds" component={ManageFundsScreen} />
       <Stack.Screen name="InviteFriends" component={InviteFriendScreen} />
       <Stack.Screen name="PeakStore" component={PeakStoreScreen} />
@@ -68,6 +65,7 @@ export default function AppStack() {
       <Stack.Screen name="Register3" component={RegisterScreen3} />
       <Stack.Screen name="Register4" component={RegisterScreen4} />
       <Stack.Screen name="Register5" component={RegisterScreen5} />
+      
     </Stack.Navigator>
   );
 }

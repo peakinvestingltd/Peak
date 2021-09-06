@@ -154,6 +154,7 @@ export default function RegisterScreen3(props) {
               marginLeft: 20,
               marginRight: 20,
               padding: 0,
+              color:"white",
               borderRadius: 10,
               flexDirection: "row",
               alignSelf: "center",
@@ -176,6 +177,7 @@ export default function RegisterScreen3(props) {
           <Text style={ageStyle}>* You must be at least 18 year old</Text>
           {show && (
             <DateTimePicker
+              textColor="white"
               testID="dateTimePicker"
               value={new Date(date)}
               mode={mode}
@@ -195,7 +197,7 @@ export default function RegisterScreen3(props) {
             style={styles.input}
             placeholder={"Select Your Gender"}
           />
-          <Text style={genderStyle}>* plese select your gender</Text>
+          <Text style={genderStyle}>* Please select your gender</Text>
 
           <TextInput
             style={styles.input}
@@ -203,7 +205,7 @@ export default function RegisterScreen3(props) {
             onChangeText={(val) => setNationality(val)}
           ></TextInput>
           <Text style={nationalityStyle}>
-            * please fill in your nationality
+            * Please fill in your nationality
           </Text>
 
           <Button

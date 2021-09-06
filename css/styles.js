@@ -1,8 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
-import { Colors } from "react-native-paper";
-import Constants from "expo-constants";
-import { or } from "react-native-reanimated";
 
 const darkBlue = "#172041";
 const lightBlue = "#26325F";
@@ -27,7 +24,7 @@ const primaryColor = darkBlue;
 const secondaryColor = cardBlue;
 const fontColor = "whitesmoke";
 const font = "Futura";
-const fontSizeTitle = 15;
+const fontSizeTitle = 14;
 
 const styles = StyleSheet.create({
   statusBar: {
@@ -85,14 +82,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
   },
-  // button: {
-  //   alignSelf: "center",
-  //   justifyContent: "center",
-  //   height: 45,
-  //   backgroundColor: orange,
-  //   borderRadius: 14,
-  //   marginBottom: 20,
-  // },
   buttonContainer: {
     paddingBottom: 60,
     width: "80%",
@@ -246,11 +235,10 @@ const styles = StyleSheet.create({
   stockTicker: {
     color: gray,
     fontFamily: font,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
     fontWeight: "normal",
     textTransform: "uppercase",
     fontSize: 10,
-    margin: 0,
   },
   priceView: {
     // height: "50px",
@@ -263,10 +251,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   price: {
-    fontSize: 20,
     borderRadius: 10,
     color: fontColor,
     fontFamily: font,
+    alignSelf: "flex-end",
   },
   percentage: {
     fontSize: 12,
@@ -307,7 +295,7 @@ const styles = StyleSheet.create({
     fontFamily: font,
     letterSpacing: 2.5,
     fontWeight: "900",
-    alignSelf: "center",
+    marginLeft:20,
     fontSize: fontSizeTitle,
     margin: 1,
     fontSize: 15,
@@ -417,8 +405,6 @@ const styles = StyleSheet.create({
     marginRight: screenWidth / 4 - 20,
     marginLeft: screenWidth / 4 - 20,
     borderRadius: 13,
-    // position: "absolute",
-    // bottom: 20,
   },
   buttonText: {
     color: "white",
@@ -476,13 +462,15 @@ const styles = StyleSheet.create({
   },
   warning: {
     color: "red",
-    marginTop: 0,
-    marginBottom: 0,
-    marginLeft: 20,
+    marginTop:5,
     fontSize: 14,
+    fontFamily:'Futura',
+    marginLeft:20,
   },
   noWarning: {
+    marginTop:5,
     opacity: 0,
+    fontFamily:'Futura',
   },
   imageContainer: {
     flex: 1,
@@ -533,7 +521,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: secondaryColor,
     marginBottom: 2,
-    flexDirection: "column",
     justifyContent: "center",
   },
   settingsButtonTop: {
@@ -554,8 +541,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     flexDirection: "column",
-    justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   settingsCard: {
     marginLeft: 20,
@@ -634,7 +620,6 @@ const styles = StyleSheet.create({
   //------companyScreen------------
   card: {
     backgroundColor: secondaryColor,
-    // height: 120,
     marginLeft: 10,
     marginBottom: 10,
     marginTop: 0,
@@ -650,8 +635,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: secondaryColor,
-    marginRight: 10,
-    marginLeft: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -894,13 +877,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   defaultEndView: {
-    marginTop: 0,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 10,
     backgroundColor: secondaryColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    paddingBottom:10,
   },
   sharesView: {
     width: screenWidth - 30,

@@ -24,6 +24,7 @@
     "expo-font": "~9.1.0",
     "expo-google-fonts": "^0.0.0",
     "expo-linear-gradient": "~9.1.0",
+    "expo-local-authentication": "~11.1.1",
     "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",

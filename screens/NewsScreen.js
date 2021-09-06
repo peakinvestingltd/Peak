@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, ScrollView, Image } from "react-native";
+import { SafeAreaView, View, ScrollView, Image, Linking } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { styles } from "../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
@@ -7,6 +7,7 @@ import header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import { TouchableOpacity } from "react-native";
 import moment from "moment";
+import { fonts } from "react-native-elements/dist/config";
 export default function NewScreen(props) {
   const [loaded, setLoaded] = useState(false);
   const [news, setNews] = useState();
@@ -32,7 +33,11 @@ export default function NewScreen(props) {
       return news.map((newsStory, index) => {
         if (index < 15) {
           return (
+            <TouchableOpacity
+            onPress={() => Linking.openURL(newsStory.url)}
+            >
             <View
+            
               style={{
                 margin: 8,
                 flexDirection: "row",
@@ -51,36 +56,54 @@ export default function NewScreen(props) {
                 <Text
                   style={{
                     color: "#ff7f00",
-                    fontSize: 14,
+                    fontSize: 12,
+                    paddingTop:20,
                   }}
                 >
-                  {moment(newsStory.datetime * 1000).format("MMM Do YY")}-{" "}
-                  {newsStory.source}
+                  {newsStory.category.toUpperCase()} | {newsStory.source}
                 </Text>
                 <Text
                   style={{
                     color: "white",
                     fontSize: 14,
-                    alignSelf: "center",
+                    marginTop:10,
+                    fontWeight:'bold'
+                  }}
+                >{newsStory.headline}
+                </Text>
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 11,
                     marginTop:10,
                     flexWrap: "wrap",
                   }}
-                >
-                  {newsStory.headline}
+                >{newsStory.summary}
+               
                 </Text>
+                <Text style={{
+                  color:'white',
+                  fontSize:9,
+                  marginTop:10,
+                  paddingBottom:20,
+                }}>{moment(newsStory.datetime * 1000).format("MMM Do YY")}</Text>
               </View>
 
               <Image
                 style={{
-                  width: 150,
-                  height: 150,
-                  resizeMode:'contain'
+                  width: 120,
+                  resizeMode:'fit',
+                  marginRight:-35,
+                  padding:0,
+                  borderTopRightRadius:10,
+                  borderBottomRightRadius:10,
                 }}
                 source={{
                   uri: newsStory.image,
                 }}
               />
             </View>
+            </TouchableOpacity>
           );
         }
       });
@@ -96,6 +119,7 @@ export default function NewScreen(props) {
         >
           <Text style={styles.pageButtonText}>&lt; News</Text>
         </Button>
+        <Text style={styles.titleText}>Most Recent</Text>
         {newsList()}
       </ScrollView>
 
