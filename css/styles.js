@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
   },
   //-------------------navbar---------------------
   navBar: {
-    position:'absolute',
-    bottom:0,
-    padding:10,
+    // position:'absolute',
+    // bottom:0,
+    padding: 10,
     backgroundColor: "#26325F",
     width: screenWidth,
     justifyContent: "space-evenly",
@@ -789,6 +789,16 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     marginRight: 10,
     width: screenWidth - 20,
+  },
+  infoContentsBottom: {
+    backgroundColor: "#26325F",
+    marginTop: 2,
+    marginLeft: 10,
+    marginBottom: 0,
+    marginRight: 10,
+    width: screenWidth - 20,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   infoText: {
     color: "white",

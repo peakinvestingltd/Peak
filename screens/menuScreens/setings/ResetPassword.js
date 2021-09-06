@@ -11,6 +11,8 @@ export default function RestPassword(props) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <View style={{ height: 20, width: 100 }}></View>
+
         <Button
           style={styles.pageButton}
           onPress={() => props.navigation.goBack()}

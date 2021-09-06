@@ -1,4 +1,6 @@
 import * as React from "react";
+import { SafeAreaView, View, ScrollView, Image } from "react-native";
+
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -36,10 +38,9 @@ const Stack = createStackNavigator();
 export default function AppStack() {
   return (
     <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Stock" component={StockScreen} />
+      {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
+      <Stack.Screen name="Stock" component={StockScreen}></Stack.Screen>
       <Stack.Screen name="Stock2" component={StockScreen2} />
-
       <Stack.Screen name="Home" component={MenuScreen} />
       <Stack.Screen name="Portfolio" component={PortfolioScreen} />
       <Stack.Screen name="News" component={NewsScreen} />
@@ -52,7 +53,6 @@ export default function AppStack() {
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name="OwnedStock" component={OwnedStockScreen} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
-
       <Stack.Screen
         name="NotificationSettings"
         component={NotificationSettingsScreen}

@@ -11,6 +11,7 @@ import IconButton from "../components/IconButton";
 import { passwordReset } from "../components/Firebase/firebase";
 import FormErrorMessage from "../components/Forms/FormErrorMessage";
 import useStatusBar from "../hooks/useStatusBar";
+import { View } from "react-native";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()

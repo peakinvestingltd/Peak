@@ -197,8 +197,8 @@ export default function StockScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#26325F" />
-      {header()}
-      <ScrollView style={{ marginBottom: 50 }}>
+      {/* {header()} */}
+      <ScrollView>
         <Button
           style={styles.pageButton}
           onPress={() =>

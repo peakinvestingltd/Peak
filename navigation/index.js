@@ -17,6 +17,7 @@ import navBar from "../components/navBar.js";
 export default function Providers(props) {
   return (
     <AuthUserProvider>
+      {header()}
       <Routes />
     </AuthUserProvider>
   );

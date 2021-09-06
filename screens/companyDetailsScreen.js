@@ -95,7 +95,7 @@ export default class DetailsScreen extends React.Component {
   toggleDesc() {
     if (this.state.descSelected) {
       return (
-        <View style={styles.infoContents}>
+        <View style={styles.infoContentsBottom}>
           <Text style={styles.infoText}>{this.props.route.params.desc}</Text>
         </View>
       );
@@ -605,7 +605,6 @@ export default class DetailsScreen extends React.Component {
       </View>
     );
   }
-
   getStockAmount() {
     firebase.auth().onAuthStateChanged((user) => {
       getOwnedStock(user, this.state.stock).then((investment) => {
@@ -618,6 +617,13 @@ export default class DetailsScreen extends React.Component {
       });
     });
   }
+  bottowBropDown(selected) {
+    if (selected) {
+      return styles.infoSection;
+    } else {
+      return styles.infoCardBottom;
+    }
+  }
   render() {
     const params = this.props.route.params;
     const navigation = this.props.navigation;
@@ -625,9 +631,9 @@ export default class DetailsScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#26325F" />
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
-          <View
+        {/* <Card style={styles.topCard}> */}
+        {/* --------------header------------------------------ */}
+        {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -651,7 +657,7 @@ export default class DetailsScreen extends React.Component {
             </View>
             <IconButton icon="bell-outline" color={"#ff7f00"} size={25} />
           </View>
-        </Card>
+        </Card> */}
         <ScrollView>
           <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
             <Text style={styles.pageButtonText}>&lt; Trade</Text>
@@ -779,7 +785,7 @@ export default class DetailsScreen extends React.Component {
               });
             }}
           >
-            <View style={styles.infoCardBottom}>
+            <View style={this.bottowBropDown(this.state.descSelected)}>
               <View
                 style={{
                   flexDirection: "column",
@@ -801,6 +807,7 @@ export default class DetailsScreen extends React.Component {
             </View>
           </TouchableOpacity>
           {this.toggleDesc()}
+          <View style={{ height: 10 }} />
         </ScrollView>
 
         {navBar(this.props, this.props.route.params.funds)}
