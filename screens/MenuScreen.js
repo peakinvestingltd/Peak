@@ -62,7 +62,6 @@ export default function MenuScreen(props) {
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
-        {header(props, props.route.params.funds)}
         <ScrollView>
           <View
             style={{

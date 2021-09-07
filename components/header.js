@@ -30,7 +30,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  Linking
+  Linking,
 } from "react-native";
 
 import { ScreenWidth, ScreenHeight } from "react-native-elements/dist/helpers";
@@ -83,7 +83,7 @@ export default function header(props) {
   const [practiceSelected, setPracticeSelected] = useState(styles.practiceCard);
   const [selectedFunds, setSelectedFunds] = useState("0");
   const [practiceFunds, setPracticeFunds] = useState(null);
-
+  const [account, setAccount] = useState("practice account");
   function triggerGetBalance() {
     if (selectedBox == "one") {
       firebase.auth().onAuthStateChanged((user) => {
@@ -97,13 +97,7 @@ export default function header(props) {
     }
   }
   function setCardBalance(account) {
-    if (account == "practice") {
-      if (practiceFunds == null) {
-        triggerGetBalance();
-      } else {
-        return practiceFunds;
-      }
-    }
+    return practiceFunds;
   }
 
   function setFunds() {
@@ -366,7 +360,7 @@ export default function header(props) {
         }}
       >
         <IconButton
-          onPress={() => Linking.openURL('https://www.peakinvesting.co.uk')}
+          onPress={() => Linking.openURL("https://www.peakinvesting.co.uk")}
           icon="chat-outline"
           color={"#ff7f00"}
           size={22}
@@ -391,7 +385,7 @@ export default function header(props) {
               //   });
               //   // createOrder(token, "2921C", 2);
               // });
-
+              triggerGetBalance();
               ref.current.animateNextTransition();
               if (headerStyle == styles.topCard) {
                 setHeaderStyle(styles.topCardExpanded);
@@ -402,7 +396,7 @@ export default function header(props) {
               }
             }}
           >
-            {setFunds()}
+            {account}
           </Button>
         </View>
         <IconButton icon="bell-outline" color={"#ff7f00"} size={22} />

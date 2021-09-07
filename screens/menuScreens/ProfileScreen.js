@@ -34,35 +34,6 @@ export default function ProfileScreen({ navigation }) {
   return (
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
-        <Card style={styles.topCard}>
-          {/* --------------header------------------------------ */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              onPress={() => this.props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-            <View>
-              <Title style={styles.titleText}>Portfolio balance</Title>
-              <Button mode="contained" style={styles.headerBall}>
-                <Text style={{ color: "white" }}>£add funds</Text>
-              </Button>
-            </View>
-            <IconButton
-              icon="bell-outline"
-              color={Colors.orange500}
-              size={30}
-            />
-          </View>
-        </Card>
-        {/* --------------header------------------------------ */}
         <ScrollView>
           <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
             <Text style={styles.pageButtonText}>&lt; Profile</Text>

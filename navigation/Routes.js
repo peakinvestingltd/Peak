@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { SafeAreaView, View, ScrollView, Text, StatusBar } from "react-native";
+import { ScreenHeight, ScreenWidth } from "react-native-elements/dist/helpers";
 import { auth } from "../components/Firebase/firebase";
 import navigationTheme from "./navigationTheme";
 import AuthStack from "./AuthStack";
 import AppStack from "./AppStack";
 import { AuthUserContext } from "./AuthUserProvider";
 import Spinner from "../components/Spinner";
+import header from "../components/header";
+import Main from "./main";
+import Login from "./login";
 
 export default function Routes() {
   const { user, setUser } = useContext(AuthUserContext);
@@ -30,11 +34,21 @@ export default function Routes() {
   // if (isLoading) {
   //   return <Spinner />;
   // }
-  return (
-    <NavigationContainer>
-      <AppStack />
-    </NavigationContainer>
-  );
+  if (user) {
+    return (
+      <View style={{ height: ScreenHeight, width: ScreenWidth }}>
+        {/* {header()} */}
+        <Main />
+      </View>
+    );
+  } else {
+    return <Login />;
+  }
+  // return (
+  //   <NavigationContainer>
+  //     <AppStack />
+  //   </NavigationContainer>
+  // );
   // return (
   //   <NavigationContainer theme={navigationTheme}>
   //     {user ? <AppStack /> : <AuthStack />}

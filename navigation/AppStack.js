@@ -38,6 +38,7 @@ const Stack = createStackNavigator();
 export default function AppStack() {
   return (
     <Stack.Navigator headerMode="none">
+      {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
       <Stack.Screen name="Stock" component={StockScreen}></Stack.Screen>
       <Stack.Screen name="Stock2" component={StockScreen2} />
       <Stack.Screen name="Home" component={MenuScreen} />

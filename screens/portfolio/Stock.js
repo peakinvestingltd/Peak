@@ -39,8 +39,6 @@ export default function OwnedStockScreen(props) {
   };
   const investmentCards = () => {
     return stocks.map((item, index) => {
-      console.log("item");
-      console.log(item);
       let profit = (item.currentPrice * item.amount - item.investment).toFixed(
         2
       );
@@ -117,7 +115,7 @@ export default function OwnedStockScreen(props) {
                         high: item.high,
                         low: item.low,
                         open: item.open,
-                        percentage: item.percentage,
+                        percentage: Number(item.percentage),
                         previousClose: item.pc,
                         priceChange: item.priceDif,
                         stockColor: item.stockColor,
@@ -150,136 +148,132 @@ export default function OwnedStockScreen(props) {
               });
           }}
         >
-
-          <View style={{marginBottom:5, marginLeft:10, marginRight:10,}}>
-          <View style={styles.cardTop}>
-            <View
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                flexDirection: "row",
-              }}
-            >
-              <Image
-                style={styles.image}
-                source={{
-                  uri: item.logo,
+          <View style={{ marginBottom: 5, marginLeft: 10, marginRight: 10 }}>
+            <View style={styles.cardTop}>
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: "row",
                 }}
-              />
+              >
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: item.logo,
+                  }}
+                />
 
-              <View style={styles.stockNameView}>
-                <Text style={styles.stockName}>{item.name}</Text>
-                <Text style={styles.stockTicker}>
-                  {item.ticker}-add country
+                <View style={styles.stockNameView}>
+                  <Text style={styles.stockName}>{item.name}</Text>
+                  <Text style={styles.stockTicker}>
+                    {item.ticker}-add country
+                  </Text>
+                </View>
+              </View>
+
+              <View style={styles.priceContainer}>
+                <Text style={styles.price}>£{item.currentPrice}</Text>
+                <Text style={setStyle(item)}>
+                  {item.priceDif}
+                  {"("}
+                  {item.percentage}%{")"}
                 </Text>
               </View>
             </View>
 
-            <View style={styles.priceContainer}>
-              <Text style={styles.price}>
-                £
-                {item.currentPrice}
-              </Text>
-              <Text style={setStyle(item)}>
-                {item.priceDif}
-                {"("}
-                {item.percentage}%{")"}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.defaultEndView} key={index}>
-            <View
-              style={{
-                flexDirection: "row",
-              }}
-            >
+            <View style={styles.defaultEndView} key={index}>
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-evenly",
-                  width: screenWidth - 30,
                 }}
               >
                 <View
                   style={{
-                    justifyContent: "center",
-                    alignSelf: "center",
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                    width: screenWidth - 30,
                   }}
                 >
-                  <Text
+                  <View
                     style={{
-                      color: "white",
-                      fontSize: 12,
+                      justifyContent: "center",
                       alignSelf: "center",
                     }}
                   >
-                    Shares
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: "center",
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {item.amount}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 12,
+                        alignSelf: "center",
+                      }}
+                    >
+                      Shares
+                    </Text>
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {item.amount}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  <Text
+                  <View
                     style={{
-                      color: "white",
-                      fontSize: 12,
+                      justifyContent: "center",
                       alignSelf: "center",
                     }}
                   >
-                    invested
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: "center",
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    £{item.investment}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 12,
+                        alignSelf: "center",
+                      }}
+                    >
+                      invested
+                    </Text>
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        color: "white",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      £{item.investment}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignSelf: "center",
-                  }}
-                >
-                  <Text
+                  <View
                     style={{
-                      color: "white",
-                      fontSize: 12,
+                      justifyContent: "center",
                       alignSelf: "center",
                     }}
                   >
-                    Return
-                  </Text>
-                  <Text style={returnStyle}>
-                    {(
-                      item.currentPrice * item.amount -
-                      item.investment
-                    ).toFixed(2)}
-                  </Text>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 12,
+                        alignSelf: "center",
+                      }}
+                    >
+                      Return
+                    </Text>
+                    <Text style={returnStyle}>
+                      {(
+                        item.currentPrice * item.amount -
+                        item.investment
+                      ).toFixed(2)}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
           </View>
         </TouchableOpacity>
       );

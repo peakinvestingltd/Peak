@@ -31,7 +31,6 @@ import { styles } from "../../css/styles.js";
 export default function InviteFriendsScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}

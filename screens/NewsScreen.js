@@ -33,76 +33,78 @@ export default function NewScreen(props) {
       return news.map((newsStory, index) => {
         if (index < 15) {
           return (
-            <TouchableOpacity
-            onPress={() => Linking.openURL(newsStory.url)}
-            >
-            <View
-            
-              style={{
-                margin: 8,
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                backgroundColor: "#1b2855",
-                borderRadius: 10,
-              }}
-            >
+            <TouchableOpacity onPress={() => Linking.openURL(newsStory.url)}>
               <View
                 style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  width: ScreenWidth / 2,
+                  margin: 8,
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                  backgroundColor: "#1b2855",
+                  borderRadius: 10,
                 }}
               >
-                <Text
+                <View
                   style={{
-                    color: "#ff7f00",
-                    fontSize: 12,
-                    paddingTop:20,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    width: ScreenWidth / 2,
                   }}
                 >
-                  {newsStory.category.toUpperCase()} | {newsStory.source}
-                </Text>
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 14,
-                    marginTop:10,
-                    fontWeight:'bold'
-                  }}
-                >{newsStory.headline}
-                </Text>
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 11,
-                    marginTop:10,
-                    flexWrap: "wrap",
-                  }}
-                >{newsStory.summary}
-               
-                </Text>
-                <Text style={{
-                  color:'white',
-                  fontSize:9,
-                  marginTop:10,
-                  paddingBottom:20,
-                }}>{moment(newsStory.datetime * 1000).format("MMM Do YY")}</Text>
-              </View>
+                  <Text
+                    style={{
+                      color: "#ff7f00",
+                      fontSize: 12,
+                      paddingTop: 20,
+                    }}
+                  >
+                    {newsStory.category.toUpperCase()} | {newsStory.source}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 14,
+                      marginTop: 10,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {newsStory.headline}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 11,
+                      marginTop: 10,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {newsStory.summary}
+                  </Text>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 9,
+                      marginTop: 10,
+                      paddingBottom: 20,
+                    }}
+                  >
+                    {moment(newsStory.datetime * 1000).format("MMM Do YY")}
+                  </Text>
+                </View>
 
-              <Image
-                style={{
-                  width: 120,
-                  resizeMode:'fit',
-                  marginRight:-35,
-                  padding:0,
-                  borderTopRightRadius:10,
-                  borderBottomRightRadius:10,
-                }}
-                source={{
-                  uri: newsStory.image,
-                }}
-              />
-            </View>
+                <Image
+                  style={{
+                    width: 120,
+                    resizeMode: "cover",
+                    marginRight: -35,
+                    padding: 0,
+                    borderTopRightRadius: 10,
+                    borderBottomRightRadius: 10,
+                  }}
+                  source={{
+                    uri: newsStory.image,
+                  }}
+                />
+              </View>
             </TouchableOpacity>
           );
         }
@@ -111,8 +113,7 @@ export default function NewScreen(props) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
-      <ScrollView style={{marginBottom:50}}>
+      <ScrollView style={{ marginBottom: 50 }}>
         <Button
           style={styles.pageButton}
           onPress={() => props.navigation.goBack()}

@@ -188,7 +188,6 @@ export default function StockScreen2(props) {
     <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
         <StatusBar style={styles.statusBar} />
-        {header(props, userBalance)}
         <ScrollView style={{ marginTop: 0 }}>
           <Button
             style={styles.pageButton}

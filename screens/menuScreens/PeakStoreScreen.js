@@ -9,7 +9,6 @@ import navBar from "../../components/navBar.js";
 export default function PeakStoreScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}

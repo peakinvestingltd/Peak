@@ -322,7 +322,6 @@ export default function PortfolioScreen(props) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -401,10 +400,15 @@ export default function PortfolioScreen(props) {
           </View>
         </View>
 
-        
         <View style={styles.backgroundCard}>
           <Text
-            style={{ color: "white", fontSize: 14, margin: 5, fontWeight:'bold', marginLeft: 15 }}
+            style={{
+              color: "white",
+              fontSize: 14,
+              margin: 5,
+              fontWeight: "bold",
+              marginLeft: 15,
+            }}
           >
             Voting
           </Text>
@@ -443,7 +447,14 @@ export default function PortfolioScreen(props) {
               }}
             >
               <View style={styles.backgroundSmallCardx3}>
-                <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
+                <Text
+                  style={{
+                    color: "white",
+                    marginTop: 8,
+                    fontWeight: "bold",
+                    marginLeft: 12,
+                  }}
+                >
                   Stock
                 </Text>
                 <Text
@@ -481,7 +492,14 @@ export default function PortfolioScreen(props) {
             </TouchableOpacity>
 
             <View style={styles.backgroundSmallCardx3}>
-              <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
+              <Text
+                style={{
+                  color: "white",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                  marginLeft: 12,
+                }}
+              >
                 Funds
               </Text>
               <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
@@ -498,7 +516,7 @@ export default function PortfolioScreen(props) {
                 Invested
               </Text>
               <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0 
+                £0
               </Text>
               <Text
                 style={{
@@ -516,7 +534,14 @@ export default function PortfolioScreen(props) {
             </View>
 
             <View style={styles.backgroundSmallCardx3}>
-              <Text style={{ color: "white", marginTop: 8, fontWeight:'bold', marginLeft: 12 }}>
+              <Text
+                style={{
+                  color: "white",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                  marginLeft: 12,
+                }}
+              >
                 ETFs
               </Text>
               <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>

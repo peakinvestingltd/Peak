@@ -112,7 +112,6 @@ export default function SettingPrivacyScreen(props) {
   }
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
       <ScrollView>
         <Button
           style={styles.pageButton}
