@@ -28,7 +28,7 @@ import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../../css/styles.js";
 
-import header from "../../components/header";
+import Header from "../../components/header";
 import navBar from "../../components/navBar";
 
 import * as firebase from "firebase";
@@ -85,6 +85,7 @@ export default function HistoryScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

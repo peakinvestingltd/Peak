@@ -21,7 +21,7 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-import header from "../../components/header";
+import Header from "../../components/header";
 import navBar from "../../components/navBar";
 import {
   bankTransferIn,
@@ -112,6 +112,7 @@ export default function SettingPrivacyScreen(props) {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

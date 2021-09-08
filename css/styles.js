@@ -89,8 +89,6 @@ const styles = StyleSheet.create({
   },
   //---------header-----------------------------
   topCard: {
-    zIndex: 5,
-    padding: 0,
     backgroundColor: lightBlue,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -99,8 +97,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 5,
-    height: 80,
-    zIndex: 2,
+    width: screenWidth,
+    height: 70,
   },
   topCardExpanded: {
     zIndex: 5,
@@ -117,6 +115,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     height: ScreenHeight - 70,
+    width: screenWidth,
   },
   GIACard: {
     width: screenWidth / 2,
@@ -637,6 +636,8 @@ const styles = StyleSheet.create({
     backgroundColor: secondaryColor,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
   cardTopList: {
     flexDirection: "row",
@@ -766,16 +767,22 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   infoContents: {
-    backgroundColor: "#26325F",
-    marginTop: 2,
+    //  backgroundColor: "#26325F",
+    marginTop: 0,
     marginLeft: 10,
     marginBottom: 0,
     marginRight: 10,
     width: screenWidth - 20,
+    marginBottom: -2,
+  },
+  segment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#26325F",
+    marginBottom: 1,
   },
   infoContentsBottom: {
     backgroundColor: "#26325F",
-    marginTop: 2,
     marginLeft: 10,
     marginBottom: 0,
     marginRight: 10,

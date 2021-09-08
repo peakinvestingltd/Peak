@@ -18,7 +18,7 @@ export default function Main() {
         backgroundColor: "#172041",
       }}
     >
-      {header()}
+      {/* {header()} */}
       <NavigationContainer>
         <AppStack />
       </NavigationContainer>

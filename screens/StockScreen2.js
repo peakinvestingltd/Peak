@@ -44,7 +44,7 @@ import {
   Linking,
   StatusBar,
 } from "react-native";
-import header from "../components/header.js";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import * as firebase from "firebase";
 import "firebase/database";
@@ -185,9 +185,10 @@ export default function StockScreen2(props) {
   const isFocused = useIsFocused();
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider>
       <SafeAreaView style={styles.container}>
         <StatusBar style={styles.statusBar} />
+        <Header />
         <ScrollView style={{ marginTop: 0 }}>
           <Button
             style={styles.pageButton}
@@ -207,13 +208,3 @@ export default function StockScreen2(props) {
     </PaperProvider>
   );
 }
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 10,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "#222948",
-    accent: "#f1c40f",
-  },
-};

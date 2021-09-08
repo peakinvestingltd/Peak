@@ -33,7 +33,7 @@ import {
   Title,
   Provider as PaperProvider,
 } from "react-native-paper";
-import header from "../../components/header.js";
+import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 const screenWidth = Dimensions.get("window").width;
 
@@ -103,6 +103,7 @@ export default function ReviewScreen(props) {
   console.log("fsda");
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

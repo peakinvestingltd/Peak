@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { styles } from "../../css/styles.js";
-import header from "../../components/header.js";
+import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 import { setStatusBarStyle } from "expo-status-bar";
 import { TouchableOpacity } from "react-native";
@@ -148,7 +148,7 @@ export default function OwnedStockScreen(props) {
               });
           }}
         >
-          <View style={{ marginBottom: 5, marginLeft: 10, marginRight: 10 }}>
+          <View style={{ marginBottom: 5 }}>
             <View style={styles.cardTop}>
               <View
                 style={{
@@ -181,7 +181,14 @@ export default function OwnedStockScreen(props) {
                 </Text>
               </View>
             </View>
-
+            <View
+              style={{
+                height: 1,
+                width: screenWidth - 20,
+                marginLeft: 10,
+                marginTop: -4,
+              }}
+            />
             <View style={styles.defaultEndView} key={index}>
               <View
                 style={{
@@ -192,19 +199,32 @@ export default function OwnedStockScreen(props) {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-evenly",
-                    width: screenWidth - 30,
+                    width: screenWidth - 20,
                   }}
                 >
                   <View
                     style={{
                       justifyContent: "center",
                       alignSelf: "center",
+                      width: (screenWidth - 25) / 3,
                     }}
                   >
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignSelf: "center",
+                        backgroundColor: "white",
+                        opacity: 0.07,
+                        width: (screenWidth - 40) / 3,
+                        height: 40,
+                        position: "absolute",
+                        borderRadius: 10,
+                      }}
+                    />
                     <Text
                       style={{
                         color: "white",
-                        fontSize: 12,
+                        fontSize: 10,
                         alignSelf: "center",
                       }}
                     >
@@ -214,7 +234,7 @@ export default function OwnedStockScreen(props) {
                       style={{
                         alignSelf: "center",
                         color: "white",
-                        fontSize: 16,
+                        fontSize: 12,
                         fontWeight: "bold",
                       }}
                     >
@@ -226,12 +246,25 @@ export default function OwnedStockScreen(props) {
                     style={{
                       justifyContent: "center",
                       alignSelf: "center",
+                      width: (screenWidth - 25) / 3,
                     }}
                   >
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignSelf: "center",
+                        backgroundColor: "white",
+                        opacity: 0.1,
+                        width: (screenWidth - 40) / 3,
+                        height: 40,
+                        position: "absolute",
+                        borderRadius: 10,
+                      }}
+                    />
                     <Text
                       style={{
                         color: "white",
-                        fontSize: 12,
+                        fontSize: 10,
                         alignSelf: "center",
                       }}
                     >
@@ -241,8 +274,7 @@ export default function OwnedStockScreen(props) {
                       style={{
                         alignSelf: "center",
                         color: "white",
-                        fontSize: 16,
-                        fontWeight: "bold",
+                        fontSize: 12,
                       }}
                     >
                       £{item.investment}
@@ -253,12 +285,25 @@ export default function OwnedStockScreen(props) {
                     style={{
                       justifyContent: "center",
                       alignSelf: "center",
+                      width: (screenWidth - 25) / 3,
                     }}
                   >
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignSelf: "center",
+                        backgroundColor: "white",
+                        opacity: 0.1,
+                        width: (screenWidth - 40) / 3,
+                        height: 40,
+                        position: "absolute",
+                        borderRadius: 10,
+                      }}
+                    />
                     <Text
                       style={{
                         color: "white",
-                        fontSize: 12,
+                        fontSize: 10,
                         alignSelf: "center",
                       }}
                     >
@@ -282,7 +327,7 @@ export default function OwnedStockScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

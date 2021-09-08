@@ -24,7 +24,7 @@ import {
 
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { SafeAreaView, View, ScrollView, Text, StatusBar } from "react-native";
-import header from "../components/header.js";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import * as firebase from "firebase";
 import "firebase/database";
@@ -197,8 +197,7 @@ export default function StockScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#26325F" />
-
-      {/* {header()} */}
+      <Header {...props} />
       <ScrollView>
         <Button
           style={styles.pageButton}
@@ -212,7 +211,6 @@ export default function StockScreen(props) {
         </Button>
         {currentStock(loaded, stockData, props, userBalance)}
       </ScrollView>
-
       {navBar(props, userBalance, "stock")}
     </SafeAreaView>
   );

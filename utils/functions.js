@@ -565,6 +565,23 @@ async function getUserInfo(uid) {
   return doc;
 }
 
+async function getSignUpProgress(uid) {
+  const userRef = db
+    .collection("users")
+    .doc(uid)
+    .collection("userInfo")
+    .doc("signUp");
+
+  const doc = await userRef.get();
+  if (!doc.data()) {
+    console.log("no data");
+    return 2;
+  } else {
+    return doc.data()["signUp"];
+  }
+  console.log(doc.data());
+}
+
 async function getUserId() {
   let res;
   await firebase.auth().onAuthStateChanged((user) => {
@@ -1033,4 +1050,5 @@ module.exports = {
   chart,
   getOwnedStock,
   portfolioScreenChart,
+  getSignUpProgress,
 };

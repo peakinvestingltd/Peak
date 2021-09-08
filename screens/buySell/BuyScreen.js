@@ -10,7 +10,7 @@ import {
 import Slider from "@react-native-community/slider";
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { styles } from "../../css/styles.js";
-import header from "../../components/header.js";
+import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 
 export default function BuyScreen(props) {
@@ -44,6 +44,7 @@ export default function BuyScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

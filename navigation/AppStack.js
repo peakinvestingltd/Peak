@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SafeAreaView, View, ScrollView, Image } from "react-native";
-
-import { createStackNavigator } from "@react-navigation/stack";
+import Header from "../components/header";
+import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import MenuScreen from "../screens/MenuScreen";
@@ -28,11 +28,10 @@ import InviteFriendScreen from "../screens/menuScreens/InviteFriendScreen";
 import PeakStoreScreen from "../screens/menuScreens/PeakStoreScreen";
 import SettingPrivacyScreen from "../screens/menuScreens/SettingsPrivacyScreen";
 import HelpCenterScreen from "../screens/menuScreens/HelpCenterScreen";
-import ProfileScreen from "../screens/menuScreens/ProfileScreen";
 import SearchScreen from "../screens/searchScreen";
 import OwnedStockScreen from "../screens/portfolio/Stock";
 import ResetPassword from "../screens/menuScreens/setings/ResetPassword";
-
+import HeaderDropDown from "../components/headerDropdown";
 const Stack = createStackNavigator();
 
 export default function AppStack() {
@@ -40,6 +39,7 @@ export default function AppStack() {
     <Stack.Navigator headerMode="none">
       {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
       <Stack.Screen name="Stock" component={StockScreen}></Stack.Screen>
+      <Stack.Screen name="Header" component={HeaderDropDown}></Stack.Screen>
       <Stack.Screen name="Stock2" component={StockScreen2} />
       <Stack.Screen name="Home" component={MenuScreen} />
       <Stack.Screen name="Portfolio" component={PortfolioScreen} />
@@ -62,7 +62,7 @@ export default function AppStack() {
       <Stack.Screen name="PeakStore" component={PeakStoreScreen} />
       <Stack.Screen name="SettingPrivacy" component={SettingPrivacyScreen} />
       <Stack.Screen name="HelpCenter" component={HelpCenterScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Register2" component={RegisterScreen2} />
       <Stack.Screen name="Register3" component={RegisterScreen3} />

@@ -1,27 +1,8 @@
 import React from "react";
-import {
-  SafeAreaView,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from "react-native";
-import {
-  Text,
-  List,
-  Paragraph,
-  Colors,
-  Title,
-  Menu,
-  Divider,
-  Card,
-  Button,
-  BottomNavigation,
-  IconButton,
-} from "react-native-paper";
+import { SafeAreaView, ScrollView } from "react-native";
+import { Text, Button } from "react-native-paper";
 
-import header from "../../components/header";
+import Header from "../../components/header";
 import navBar from "../../components/navBar";
 const navBarColor = "black";
 
@@ -31,7 +12,7 @@ import { styles } from "../../css/styles.js";
 export default function HelpCenterScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
-      {header(props, props.route.params.funds)}
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

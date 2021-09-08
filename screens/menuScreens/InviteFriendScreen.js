@@ -21,7 +21,7 @@ import {
   IconButton,
 } from "react-native-paper";
 
-import header from "../../components/header";
+import Header from "../../components/header";
 import navBar from "../../components/navBar";
 const navBarColor = "black";
 
@@ -31,6 +31,7 @@ import { styles } from "../../css/styles.js";
 export default function InviteFriendsScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

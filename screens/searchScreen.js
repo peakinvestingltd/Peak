@@ -28,7 +28,7 @@ import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { styles } from "../css/styles.js";
-import header from "../components/header.js";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 
 export default function SearchScreen(props) {
@@ -70,6 +70,7 @@ export default function SearchScreen(props) {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView>
         <Button
           style={styles.pageButton}

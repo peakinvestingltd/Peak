@@ -21,7 +21,7 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-import header from "../components/header.js";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 
 import * as firebase from "firebase";
@@ -62,6 +62,7 @@ export default function MenuScreen(props) {
   return (
     <PaperProvider>
       <SafeAreaView style={styles.container}>
+        <Header />
         <ScrollView>
           <View
             style={{

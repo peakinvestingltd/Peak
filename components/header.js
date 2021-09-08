@@ -14,6 +14,7 @@ import {
   getUserId,
   getUserInfo,
   getAccountInfo,
+  getSignUpProgress,
 } from "../utils/functions";
 
 import {
@@ -32,7 +33,7 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-
+import * as Progress from "react-native-progress";
 import { ScreenWidth, ScreenHeight } from "react-native-elements/dist/helpers";
 
 import * as firebase from "firebase";
@@ -51,7 +52,7 @@ const transition = (
   </Transition.Together>
 );
 
-export default function header(props) {
+export default function Header(props) {
   console.log("in header");
   const ref = React.useRef();
   const [headerStyle, setHeaderStyle] = useState(styles.topCard);
@@ -84,6 +85,16 @@ export default function header(props) {
   const [selectedFunds, setSelectedFunds] = useState("0");
   const [practiceFunds, setPracticeFunds] = useState(null);
   const [account, setAccount] = useState("practice account");
+  const [signUp, setSignUp] = useState(null);
+
+  if (!signUp) {
+    firebase.auth().onAuthStateChanged((user) => {
+      getSignUpProgress(user.uid).then((res) => {
+        setSignUp(res);
+      });
+    });
+  }
+
   function triggerGetBalance() {
     if (selectedBox == "one") {
       firebase.auth().onAuthStateChanged((user) => {
@@ -108,6 +119,54 @@ export default function header(props) {
 
     return `£${selectedFunds.replace(/\d(?=(\d{3})+\.)/g, "$&,")}`;
   }
+  function text() {
+    return "10";
+  }
+
+  function signUpProgress() {
+    if (signUp) {
+      (signUp - 1) / 5;
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate(`Register${signUp}`);
+          }}
+        >
+          <View
+            style={{
+              width: ScreenWidth,
+              marginTop: 10,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Progress.Circle
+                progress={(signUp - 1) / 5}
+                size={50}
+                showsText={true}
+                color={"#ff7f00"}
+                borderWidth={1}
+                formatText={() => `${(signUp - 1) * 20}%`}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 5,
+              }}
+            >
+              <Text style={styles.stockName}>Continue sign up!</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  }
 
   const portfolio = () => {
     const profile = (
@@ -118,11 +177,15 @@ export default function header(props) {
             style={{ width: 50, height: 50 }}
           />
         </View>
+
         <View style={styles.logoSegment}>
           <Text style={{ fontSize: 30, color: "white", fontWeight: "700" }}>
             Peak Wallet
           </Text>
         </View>
+
+        {signUpProgress()}
+
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity onPress={() => setSelectedBox("one")}>
@@ -310,6 +373,7 @@ export default function header(props) {
             </TouchableOpacity>
           </View>
         </ScrollView>
+
         <View
           style={{
             flexDirection: "row",
@@ -355,8 +419,8 @@ export default function header(props) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginTop: 15,
-          flax: 1,
+
+          height: 70,
         }}
       >
         <IconButton
@@ -385,6 +449,8 @@ export default function header(props) {
               //   });
               //   // createOrder(token, "2921C", 2);
               // });
+
+              console.log(props);
               triggerGetBalance();
               ref.current.animateNextTransition();
               if (headerStyle == styles.topCard) {

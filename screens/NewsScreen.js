@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView, Image, Linking } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { styles } from "../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
-import header from "../components/header.js";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import { TouchableOpacity } from "react-native";
 import moment from "moment";
@@ -113,6 +113,7 @@ export default function NewScreen(props) {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView style={{ marginBottom: 50 }}>
         <Button
           style={styles.pageButton}

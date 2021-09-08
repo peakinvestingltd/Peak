@@ -26,6 +26,7 @@ import { TextInput } from "react-native";
 
 import * as firebase from "firebase";
 import "firebase/database";
+import Header from "../components/header.js";
 import navBar from "../components/navBar.js";
 import { interpolate } from "react-native-reanimated";
 let timestamp = Math.round(Date.now() / 1000);
@@ -108,12 +109,7 @@ export default class DetailsScreen extends React.Component {
         console.log("has owned shares");
         return (
           <View style={styles.infoContents}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={styles.segment}>
               <View
                 style={{
                   flexDirection: "column",
@@ -134,12 +130,7 @@ export default class DetailsScreen extends React.Component {
               </View>
             </View>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={styles.segment}>
               <View
                 style={{
                   flexDirection: "column",
@@ -160,12 +151,7 @@ export default class DetailsScreen extends React.Component {
               </View>
             </View>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={styles.segment}>
               <View
                 style={{
                   flexDirection: "column",
@@ -188,12 +174,7 @@ export default class DetailsScreen extends React.Component {
                 </Text>
               </View>
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+            <View style={styles.segment}>
               <View
                 style={{
                   flexDirection: "column",
@@ -258,60 +239,39 @@ export default class DetailsScreen extends React.Component {
     if (this.state.infoSelected) {
       return (
         <View style={styles.infoContents}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Your shares</Text>
-            <Text style={styles.listText2}>{this.state.ownedShares}</Text>
-          </View>
-
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Name</Text>
             <Text style={styles.listText2}>{params.name}</Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Total employees</Text>
             <Text style={styles.listText2}>
               {Math.round(params.employeeTotal)}
             </Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Industry</Text>
             <Text style={styles.listText2}>{params.industry}</Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Group</Text>
             <Text style={styles.listText2}>{params.group}</Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Sector</Text>
             <Text style={styles.listText2}>{params.sector}</Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Market cap</Text>
             <Text style={styles.listText2}>{params.marketCap}</Text>
           </View>
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
+          <View style={styles.segment}>
             <Text style={styles.listText1}>Shares outstanding</Text>
             <Text style={styles.listText2}>{params.shareOutstanding}</Text>
           </View>
@@ -631,33 +591,7 @@ export default class DetailsScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#26325F" />
-        {/* <Card style={styles.topCard}> */}
-        {/* --------------header------------------------------ */}
-        {/* <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: 15,
-            }}
-          >
-            <IconButton
-              onPress={() => props.navigation.navigate("Chat")}
-              icon="chat-outline"
-              color={"#ff7f00"}
-              size={25}
-            />
-            <View>
-              <Button mode="text" color={"#ff7f00"} style={styles.ballButton}>
-                {`£${this.props.route.params.funds.replace(
-                  /\d(?=(\d{3})+\.)/g,
-                  "$&,"
-                )}`}
-              </Button>
-            </View>
-            <IconButton icon="bell-outline" color={"#ff7f00"} size={25} />
-          </View>
-        </Card> */}
+        <Header />
         <ScrollView>
           <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
             <Text style={styles.pageButtonText}>&lt; Trade</Text>
