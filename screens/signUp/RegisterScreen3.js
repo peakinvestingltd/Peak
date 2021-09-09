@@ -9,8 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import { Button } from "react-native-paper";
-import Logo from "../assets/Peak-App-Logo.svg";
-import { styles } from "../css/styles.js";
+import Logo from "../../assets/Peak-App-Logo.svg";
+import { styles } from "../../css/styles";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 //-------------firebase-------------
@@ -78,7 +78,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/newLogo.png")}
+              source={require("../../assets/newLogo.png")}
             />
             <Image
               style={{
@@ -89,7 +89,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/Logotext.png")}
+              source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>

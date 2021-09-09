@@ -20,16 +20,16 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-import assetUnivers from "../utils/assetUniverse.js";
+import assetUnivers from "../../utils/assetUniverse.js";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 const navBarColor = "black";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
-import useStatusBar from "../hooks/useStatusBar";
+import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
-import { styles } from "../css/styles.js";
-import Header from "../components/header.js";
-import navBar from "../components/navBar.js";
+import { styles } from "../../css/styles.js";
+import Header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 
 export default function SearchScreen(props) {
   function searchButton(catagory, asset) {

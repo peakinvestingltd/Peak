@@ -3,11 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import WelcomeScreen from "../screens/WelcomeScreen";
-import RegisterScreen from "../screens/RegisterScreen";
-import RegisterScreen2 from "../screens/RegisterScreen2";
-import RegisterScreen3 from "../screens/RegisterScreen3";
-import RegisterScreen4 from "../screens/RegisterScreen4";
-import RegisterScreen5 from "../screens/RegisterScreen5";
+import RegisterScreen from "../screens/signUp/RegisterScreen";
+import RegisterScreen2 from "../screens/signUp/RegisterScreen2";
+import RegisterScreen3 from "../screens/signUp/RegisterScreen3";
+import RegisterScreen4 from "../screens/signUp/RegisterScreen4";
+import RegisterScreen5 from "../screens/signUp/RegisterScreen5";
 import LoginScreen from "../screens/LoginScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import DepositScreen from "../screens/DepositScreen";

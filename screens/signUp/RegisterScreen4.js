@@ -10,8 +10,8 @@ import {
   Dimensions,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../css/styles.js";
-import Logo from "../assets/Peak-App-Logo.svg";
+import { styles } from "../../css/styles.js";
+import Logo from "../../assets/Peak-App-Logo.svg";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -120,7 +120,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/newLogo.png")}
+              source={require("../../assets/newLogo.png")}
             />
             <Image
               style={{
@@ -131,7 +131,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/Logotext.png")}
+              source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
@@ -154,7 +154,7 @@ export default function RegisterScreen3(props) {
               marginLeft: 20,
               marginRight: 20,
               padding: 0,
-              color:"white",
+              color: "white",
               borderRadius: 10,
               flexDirection: "row",
               alignSelf: "center",

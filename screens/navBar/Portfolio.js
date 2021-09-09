@@ -12,10 +12,10 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import Header from "../components/header";
-import navBar from "../components/navBar";
-import { user } from "../components/Firebase/firebase";
-import { styles } from "../css/styles.js";
+import Header from "../../components/header";
+import navBar from "../../components/navBar";
+import { user } from "../../components/Firebase/firebase";
+import { styles } from "../../css/styles.js";
 import * as firebase from "firebase";
 import "firebase/database";
 import { TouchableOpacity } from "react-native";

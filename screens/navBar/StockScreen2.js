@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 import { Transitioning, Transition } from "react-native-reanimated";
-import Logo from "../assets/Peak-App-Logo.svg";
+import Logo from "../../assets/Peak-App-Logo.svg";
 
 import {
   getBalance,
@@ -19,7 +19,7 @@ import {
   getUserInfo,
   getUserId,
   currentStock,
-} from "../utils/functions";
+} from "../../utils/functions";
 
 import {
   DefaultTheme,
@@ -44,12 +44,12 @@ import {
   Linking,
   StatusBar,
 } from "react-native";
-import Header from "../components/header.js";
-import navBar from "../components/navBar.js";
+import Header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 import * as firebase from "firebase";
 import "firebase/database";
 //import { Transition } from "react-transition-group";
-import assetUnivers from "../utils/assetUniverse.js";
+import assetUnivers from "../../utils/assetUniverse.js";
 
 let timestamp = Math.round(Date.now() / 1000);
 let yesterday = timestamp - 604800;

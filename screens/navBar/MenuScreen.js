@@ -21,8 +21,8 @@ import {
   BottomNavigation,
   IconButton,
 } from "react-native-paper";
-import Header from "../components/header.js";
-import navBar from "../components/navBar.js";
+import Header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 
 import * as firebase from "firebase";
 import "firebase/database";
@@ -30,12 +30,12 @@ import "firebase/database";
 const db = firebase.firestore();
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
-import useStatusBar from "../hooks/useStatusBar";
+import useStatusBar from "../../hooks/useStatusBar";
 
-import { logout, user } from "../components/Firebase/firebase";
+import { logout, user } from "../../components/Firebase/firebase";
 
 import { ListItem, Avatar, Icon } from "react-native-elements";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 
 export default function MenuScreen(props) {
   const [email, setEmail] = useState(null);

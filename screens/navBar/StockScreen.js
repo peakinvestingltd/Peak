@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 //font v
 import {
   useFonts,
@@ -20,15 +20,15 @@ import {
   getUserInfo,
   getUserId,
   currentStock,
-} from "../utils/functions";
+} from "../../utils/functions";
 
 import { Button, Provider as PaperProvider } from "react-native-paper";
 import { SafeAreaView, View, ScrollView, Text, StatusBar } from "react-native";
-import Header from "../components/header.js";
-import navBar from "../components/navBar.js";
+import Header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 import * as firebase from "firebase";
 import "firebase/database";
-import assetUnivers from "../utils/assetUniverse.js";
+import assetUnivers from "../../utils/assetUniverse.js";
 
 let timestamp = Math.round(Date.now() / 1000);
 let yesterday = timestamp - 604800;

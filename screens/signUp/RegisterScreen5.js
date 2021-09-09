@@ -10,9 +10,9 @@ import {
   ScrollView,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import Logo from "../assets/Peak-App-Logo.svg";
+import Logo from "../../assets/Peak-App-Logo.svg";
 import { CheckBox } from "react-native-elements";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 import {
@@ -22,7 +22,7 @@ import {
   createAccount,
   getUserInfo,
   getUserId,
-} from "../utils/functions";
+} from "../../utils/functions";
 import * as firebase from "firebase";
 import "firebase/database";
 const db = firebase.firestore();
@@ -76,7 +76,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/newLogo.png")}
+              source={require("../../assets/newLogo.png")}
             />
             <Image
               style={{
@@ -87,7 +87,7 @@ export default function RegisterScreen3(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/Logotext.png")}
+              source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>

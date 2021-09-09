@@ -9,10 +9,10 @@ import {
   Image,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
-import Logo from "../assets/Peak-App-Logo.svg";
-import { registerWithEmail } from "../components/Firebase/firebase";
+import Logo from "../../assets/Peak-App-Logo.svg";
+import { registerWithEmail } from "../../components/Firebase/firebase";
 
 //-------------firebase-------------
 import * as firebase from "firebase";
@@ -86,7 +86,7 @@ export default function RegisterScreen2(props) {
           <View>
             <Image
               style={styles.logoStyle1}
-              source={require("../assets/newLogo.png")}
+              source={require("../../assets/newLogo.png")}
             />
             <Image
               style={{
@@ -97,7 +97,7 @@ export default function RegisterScreen2(props) {
                 alignSelf: "center",
                 resizeMode: "contain",
               }}
-              source={require("../assets/Logotext.png")}
+              source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
@@ -164,11 +164,12 @@ export default function RegisterScreen2(props) {
               marginBottom: 10,
             }}
           >
-            <Text style={styles.bottomSubText}
-            
-            onPress={() => {
-              props.navigation.navigate("Welcome")
-            }} >
+            <Text
+              style={styles.bottomSubText}
+              onPress={() => {
+                props.navigation.navigate("Welcome");
+              }}
+            >
               Already have an account?{" "}
               <Text style={{ color: "#ff7f00" }}>Sign In</Text>
             </Text>

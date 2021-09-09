@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, ScrollView, Image, Linking } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
-import Header from "../components/header.js";
-import navBar from "../components/navBar.js";
+import Header from "../../components/header.js";
+import navBar from "../../components/navBar.js";
 import { TouchableOpacity } from "react-native";
 import moment from "moment";
 import { fonts } from "react-native-elements/dist/config";

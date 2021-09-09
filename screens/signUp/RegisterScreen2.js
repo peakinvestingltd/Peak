@@ -9,9 +9,9 @@ import {
   ScrollView,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../css/styles.js";
+import { styles } from "../../css/styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
-import Logo from "../assets/Peak-App-Logo.svg";
+import Logo from "../../assets/Peak-App-Logo.svg";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 //-------------firebase-------------
 import * as firebase from "firebase";
@@ -83,11 +83,11 @@ export default function RegisterScreen2(props) {
           <View>
             <Image
               style={styles.logoStyle1}
-              source={require("../assets/newLogo.png")}
+              source={require("../../assets/newLogo.png")}
             />
             <Image
               style={styles.logoStyle2}
-              source={require("../assets/Logotext.png")}
+              source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
