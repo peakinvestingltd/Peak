@@ -126,25 +126,11 @@ export default function SettingPrivacyScreen(props) {
             setPassword(!password);
           }}
         >
-          <View style={styles.infoCardTop}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+          <View style={styles.cardTop}>
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}>Reset Password</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
-              {icon(password)}
-            </View>
+            <View style={styles.innerCardView}>{icon(password)}</View>
           </View>
         </TouchableOpacity>
         {passwordSelected(password)}
@@ -154,59 +140,23 @@ export default function SettingPrivacyScreen(props) {
           }}
         >
           <View style={styles.infoSection}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}>Privacy Policy</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
-              {icon(privacy)}
-            </View>
+            <View style={styles.innerCardView}>{icon(privacy)}</View>
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: "column",
-            justifyContent: "center",
-            marginRight: 10,
-          }}
-        >
-          {privacySelected(privacy)}
-        </View>
+        {privacySelected(privacy)}
         <TouchableOpacity
           onPress={() => {
             setTerms(!terms);
           }}
         >
           <View style={styles.infoSection}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}>Terms &amp; Conditions</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
-              {icon(terms)}
-            </View>
+            <View style={styles.innerCardView}>{icon(terms)}</View>
           </View>
         </TouchableOpacity>
         {termsSelected(terms)}
@@ -216,24 +166,10 @@ export default function SettingPrivacyScreen(props) {
           }}
         >
           <View style={styles.infoCardBottom}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}> About Us</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
-              {icon(about)}
-            </View>
+            <View style={styles.innerCardView}>{icon(about)}</View>
           </View>
         </TouchableOpacity>
         {aboutSelected(about)}

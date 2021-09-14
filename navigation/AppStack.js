@@ -1,6 +1,4 @@
 import * as React from "react";
-import { SafeAreaView, View, ScrollView, Image } from "react-native";
-import Header from "../components/header";
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";

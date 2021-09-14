@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { Component, useEffect, useState } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../css/styles.js";
+import { styles, views, texts, images, buttons } from "../css/styles.js";
 import { Transitioning, Transition } from "react-native-reanimated";
 import {
   getBalance,
@@ -55,9 +55,17 @@ const transition = (
 export default function Header(props) {
   console.log("in header");
   const ref = React.useRef();
-  const [headerStyle, setHeaderStyle] = useState(styles.topCard);
+  const [headerStyle, setHeaderStyle] = useState(views.header);
   const [expanded, setExpanded] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("practice");
+  const [selectedBox, setSelectedBox] = useState("one");
+  const [GIASelected, setGIASelected] = useState(views.GIACardUnselected);
+  const [ISASelected, setISASelected] = useState(views.ISACardUnselected);
+  const [practiceSelected, setPracticeSelected] = useState(views.practiceCard);
+  const [selectedFunds, setSelectedFunds] = useState("0");
+  const [practiceFunds, setPracticeFunds] = useState(null);
+  const [account, setAccount] = useState("practice account");
+  const [signUp, setSignUp] = useState(null);
 
   function setStyle(box, selected, unselected) {
     if (box == selectedBox) {
@@ -66,27 +74,6 @@ export default function Header(props) {
       return unselected;
     }
   }
-  const selected = {
-    height: 200,
-    width: ScreenWidth / 4,
-    backgroundColor: "orange",
-    margin: 15,
-  };
-  const unselected = {
-    height: 200,
-    width: ScreenWidth / 4,
-    backgroundColor: "red",
-    margin: 15,
-  };
-  const [selectedBox, setSelectedBox] = useState("one");
-  const [GIASelected, setGIASelected] = useState(styles.GIACardUnselected);
-  const [ISASelected, setISASelected] = useState(styles.ISACardUnselected);
-  const [practiceSelected, setPracticeSelected] = useState(styles.practiceCard);
-  const [selectedFunds, setSelectedFunds] = useState("0");
-  const [practiceFunds, setPracticeFunds] = useState(null);
-  const [account, setAccount] = useState("practice account");
-  const [signUp, setSignUp] = useState(null);
-
   if (!signUp) {
     firebase.auth().onAuthStateChanged((user) => {
       getSignUpProgress(user.uid).then((res) => {
@@ -94,7 +81,6 @@ export default function Header(props) {
       });
     });
   }
-
   function triggerGetBalance() {
     if (selectedBox == "one") {
       firebase.auth().onAuthStateChanged((user) => {
@@ -110,7 +96,6 @@ export default function Header(props) {
   function setCardBalance(account) {
     return practiceFunds;
   }
-
   function setFunds() {
     if (selectedFunds == "loading...") {
       triggerGetBalance();
@@ -122,7 +107,6 @@ export default function Header(props) {
   function text() {
     return "10";
   }
-
   function signUpProgress() {
     if (signUp) {
       (signUp - 1) / 5;
@@ -132,18 +116,8 @@ export default function Header(props) {
             props.navigation.navigate(`Register${signUp}`);
           }}
         >
-          <View
-            style={{
-              width: ScreenWidth,
-              marginTop: 10,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-              }}
-            >
+          <View style={{ margin: 10 }}>
+            <View style={views.rowCenter}>
               <Progress.Circle
                 progress={(signUp - 1) / 5}
                 size={50}
@@ -153,220 +127,107 @@ export default function Header(props) {
                 formatText={() => `${(signUp - 1) * 20}%`}
               />
             </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 5,
-              }}
-            >
-              <Text style={styles.stockName}>Continue sign up!</Text>
+            <View style={views.rowCenter}>
+              <Text style={texts.white15}>Continue sign up!</Text>
             </View>
           </View>
         </TouchableOpacity>
       );
     }
   }
-
   const portfolio = () => {
     const profile = (
       <View>
-        <View style={styles.logoSegment}>
+        <View style={images.peakLogo}>
           <Image
             source={require("../assets/newLogo.png")}
             style={{ width: 50, height: 50 }}
           />
         </View>
 
-        <View style={styles.logoSegment}>
-          <Text style={{ fontSize: 30, color: "white", fontWeight: "700" }}>
-            Peak Wallet
-          </Text>
+        <View style={images.peakLogo}>
+          <Text style={texts.white30}>Peak Wallet</Text>
         </View>
 
         {signUpProgress()}
 
         <ScrollView horizontal={true}>
           <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity onPress={() => setSelectedBox("one")}>
+            <TouchableOpacity
+              onPress={() => {
+                setAccount("practice account");
+                setSelectedBox("one");
+              }}
+            >
               <View
-                style={setStyle(
-                  "one",
-                  styles.GIACard,
-                  styles.GIACardUnselected
-                )}
+                style={setStyle("one", views.GIACard, views.GIACardUnselected)}
               >
-                <View style={{ height: 50, width: 50, margin: 5 }}>
-                  <View
-                    style={{
-                      position: "absolute",
-                      height: 50,
-                      width: 50,
-                      backgroundColor: "black",
-                      borderRadius: 25,
-                      opacity: 0.1,
-                    }}
-                  />
+                <View style={views.hight50}>
+                  <View style={views.transparentBlack} />
                   <Image
                     source={require("../assets/wallet.png")}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      margin: 5,
-                      borderRadius: 25,
-                    }}
+                    style={images.smallCircle}
                   />
                 </View>
 
-                <View
-                  style={{
-                    height: ScreenHeight / 3.4 - 40,
-                    width: "100%",
-                    justifyContent: "center",
-                    marginLeft: 15,
-                  }}
-                >
+                <View style={views.accountCard}>
                   <View>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 25,
-                        fontWeight: "bold",
-                      }}
-                    >
+                    <Text style={texts.white25}>
                       {setCardBalance("practice")}
                     </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        marginTop: 10,
-                      }}
-                    >
-                      Practice account
-                    </Text>
+                    <Text style={texts.white20}>Practice account</Text>
                   </View>
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedBox("two")}>
+            <TouchableOpacity
+              onPress={() => {
+                setAccount("ISA account");
+                setSelectedBox("two");
+              }}
+            >
               <View
-                style={setStyle(
-                  "two",
-                  styles.ISACard,
-                  styles.ISACardUnselected
-                )}
+                style={setStyle("two", views.ISACard, views.ISACardUnselected)}
               >
-                <View style={{ height: 50, width: 50, margin: 5 }}>
-                  <View
-                    style={{
-                      position: "absolute",
-                      height: 50,
-                      width: 50,
-                      backgroundColor: "black",
-                      borderRadius: 25,
-                      opacity: 0.1,
-                    }}
-                  />
+                <View style={views.hight50}>
+                  <View style={views.transparentBlack} />
                   <Image
                     source={require("../assets/wallet.png")}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      margin: 5,
-                      borderRadius: 25,
-                    }}
+                    style={images.smallCircle}
                   />
                 </View>
-                <View
-                  style={{
-                    height: ScreenHeight / 3.4 - 40,
-                    width: "100%",
-                    justifyContent: "center",
-                    marginLeft: 15,
-                  }}
-                >
+                <View style={views.accountCard}>
                   <View>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 30,
-                        fontWeight: "bold",
-                        letterSpacing: 1.2,
-                      }}
-                    >
-                      Coming soon!
-                    </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        marginTop: 10,
-                      }}
-                    >
-                      ISA account
-                    </Text>
+                    <Text style={texts.white30}>Coming soon!</Text>
+                    <Text style={texts.white20}>ISA account</Text>
                   </View>
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedBox("three")}>
+            <TouchableOpacity
+              onPress={() => {
+                setAccount("peak account");
+                setSelectedBox("three");
+              }}
+            >
               <View
                 style={setStyle(
                   "three",
-                  styles.practiceCard,
-                  styles.practiceCardUnselected
+                  views.practiceCard,
+                  views.practiceCardUnselected
                 )}
               >
-                <View style={{ height: 50, width: 50, margin: 5 }}>
-                  <View
-                    style={{
-                      position: "absolute",
-                      height: 50,
-                      width: 50,
-                      backgroundColor: "black",
-                      borderRadius: 25,
-                      opacity: 0.1,
-                    }}
-                  />
+                <View style={views.hight50}>
+                  <View style={views.transparentBlack} />
                   <Image
                     source={require("../assets/wallet.png")}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      margin: 5,
-                      borderRadius: 25,
-                    }}
+                    style={images.smallCircle}
                   />
                 </View>
-                <View
-                  style={{
-                    height: ScreenHeight / 3.4 - 40,
-                    width: "100%",
-                    justifyContent: "center",
-                    marginLeft: 15,
-                  }}
-                >
+                <View style={views.accountCard}>
                   <View>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 30,
-                        fontWeight: "bold",
-                        letterSpacing: 1.2,
-                      }}
-                    >
-                      Coming soon!
-                    </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        marginTop: 10,
-                      }}
-                    >
-                      Peak account
-                    </Text>
+                    <Text style={texts.white30}>Coming soon!</Text>
+                    <Text style={texts.white20}>Peak account</Text>
                   </View>
                 </View>
               </View>
@@ -374,21 +235,13 @@ export default function Header(props) {
           </View>
         </ScrollView>
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginLeft: 15,
-            marginRight: 15,
-            marginTop: 30,
-            //   justifyContent: "space-around",
-          }}
-        >
+        <View style={views.twoButtons}>
           <Button
             onPress={() => {
               console.log("deposit");
             }}
             //  width={screenWidth / 2 - 50}
-            style={styles.orangeFillButton}
+            style={buttons.orangeFill}
             mode="contained"
           >
             Deposit
@@ -396,7 +249,7 @@ export default function Header(props) {
           <Button
             marginLeft={10}
             color={"#ff7f00"}
-            style={styles.FavouriteButton}
+            style={buttons.noFill}
             onPress={() => {
               console.log("withdraw");
             }}
@@ -419,7 +272,6 @@ export default function Header(props) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-
           height: 70,
         }}
       >
@@ -432,7 +284,7 @@ export default function Header(props) {
         <View>
           <Button
             mode="text"
-            style={styles.ballButton}
+            style={buttons.headerButton}
             color={"#ff7f00"}
             onPress={() => {
               //-------------only practice account in beta --------------------
@@ -450,14 +302,13 @@ export default function Header(props) {
               //   // createOrder(token, "2921C", 2);
               // });
 
-              console.log(props);
               triggerGetBalance();
               ref.current.animateNextTransition();
-              if (headerStyle == styles.topCard) {
-                setHeaderStyle(styles.topCardExpanded);
+              if (headerStyle == views.header) {
+                setHeaderStyle(views.headerExpanded);
                 setExpanded(true);
               } else {
-                setHeaderStyle(styles.topCard);
+                setHeaderStyle(views.header);
                 setExpanded(false);
               }
             }}

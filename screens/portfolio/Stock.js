@@ -164,7 +164,7 @@ export default function OwnedStockScreen(props) {
                   }}
                 />
 
-                <View style={styles.stockNameView}>
+                <View style={styles.stockContainer}>
                   <Text style={styles.stockName}>{item.name}</Text>
                   <Text style={styles.stockTicker}>
                     {item.ticker}-add country
@@ -172,7 +172,7 @@ export default function OwnedStockScreen(props) {
                 </View>
               </View>
 
-              <View style={styles.priceContainer}>
+              <View style={styles.stockContainer}>
                 <Text style={styles.price}>£{item.currentPrice}</Text>
                 <Text style={setStyle(item)}>
                   {item.priceDif}

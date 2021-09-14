@@ -25,7 +25,7 @@ import {
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { user } from "../components/Firebase/firebase";
-import { styles } from "../css/styles.js";
+import { styles, views, buttons, texts, images } from "../css/styles.js";
 
 import * as shape from "d3-shape";
 import { scaleTime, scaleLinear, scaleQuantile } from "d3-scale";
@@ -264,7 +264,6 @@ const chart = (data, low, high) => {
     </View>
   );
 };
-
 const buildChart = (data, low, high) => {
   const height = 150;
   const width = screenWidth - 20;
@@ -290,7 +289,6 @@ const buildChart = (data, low, high) => {
     .curve(d3.shape.curveBasis)(data);
   return line;
 };
-
 const currentStock = (loaded, stockData, props, userBalance) => {
   let data = stockData.data;
   let candles = stockData.chart;
@@ -328,39 +326,32 @@ const currentStock = (loaded, stockData, props, userBalance) => {
         });
       }}
     >
-      <Card style={styles.card}>
+      <Card style={views.card}>
         <View style={{ height: 120 }}>
-          <View style={styles.cardTopList}>
-            <View
-              style={{
-                display: "flex",
-                marginRight: 30,
-                justifyContent: "space-between",
-                flexDirection: "row",
-              }}
-            >
+          <View style={views.rowSpaceBetween}>
+            <View style={views.rowSpaceBetween}>
               <Image
-                style={styles.image}
+                style={images.stockImageSmall}
                 source={{
                   uri: `https://storage.googleapis.com/iex/api/logos/${stock}.png`,
                 }}
               />
 
-              <View style={styles.stockNameView}>
-                <Text style={styles.stockName}>{data[stock].name}</Text>
-                <Text style={styles.stockTicker}>
+              <View style={views.centerContent}>
+                <Text style={texts.white13}>{data[stock].name}</Text>
+                <Text style={texts.stockTicker}>
                   {stock}-{data[stock].country}
                 </Text>
               </View>
             </View>
 
-            <View style={styles.priceContainer}>
-              <Text style={styles.price}>
+            <View style={views.centerContent}>
+              <Text style={texts.price}>
                 {data[stock].currency}
                 {price[stock].currentPrice}
               </Text>
 
-              <Text style={styles[price[stock].stockColor]}>
+              <Text style={texts[price[stock].stockColor]}>
                 {price[stock].priceChange.toFixed(2)}
                 {"("}
                 {price[stock].percentage.toFixed(2)}%{")"}
@@ -417,7 +408,6 @@ const currentStock = (loaded, stockData, props, userBalance) => {
   ));
   return listItems;
 };
-
 const placeTrade = (obj) => {
   getToken().then((token) => {
     getSecclStock("GB0031215220", token).then((res) => {
@@ -426,7 +416,6 @@ const placeTrade = (obj) => {
     });
   });
 };
-
 const practiceTrade = (obj) => {
   console.log(obj);
   firebase.auth().onAuthStateChanged((user) => {
@@ -539,7 +528,6 @@ const portfolioChart = () => {
     getHistory(user.uid).then((arr) => {});
   });
 };
-
 async function signUp4(id, NI, terms, user, account) {
   db.collection("users")
     .doc(user.uid)
@@ -553,7 +541,6 @@ async function signUp4(id, NI, terms, user, account) {
       GIA: account,
     });
 }
-
 async function getUserInfo(uid) {
   const userRef = db
     .collection("users")
@@ -564,7 +551,6 @@ async function getUserInfo(uid) {
   const doc = await userRef.get();
   return doc;
 }
-
 async function getSignUpProgress(uid) {
   const userRef = db
     .collection("users")
@@ -581,7 +567,6 @@ async function getSignUpProgress(uid) {
   }
   console.log(doc.data());
 }
-
 async function getUserId() {
   let res;
   await firebase.auth().onAuthStateChanged((user) => {
@@ -589,7 +574,6 @@ async function getUserId() {
   });
   return res;
 }
-
 async function getOwnedStock(user, stock) {
   const userRef = db
     .collection("users")

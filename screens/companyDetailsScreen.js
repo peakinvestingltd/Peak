@@ -13,7 +13,7 @@ import { Text, Card, Button, IconButton } from "react-native-paper";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
-import { styles } from "../css/styles.js";
+import { styles, views, buttons, texts, images } from "../css/styles.js";
 import { getFinnhubChart, buildChart, getOwnedStock } from "../utils/functions";
 
 const height = 150;
@@ -96,8 +96,8 @@ export default class DetailsScreen extends React.Component {
   toggleDesc() {
     if (this.state.descSelected) {
       return (
-        <View style={styles.infoContentsBottom}>
-          <Text style={styles.infoText}>{this.props.route.params.desc}</Text>
+        <View style={views.bottomDropdown}>
+          <Text style={texts.infoText}>{this.props.route.params.desc}</Text>
         </View>
       );
     }
@@ -108,127 +108,69 @@ export default class DetailsScreen extends React.Component {
       if (this.state.ownedShares) {
         console.log("has owned shares");
         return (
-          <View style={styles.infoContents}>
-            <View style={styles.segment}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText1}>Owned shares</Text>
+          <View>
+            <View style={views.segment}>
+              <View style={views.columCenter}>
+                <Text style={texts.white13}>Owned shares</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText2}>{this.state.ownedShares}</Text>
+              <View style={views.columCenter}>
+                <Text style={texts.faded15}>{this.state.ownedShares}</Text>
               </View>
             </View>
 
-            <View style={styles.segment}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText1}>Invested</Text>
+            <View style={views.segment}>
+              <View style={views.columCenter}>
+                <Text style={texts.white13}>Invested</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText2}>{this.state.invested}</Text>
+              <View style={views.columCenter}>
+                <Text style={texts.faded15}>{this.state.invested}</Text>
               </View>
             </View>
 
-            <View style={styles.segment}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText1}>Bought at</Text>
+            <View style={views.segment}>
+              <View style={views.columCenter}>
+                <Text style={texts.white13}>Bought at</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText2}>
+              <View style={views.columCenter}>
+                <Text style={texts.faded15}>
                   {this.state.currency}
                   {this.state.boughtPrice}
                 </Text>
               </View>
             </View>
-            <View style={styles.segment}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText1}>Total value</Text>
+            <View style={views.segment}>
+              <View style={views.columCenter}>
+                <Text style={texts.white13}>Total value</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              >
-                <Text style={styles.listText2}>
+              <View style={views.columCenter}>
+                <Text style={texts.faded15}>
                   {this.state.ownedShares *
                     this.props.route.params.price.currentPrice}
                 </Text>
               </View>
             </View>
+            <View style={{ height: 1, marginBottom: -4 }} />
           </View>
         );
       } else {
         console.log("dosnt have owned shares");
         return (
-          <View style={styles.infoContents}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
+          <View>
+            <View style={views.segment}>
               <View
                 style={{
                   flexDirection: "column",
                   justifyContent: "center",
                   height: 50,
-                  opacity: 0.4,
                 }}
               >
-                <Text style={styles.listText1}>
-                  You are not yet invested in this company
+                <Text style={texts.white13}>
+                  You are not yet invested in this company!
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: 50,
-                }}
-              ></View>
+              <View style={views.columCenter}></View>
             </View>
+            <View style={{ height: 1, marginBottom: -4 }} />
           </View>
         );
       }
@@ -238,43 +180,72 @@ export default class DetailsScreen extends React.Component {
     const params = this.props.route.params;
     if (this.state.infoSelected) {
       return (
-        <View style={styles.infoContents}>
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Name</Text>
-            <Text style={styles.listText2}>{params.name}</Text>
+        <View>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Name</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.name}</Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Total employees</Text>
-            <Text style={styles.listText2}>
-              {Math.round(params.employeeTotal)}
-            </Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Total employees</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>
+                {Math.round(params.employeeTotal)}
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Industry</Text>
-            <Text style={styles.listText2}>{params.industry}</Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Industry</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.industry}</Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Group</Text>
-            <Text style={styles.listText2}>{params.group}</Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Group</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.group}</Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Sector</Text>
-            <Text style={styles.listText2}>{params.sector}</Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Sector</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.sector}</Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Market cap</Text>
-            <Text style={styles.listText2}>{params.marketCap}</Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Market cap</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.marketCap}</Text>
+            </View>
           </View>
 
-          <View style={styles.segment}>
-            <Text style={styles.listText1}>Shares outstanding</Text>
-            <Text style={styles.listText2}>{params.shareOutstanding}</Text>
+          <View style={views.segment}>
+            <View style={views.columCenter}>
+              <Text style={texts.white13}>Shares outstanding</Text>
+            </View>
+            <View style={views.columCenter}>
+              <Text style={texts.faded15}>{params.shareOutstanding}</Text>
+            </View>
           </View>
+          <View style={{ height: 1, marginBottom: -4 }} />
         </View>
       );
     }
@@ -326,9 +297,9 @@ export default class DetailsScreen extends React.Component {
   chartButtons(value) {
     let style;
     if (this.state.selectedChart == value) {
-      style = styles.selectedChartIcon;
+      style = views.selectedChartIcon;
     } else {
-      style = styles.chartIcon;
+      style = views.chartIcon;
     }
 
     return (
@@ -360,7 +331,7 @@ export default class DetailsScreen extends React.Component {
       >
         <View style={style}>
           <View style={{ flexDirection: "column", justifyContent: "center" }}>
-            <Text style={styles.chartTextButton}>{value}</Text>
+            <Text style={texts.chartTextButton}>{value}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -527,32 +498,25 @@ export default class DetailsScreen extends React.Component {
       chartColor = styles.red;
     }
     return (
-      <View style={styles.cardTop}>
-        <View
-          style={{
-            display: "flex",
-            marginRight: 30,
-            justifyContent: "space-between",
-            flexDirection: "row",
-          }}
-        >
+      <View style={views.cardTop}>
+        <View style={views.rowSpaceBetween}>
           <Image
-            style={styles.image}
+            style={images.stockImageSmall}
             source={{
               uri: params.logo,
             }}
           />
 
-          <View style={styles.stockNameView}>
-            <Text style={styles.stockName}>{params.name}</Text>
-            <Text style={styles.stockTicker}>
+          <View style={views.centerContent}>
+            <Text style={texts.white13}>{params.name}</Text>
+            <Text style={texts.stockTicker}>
               {params.stock}-{params.country}
             </Text>
           </View>
         </View>
 
-        <View style={styles.priceContainer}>
-          <Text style={styles.price}>
+        <View style={views.centerContent}>
+          <Text style={texts.price}>
             {params.currency}
             {currentPrice}
           </Text>
@@ -579,9 +543,9 @@ export default class DetailsScreen extends React.Component {
   }
   bottowBropDown(selected) {
     if (selected) {
-      return styles.infoSection;
+      return views.centerSection;
     } else {
-      return styles.infoCardBottom;
+      return views.bottomSection;
     }
   }
   render() {
@@ -589,18 +553,18 @@ export default class DetailsScreen extends React.Component {
     const navigation = this.props.navigation;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={views.container}>
         <StatusBar backgroundColor="#26325F" />
         <Header />
         <ScrollView>
-          <Button style={styles.pageButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.pageButtonText}>&lt; Trade</Text>
+          <Button style={buttons.titleBack} onPress={() => navigation.goBack()}>
+            <Text style={texts.pageButtonText}>&lt; Trade</Text>
           </Button>
 
           {this.stockHeader()}
 
-          <View style={styles.chartContainer}>
-            <View style={styles.chartButtons}>
+          <View style={views.defaultView}>
+            <View style={views.rowSpaceBetween}>
               {this.chartButtons("1D")}
               {this.chartButtons("7D")}
               {this.chartButtons("1M")}
@@ -612,15 +576,7 @@ export default class DetailsScreen extends React.Component {
             {this.chart(this.state.loaded)}
           </View>
 
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: 15,
-              marginRight: 15,
-              marginTop: 10,
-              //   justifyContent: "space-around",
-            }}
-          >
+          <View style={views.twoButtons}>
             <Button
               onPress={() => {
                 this.props.navigation.navigate("Buy", {
@@ -639,16 +595,12 @@ export default class DetailsScreen extends React.Component {
                 });
               }}
               //  width={screenWidth / 2 - 50}
-              style={styles.orangeFillButton}
+              style={buttons.orangeFill}
               mode="contained"
             >
               Trade
             </Button>
-            <Button
-              marginLeft={10}
-              color={"#ff7f00"}
-              style={styles.FavouriteButton}
-            >
+            <Button marginLeft={10} color={"#ff7f00"} style={buttons.noFill}>
               Add to List
             </Button>
           </View>
@@ -659,24 +611,13 @@ export default class DetailsScreen extends React.Component {
               });
             }}
           >
-            <View style={styles.infoCardTop}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginLeft: 10,
-                }}
-              >
-                <Text style={styles.infoTopText}>Your Investment</Text>
+            <View style={{ height: 10 }} />
+            <View style={views.cardTop}>
+              <View style={views.columCenter}>
+                <Text style={texts.white15}>Your Investment</Text>
               </View>
 
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginRight: 10,
-                }}
-              >
+              <View style={views.columCenter}>
                 {this.icon(this.state.yourInvestmentSelected)}
               </View>
             </View>
@@ -689,24 +630,12 @@ export default class DetailsScreen extends React.Component {
               });
             }}
           >
-            <View style={styles.infoSection}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginLeft: 10,
-                }}
-              >
-                <Text style={styles.infoTopText}>Info</Text>
+            <View style={views.centerSection}>
+              <View style={views.columCenter}>
+                <Text style={texts.white15}>Info</Text>
               </View>
 
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginRight: 10,
-                }}
-              >
+              <View style={views.columCenter}>
                 {this.icon(this.state.infoSelected)}
               </View>
             </View>
@@ -720,22 +649,10 @@ export default class DetailsScreen extends React.Component {
             }}
           >
             <View style={this.bottowBropDown(this.state.descSelected)}>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginLeft: 10,
-                }}
-              >
-                <Text style={styles.infoTopText}>Company Description</Text>
+              <View style={views.columCenter}>
+                <Text style={texts.white15}>Company Description</Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  marginRight: 10,
-                }}
-              >
+              <View style={views.columCenter}>
                 {this.icon(this.state.descSelected)}
               </View>
             </View>

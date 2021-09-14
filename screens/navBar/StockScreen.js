@@ -1,11 +1,9 @@
 import React, { Component, useEffect, useState } from "react";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-import { styles } from "../../css/styles.js";
+import { styles, views, buttons, texts } from "../../css/styles.js";
 //font v
-import {
-  useFonts,
-  NunitoSans_200ExtraLight,
-} from "@expo-google-fonts/nunito-sans";
+import { AppLoading } from "expo";
+import { useFonts, NunitoSans_300Light } from "@expo-google-fonts/nunito-sans";
 //font ^
 import {
   getBalance,
@@ -41,9 +39,11 @@ let count = 1;
 
 export default function StockScreen(props) {
   const [fontLoading, error] = useFonts({
-    NunitoSans_200ExtraLight,
+    NunitoSans_300Light,
   });
-
+  // if (!fontLoading) {
+  //   return <AppLoading />;
+  // }
   const [justLoaded, setJustLoaded] = useState(true);
   const [loaded, setLoaded] = useState([]);
   const [stockData, setStockData] = useState([]);
@@ -195,19 +195,19 @@ export default function StockScreen(props) {
   }, [isFocused]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <StatusBar backgroundColor="#26325F" />
       <Header {...props} />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() =>
             props.navigation.navigate("Search", {
               funds: userBalance,
             })
           }
         >
-          <Text style={styles.pageButtonText}>&lt; {catagory}</Text>
+          <Text style={texts.pageButtonText}>&lt; {catagory}</Text>
         </Button>
         {currentStock(loaded, stockData, props, userBalance)}
       </ScrollView>

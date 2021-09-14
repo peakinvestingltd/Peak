@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { ScreenHeight } from "react-native-elements/dist/helpers";
+import { useFonts, NunitoSans_300Light } from "@expo-google-fonts/nunito-sans";
 
 const darkBlue = "#172041";
 const lightBlue = "#26325F";
@@ -23,72 +24,39 @@ const screenWidth = Dimensions.get("window").width;
 const primaryColor = darkBlue;
 const secondaryColor = cardBlue;
 const fontColor = "whitesmoke";
-const font = "Futura";
+const font = "NunitoSans_300Light";
 const fontSizeTitle = 14;
 
-const styles = StyleSheet.create({
-  statusBar: {
-    backgroundColor: primaryColor,
+const images = StyleSheet.create({
+  stockImageSmall: {
+    borderRadius: 5,
+    resizeMode: "contain",
+    height: 40,
+    width: 40,
+    margin: 10,
   },
+  peakLogo: {
+    height: 50,
+    marginTop: 15,
+    marginBottom: -15,
+    alignSelf: "center",
+  },
+  smallCircle: {
+    width: 40,
+    height: 40,
+    margin: 5,
+    borderRadius: 25,
+  },
+});
+const views = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: primaryColor,
   },
-  pageButton: {
-    alignSelf: "flex-start",
-    zIndex: 2,
-  },
-  pageButtonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 22,
-    textTransform: "none",
-  },
-  //-------------------navbar---------------------
-  navBar: {
-    // position:'absolute',
-    // bottom:0,
-    padding: 10,
-    backgroundColor: "#26325F",
-    width: screenWidth,
-    justifyContent: "space-evenly",
-    flexDirection: "row",
-    elevation: 10,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-  },
   footer: {
-    width: screenWidth,
     height: 70,
   },
-  //-----------------------------------------------------------
-  accordionHeader: {
-    backgroundColor: secondaryColor,
-    height: 50,
-    width: screenWidth,
-  },
-  chartInterval: {
-    color: "white",
-    fontSize: 15,
-    fontFamily: font,
-    padding: 5,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderColor: "ghostwhite",
-    backgroundColor: "#222948",
-    borderRadius: 10,
-    alignSelf: "center",
-  },
-  buttonContainer: {
-    paddingBottom: 60,
-    width: "80%",
-    alignSelf: "center",
-  },
-  //---------header-----------------------------
-  topCard: {
+  header: {
     backgroundColor: lightBlue,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
@@ -100,13 +68,13 @@ const styles = StyleSheet.create({
     width: screenWidth,
     height: 70,
   },
-  topCardExpanded: {
+  headerExpanded: {
     zIndex: 5,
     padding: 0,
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: secondaryColor,
+    backgroundColor: lightBlue,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     shadowColor: secondaryColor,
@@ -116,6 +84,159 @@ const styles = StyleSheet.create({
     elevation: 5,
     height: ScreenHeight - 70,
     width: screenWidth,
+  },
+  center: {
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  left20: {
+    marginLeft: 25,
+  },
+  selectedChartIcon: {
+    height: 30,
+    width: (screenWidth - 90) / 6,
+    margin: 0,
+    justifyContent: "center",
+    backgroundColor: orange,
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: 10,
+    margin: 5,
+    marginTop: 10,
+  },
+  chartIcon: {
+    height: 30,
+    width: (screenWidth - 90) / 6,
+    margin: 5,
+    justifyContent: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: 10,
+    opacity: 0.2,
+  },
+  centerContent: {
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  centerSection: {
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    height: 50,
+    backgroundColor: secondaryColor,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  bottomSection: {
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  bottomDropdown: {
+    backgroundColor: lightBlue,
+    marginLeft: 10,
+    marginRight: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  twoButtons: {
+    flexDirection: "row",
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 10,
+    justifyContent: "space-between",
+  },
+  card: {
+    backgroundColor: secondaryColor,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginTop: 0,
+    marginRight: 10,
+    borderRadius: 10,
+    padding: 0,
+    shadowColor: secondaryColor,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  defaultTop: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: secondaryColor,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingBottom: 10,
+  },
+  defaultView: {
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: secondaryColor,
+  },
+  defaultEndView: {
+    backgroundColor: secondaryColor,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 2,
+    height: 50,
+    justifyContent: "center",
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+  segment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#26325F",
+    marginBottom: 1,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  rowCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  rowSpaceBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cardTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: secondaryColor,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  innerMargin: {
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  columCenter: {
+    flexDirection: "column",
+    justifyContent: "center",
+    marginRight: 10,
+    height: 50,
+    paddingLeft: 15,
+    // backgroundColor: "white",
+  },
+  slider: {
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 15,
   },
   GIACard: {
     width: screenWidth / 2,
@@ -180,25 +301,503 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     opacity: 0.5,
   },
-  logoSegment: {
+  transparentBlack: {
+    position: "absolute",
     height: 50,
-    width: "100%",
-    justifyContent: "center",
-    flexDirection: "row",
-    marginTop: 15,
-    marginBottom: -10,
+    width: 50,
+    backgroundColor: "black",
+    borderRadius: 25,
+    opacity: 0.1,
   },
+  hight50: {
+    height: 50,
+    width: 50,
+    margin: 5,
+  },
+  accountCard: {
+    height: ScreenHeight / 3.4 - 40,
+    justifyContent: "center",
+    marginLeft: 15,
+  },
+});
+const buttons = StyleSheet.create({
+  titleBack: {
+    alignSelf: "flex-start",
+    zIndex: 2,
+  },
+  headerButton: {
+    // backgroundColor: orange,
+    borderColor: orange,
+    borderRadius: 10,
+    borderWidth: 1,
+    justifyContent: "center",
+  },
+  orangeFill: {
+    width: "48%",
+    height: 45,
+    paddingTop: 3.5,
+    alignSelf: "center",
+    backgroundColor: orange,
+    borderRadius: 10,
+  },
+  noFill: {
+    width: "48%",
+    height: 45,
+    paddingTop: 2,
+    alignSelf: "center",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: orange,
+  },
+  selectedBuy: {
+    backgroundColor: secondaryColor,
+    width: "50%",
+    borderTopLeftRadius: 10,
+    color: "white",
+    textAlign: "center",
+    paddingTop: 14,
+  },
+  unselectedBuy: {
+    backgroundColor: primaryColor,
+    height: 50,
+    width: "50%",
+    borderTopLeftRadius: 10,
+    color: "white",
+    borderWidth: 2,
+    borderColor: secondaryColor,
+    textAlign: "center",
+    paddingTop: 14,
+  },
+  selectedSell: {
+    backgroundColor: secondaryColor,
+    width: "50%",
+    borderTopRightRadius: 10,
+    color: "white",
+    textAlign: "center",
+    paddingTop: 14,
+  },
+  unselectedSell: {
+    backgroundColor: primaryColor,
+    height: 50,
+    width: "50%",
+    borderTopRightRadius: 10,
+    color: "white",
+    borderWidth: 2,
+    borderColor: secondaryColor,
+    textAlign: "center",
+    paddingTop: 14,
+  },
+});
+const texts = StyleSheet.create({
+  white13: {
+    color: "white",
+    fontSize: 13,
+    fontFamily: font,
+  },
+  faded15: {
+    color: "white",
+    opacity: 0.75,
+    marginRight: 15,
+    fontSize: 15,
+    fontFamily: font,
+  },
+  white15: {
+    color: "white",
+    fontSize: 15,
+    fontFamily: font,
+  },
+  white20: {
+    color: "white",
+    fontSize: 20,
+    fontFamily: font,
+  },
+  white25: {
+    color: "white",
+    fontSize: 25,
+    fontFamily: font,
+    fontWeight: "700",
+  },
+  white30: {
+    fontSize: 30,
+    color: "white",
+    fontFamily: font,
+  },
+  chartTextButton: {
+    color: "white",
+    fontFamily: font,
+    opacity: 0.9,
+  },
+  infoText: {
+    color: "white",
+    opacity: 0.7,
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 10,
+    fontSize: 15,
+    fontFamily: font,
+  },
+  buttonText: {
+    color: "white",
+    textTransform: "none",
+    fontFamily: font,
+    fontSize: 15,
+  },
+  orangeButtonText: {
+    color: orange,
+    fontFamily: font,
+    textTransform: "none",
+    fontSize: 15,
+  },
+  tradeOrangeText: {
+    color: orange,
+    fontFamily: font,
+    fontSize: 17,
+    alignSelf: "center",
+    marginLeft: 30,
+    letterSpacing: 1,
+  },
+  amountOfShares: {
+    width: 75,
+    color: orange,
+    textAlign: "center",
+    borderRadius: 7,
+    fontSize: 15,
+    fontWeight: "bold",
+    backgroundColor: "gray",
+  },
+  pageButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    textTransform: "none",
+    fontFamily: font,
+  },
+  stockName: {
+    fontSize: 13,
+    color: "red",
+    fontFamily: font,
+    //change to white13
+  },
+  stockTicker: {
+    color: gray,
+    fontFamily: font,
+    letterSpacing: 1.5,
+    fontWeight: "normal",
+    textTransform: "uppercase",
+    fontSize: 10,
+  },
+  price: {
+    borderRadius: 10,
+    color: fontColor,
+    fontFamily: font,
+    alignSelf: "flex-end",
+  },
+  green: {
+    fontSize: 12,
+    color: green,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
+    fontFamily: font,
+  },
+  red: {
+    fontSize: 12,
+    color: red,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
+    fontFamily: font,
+  },
+});
+const styles = StyleSheet.create({
+  //buttons
+  //--page back button
+  pageButton: {
+    alignSelf: "flex-start",
+    zIndex: 2,
+  },
+
+  //----------------------------------
+  //Text
+  pageButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    textTransform: "none",
+    fontFamily: font,
+  },
+
+  //--company name (small)--
+  font30: {
+    fontSize: 30,
+    color: "red",
+    fontFamily: font,
+  },
+  font20: {
+    color: "white",
+    fontSize: 20,
+  },
+  listText1: {
+    color: "black",
+    fontFamily: font,
+  },
+  listText2: {
+    color: "black",
+    opacity: 0.85,
+    marginRight: 15,
+    fontSize: 14,
+    fontFamily: font,
+  },
+  infoText: {
+    color: "red",
+    opacity: 0.7,
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 10,
+    fontSize: 15,
+    fontFamily: font,
+  },
+  stockName: {
+    fontSize: 13,
+    fontFamily: font,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: "NunitoSans_300Light",
+    backgroundColor: "red",
+  },
+  //--stock ticker (small/faded)--
+  stockTicker: {
+    color: gray,
+    fontFamily: font,
+    letterSpacing: 1.5,
+    fontWeight: "normal",
+    textTransform: "uppercase",
+    fontSize: 10,
+    backgroundColor: "red",
+  },
+  //--current stock price--
+  price: {
+    borderRadius: 10,
+    color: fontColor,
+    fontFamily: font,
+    alignSelf: "flex-end",
+    backgroundColor: "red",
+  },
+  //--stock price change/percent/color
+  green: {
+    fontSize: 12,
+    color: green,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
+    fontFamily: font,
+    backgroundColor: "red",
+  },
+  red: {
+    fontSize: 12,
+    color: red,
+    fontWeight: "bold",
+    alignSelf: "flex-end",
+    fontFamily: font,
+    backgroundColor: "red",
+  },
+
+  //views
+  //- top section of cards
+  cardTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "pink",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  defaultTop: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "red",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  sharesView: {
+    height: 50,
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "red",
+    //centersection
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  defaultView: {
+    marginTop: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: "red",
+  },
+  innerCardView: {
+    flexDirection: "column",
+    justifyContent: "center",
+    marginRight: 10,
+    height: 50,
+    backgroundColor: "red",
+    //views.columcenter
+  },
+  infoContentsBottom: {
+    backgroundColor: "red",
+    marginLeft: 10,
+    marginRight: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  //segments on the info dropdown
+  segment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "pink",
+    marginBottom: 1,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  segmentContents: {
+    flexDirection: "column",
+    justifyContent: "center",
+    height: 50,
+  },
+  //vv remove
+  // infoCardTop: {
+  //   marginTop: 10,
+  //   marginLeft: 10,
+  //   marginRight: 10,
+  //   backgroundColor: secondaryColor,
+  //   borderTopLeftRadius: 10,
+  //   borderTopRightRadius: 10,
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  // },
+  //--stock name and ticker view for positioning
+  stockContainer: {
+    justifyContent: "center",
+    marginRight: 10,
+    backgroundColor: "pink",
+  },
+  //--view to position contense in a row
+  rowView: {
+    display: "flex",
+    marginRight: 30,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  //--spaces out content
+  cardTopList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "yellow",
+    //views.rowspace
+  },
+  //--row center
+  viewRowCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 5,
+  },
+  //--card--
+  card: {
+    backgroundColor: "green",
+    marginLeft: 10,
+    marginBottom: 10,
+    marginTop: 0,
+    marginRight: 10,
+    borderRadius: 10,
+    padding: 0,
+    shadowColor: secondaryColor,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  peakLogo: {
+    height: 50,
+    marginTop: 15,
+    marginBottom: -15,
+    alignSelf: "center",
+    backgroundColor: "red",
+  },
+  twoButtons: {
+    flexDirection: "row",
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 10,
+    backgroundColor: "red",
+  },
+  //--chart container view
+  chartContainer: {
+    backgroundColor: secondaryColor,
+    marginRight: 10,
+    marginLeft: 10,
+    marginTop: 2,
+  },
+  // chartButtons: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-evenly",
+  // },
+  //---------------------------------------------------------
+  statusBar: {
+    backgroundColor: primaryColor,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: primaryColor,
+  },
+
+  //-------------------navbar---------------------
+  navBar: {
+    // position:'absolute',
+    // bottom:0,
+    padding: 10,
+    backgroundColor: "#26325F",
+    width: screenWidth,
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    elevation: 10,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+  footer: {
+    height: 70,
+  },
+  //-----------------------------------------------------------
+  accordionHeader: {
+    backgroundColor: secondaryColor,
+    height: 50,
+    width: screenWidth,
+  },
+  chartInterval: {
+    color: "white",
+    fontSize: 15,
+    fontFamily: font,
+    padding: 5,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderColor: "ghostwhite",
+    backgroundColor: "#222948",
+    borderRadius: 10,
+    alignSelf: "center",
+  },
+  buttonContainer: {
+    paddingBottom: 60,
+    width: "80%",
+    alignSelf: "center",
+  },
+  //---------header-----------------------------
+
   // headerBuffer: {
   //   height: 75,
   // },
-  ballButton: {
-    // backgroundColor: orange,
-    borderColor: "#ff7f00",
-    borderRadius: 10,
-    borderWidth: 1,
-    textTransform: "none",
-    justifyContent: "center",
-  },
+
   headerBall: {
     backgroundColor: orange,
     borderRadius: 20,
@@ -218,42 +817,12 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 20,
   },
-  stockNameView: {
-    position: "absolute",
-    top: 10,
-    left: 65,
-    height: 40,
-    justifyContent: "center",
-  },
-  stockName: {
-    fontSize: 13,
-    fontFamily: font,
-    fontWeight: "bold",
-    color: "white",
-  },
-  stockTicker: {
-    color: gray,
-    fontFamily: font,
-    letterSpacing: 1.5,
-    fontWeight: "normal",
-    textTransform: "uppercase",
-    fontSize: 10,
-  },
+
   priceView: {
     // height: "50px",
     // width: "50px",
     borderColor: "whitesmoke",
     borderWidth: 2,
-  },
-  priceContainer: {
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  price: {
-    borderRadius: 10,
-    color: fontColor,
-    fontFamily: font,
-    alignSelf: "flex-end",
   },
   percentage: {
     fontSize: 12,
@@ -406,14 +975,17 @@ const styles = StyleSheet.create({
     borderRadius: 13,
   },
   buttonText: {
-    color: "white",
-    fontWeight: "bold",
+    color: "blue",
+    //moved to texts
     textTransform: "none",
+    fontFamily: font,
+    fontSize: 15,
   },
   orangeButtonText: {
     color: orange,
     fontWeight: "bold",
     textTransform: "none",
+    backgroundColor: "red",
   },
   head1: {
     color: "white",
@@ -617,32 +1189,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   //------companyScreen------------
-  card: {
-    backgroundColor: secondaryColor,
-    marginLeft: 10,
-    marginBottom: 10,
-    marginTop: 0,
-    marginRight: 10,
-    borderRadius: 10,
-    padding: 0,
-    shadowColor: secondaryColor,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 1,
-    shadowRadius: 4,
-  },
-  cardTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: secondaryColor,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  cardTopList: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+
   priceInfo: {
     fontSize: 25,
     color: "whitesmoke",
@@ -655,18 +1202,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     alignSelf: "flex-end",
   },
-  chartContainer: {
-    backgroundColor: secondaryColor,
-    marginRight: 10,
-    marginLeft: 10,
-    marginTop: 2,
-  },
-  chartButtons: {
-    width: "100%",
-    height: 40,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
+
   chartIcon: {
     height: 30,
     width: (screenWidth - 90) / 6,
@@ -676,22 +1212,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     opacity: 0.2,
+    backgroundColor: "red",
   },
   selectedChartIcon: {
     height: 30,
     width: (screenWidth - 90) / 6,
     margin: 0,
     justifyContent: "center",
-    backgroundColor: orange,
+    backgroundColor: "red",
     justifyContent: "center",
     flexDirection: "row",
     borderRadius: 10,
     margin: 5,
     marginTop: 10,
-  },
-  chartTextButton: {
-    color: "white",
-    opacity: 0.9,
   },
   chartTextButtonOrange: {
     color: orange,
@@ -713,7 +1246,7 @@ const styles = StyleSheet.create({
     height: 45,
     paddingTop: 3.5,
     alignSelf: "center",
-    backgroundColor: orange,
+    backgroundColor: "red",
     borderRadius: 10,
   },
   FavouriteButton: {
@@ -724,27 +1257,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     borderColor: orange,
-    backgroundColor: primaryColor,
+    backgroundColor: "red",
   },
-  infoCardTop: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    height: 50,
-    width: screenWidth - 20,
-    backgroundColor: secondaryColor,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+
   infoCardBottom: {
     marginTop: 2,
     marginLeft: 10,
     marginRight: 10,
     height: 50,
-    width: screenWidth - 20,
-    backgroundColor: secondaryColor,
+    backgroundColor: "red",
+    //views.bottomSection
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     flexDirection: "row",
@@ -755,84 +1277,18 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     height: 50,
-    width: screenWidth - 20,
-    backgroundColor: secondaryColor,
+    backgroundColor: "red",
+    //views.centerSection
     flexDirection: "row",
     justifyContent: "space-between",
   },
   infoTopText: {
     color: "white",
     fontSize: 15,
-    letterSpacing: 1,
     marginLeft: 15,
   },
-  infoContents: {
-    //  backgroundColor: "#26325F",
-    marginTop: 0,
-    marginLeft: 10,
-    marginBottom: 0,
-    marginRight: 10,
-    width: screenWidth - 20,
-    marginBottom: -2,
-  },
-  segment: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#26325F",
-    marginBottom: 1,
-  },
-  infoContentsBottom: {
-    backgroundColor: "#26325F",
-    marginLeft: 10,
-    marginBottom: 0,
-    marginRight: 10,
-    width: screenWidth - 20,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-  infoText: {
-    color: "white",
-    opacity: 0.7,
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 10,
-    letterSpacing: 1,
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  listText1: {
-    color: "white",
-    opacity: 1,
-    marginTop: 10,
-    marginRight: 10,
-    marginLeft: 20,
-    marginBottom: 10,
-    letterSpacing: 0,
-    fontSize: 16,
-    lineHeight: 20,
-  },
-  listText2: {
-    color: "white",
-    opacity: 0.75,
-    marginTop: 10,
-    marginRight: 20,
-    marginLeft: 10,
-    marginBottom: 10,
-    letterSpacing: 0,
-    fontSize: 16,
-    lineHeight: 20,
-  },
   //trade
-  defaultTop: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    width: screenWidth - 20,
-    backgroundColor: secondaryColor,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
+
   selectedBuyButton: {
     backgroundColor: secondaryColor,
     width: "50%",
@@ -871,13 +1327,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 14,
   },
-  defaultView: {
-    marginTop: 2,
-    marginLeft: 10,
-    marginRight: 10,
-    width: screenWidth - 20,
-    backgroundColor: secondaryColor,
-  },
+
   defaultCard: {
     marginTop: 5,
     marginLeft: 15,
@@ -894,24 +1344,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   defaultEndView: {
-    backgroundColor: secondaryColor,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     paddingBottom: 10,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 2,
+    backgroundColor: "red",
   },
-  sharesView: {
-    width: screenWidth - 30,
-    height: 50,
-    marginTop: 2,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: secondaryColor,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+
   tradeText: {
     color: "white",
     fontSize: 15,
@@ -919,6 +1360,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     letterSpacing: 0.5,
     marginRight: 30,
+    backgroundColor: "red",
   },
   tradeOrangeText: {
     color: orange,
@@ -928,6 +1370,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     letterSpacing: 0.5,
     marginRight: 30,
+    backgroundColor: "red",
   },
   sliderView: {
     width: screenWidth - 30,
@@ -942,11 +1385,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: "red",
   },
   yourShares: {
     color: "white",
     fontSize: 15,
-    letterSpacing: 0.5,
+    fontFamily: font,
+    backgroundColor: "red",
   },
   amountOfShares: {
     width: 75,
@@ -955,13 +1400,9 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     fontSize: 15,
     fontWeight: "bold",
+    backgroundColor: "red",
   },
-  slider: {
-    marginTop: 10,
-    marginLeft: 15,
-    marginRight: 15,
-    marginBottom: 15,
-  },
+
   tradeReviewButton: {
     alignSelf: "center",
     justifyContent: "center",
@@ -1027,10 +1468,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const button = StyleSheet.create({
-  default: {
-    backgroundColor: "#151D3E",
-  },
-});
-
-export { styles, button };
+export { styles, buttons, views, texts, images };

@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { styles } from "../../css/styles.js";
+import { styles, views, buttons, texts, images } from "../../css/styles.js";
 import { uid, user } from "../../components/Firebase/firebase";
 import { practiceTrade, placeTrade } from "../../utils/functions";
 //-----------------------------------------------------
@@ -100,138 +100,113 @@ export default function ReviewScreen(props) {
     name: review.stockName,
   };
   console.log(review.type);
-  console.log("fsda");
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Review Order</Text>
+          <Text style={texts.pageButtonText}>&lt; Review Order</Text>
         </Button>
-        <View style={styles.defaultTop}>
-          <View
-            style={{
-              justifyContent: "center",
-              flexDirection: "row",
-              marginTop: 10,
-            }}
-          >
+        <View style={views.defaultTop}>
+          <View style={views.rowCenter}>
             <Image
-              style={styles.image}
+              style={images.stockImageSmall}
               source={{
                 uri: props.route.params.logo,
               }}
             />
           </View>
 
-          <View
-            style={{
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <Text style={styles.stockName}>{review.stockName}</Text>
+          <View style={views.rowCenter}>
+            <Text style={texts.white13}>{review.stockName}</Text>
           </View>
 
-          <View
-            style={{
-              justifyContent: "center",
-              flexDirection: "row",
-              marginBottom: 10,
-            }}
-          >
-            <Text style={styles.stockTicker}>
+          <View style={views.rowCenter}>
+            <Text style={texts.stockTicker}>
               {ticker}-STOCK-{review.country}
             </Text>
           </View>
         </View>
 
-        <View style={styles.defaultView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Order Type</Text>
-            <Text style={styles.listText2}>{review.orderType}</Text>
+        <View style={views.centerSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Order Type</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>{review.orderType}</Text>
           </View>
         </View>
 
-        <View style={styles.defaultView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Number of Shares</Text>
-            <Text style={styles.listText2}>{review.amount}</Text>
+        <View style={views.centerSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Number of Shares</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>{review.amount}</Text>
           </View>
         </View>
 
-        <View style={styles.defaultView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Value</Text>
-            <Text style={styles.listText2}>{review.totalPrice}</Text>
+        <View style={views.centerSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Value</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>{review.totalPrice}</Text>
           </View>
         </View>
 
-        <View style={styles.defaultView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Commision</Text>
-            <Text style={styles.listText2}>0%</Text>
+        <View style={views.centerSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Commision</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>0%</Text>
           </View>
         </View>
 
-        <View style={styles.defaultView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>FX fee</Text>
-            <Text style={styles.listText2}>0%</Text>
+        <View style={views.centerSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>FX fee</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>0%</Text>
           </View>
         </View>
-        <View style={styles.defaultEndView}>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text style={styles.listText1}>Total</Text>
-            <Text style={styles.listText2}>{review.totalPrice}</Text>
+
+        <View style={views.bottomSection}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Total</Text>
+          </View>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>{review.totalPrice}</Text>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginRight: 15,
-            marginLeft: 15,
-            marginTop: 20,
-          }}
-        >
+
+        <View style={views.twoButtons}>
           <Button
-            style={styles.tradeReviewButton}
+            style={buttons.orangeFill}
             onPress={() => {
               //placeTrade(tradeObj);
               practiceTrade(tradeObj);
               props.navigation.navigate("Stock");
             }}
           >
-            <Text style={styles.buttonText}>Confirm</Text>
+            <Text style={texts.buttonText}>Confirm</Text>
           </Button>
           <Button
-            style={styles.tradeCancleButton}
+            style={buttons.noFill}
             onPress={() => {
               props.navigation.goBack();
             }}
           >
-            <Text style={styles.orangeButtonText}>Cancel</Text>
+            <Text style={texts.orangeButtonText}>Cancel</Text>
           </Button>
         </View>
       </ScrollView>
 
-      <View style={styles.footer}></View>
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );

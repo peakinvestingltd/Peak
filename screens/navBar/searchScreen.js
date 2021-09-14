@@ -46,22 +46,10 @@ export default function SearchScreen(props) {
         }}
       >
         <View style={styles.infoSection}>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              marginLeft: 10,
-            }}
-          >
+          <View style={styles.innerCardView}>
             <Text style={styles.infoTopText}>{catagory}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              marginRight: 10,
-            }}
-          >
+          <View style={styles.innerCardView}>
             <EvilIcons name="chevron-right" size={40} color="white" />
           </View>
         </View>
@@ -92,23 +80,11 @@ export default function SearchScreen(props) {
             });
           }}
         >
-          <View style={styles.infoCardTop}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+          <View style={styles.cardTop}>
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}>Communication Services</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <EvilIcons name="chevron-right" size={40} color="white" />
             </View>
           </View>
@@ -142,22 +118,10 @@ export default function SearchScreen(props) {
           }}
         >
           <View style={styles.infoCardBottom}>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginLeft: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <Text style={styles.infoTopText}>Utilities</Text>
             </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                marginRight: 10,
-              }}
-            >
+            <View style={styles.innerCardView}>
               <EvilIcons name="chevron-right" size={40} color="white" />
             </View>
           </View>

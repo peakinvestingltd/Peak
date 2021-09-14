@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import { Button, Provider as PaperProvider } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { styles, views, buttons, texts } from "../../css/styles.js";
 import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 
@@ -19,10 +19,13 @@ export default function BuyScreen(props) {
   const stockName = params.name;
   const currentFunds = params.funds;
   const ticker = params.ticker;
-  const ownedShares = params.ownedShares;
-
+  let ownedShares = params.ownedShares;
+  if (!ownedShares) {
+    ownedShares = 0;
+  }
+  console.log(ownedShares);
   const [count, setCount] = useState(0);
-  const [buy, setBuy] = useState(styles.selectedBuyButton);
+  const [buy, setBuy] = useState(buttons.selectedBuy);
   const [sell, setSell] = useState(styles.unselectedSellButton);
   const [buySelected, setBuySelected] = useState(true);
   const [buyOrSellFor, setBuyOrSellFor] = useState("Buy for:");
@@ -33,40 +36,36 @@ export default function BuyScreen(props) {
   const buyOrSell = () => {
     if (!buySelected) {
       return (
-        <View style={styles.sharesView}>
-          <Text style={styles.tradeText}>Your shares:</Text>
-          <Text style={styles.tradeText}>{ownedShares}</Text>
+        <View style={views.centerSection}>
+          <View style={{ alignSelf: "center", marginLeft: 20 }}>
+            <Text style={texts.white15}>Your shares:</Text>
+          </View>
+          <View style={{ alignSelf: "center", marginRight: 20 }}>
+            <Text style={texts.white15}>{ownedShares}</Text>
+          </View>
         </View>
       );
     }
   };
-  console.log(params);
-
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Trade</Text>
+          <Text style={texts.pageButtonText}>&lt; Trade</Text>
         </Button>
 
-        <View style={styles.defaultTop}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              resizeMode: "contain",
-            }}
-          >
+        <View style={views.cardTop}>
+          <View style={views.rowCenter}>
             <Text
               style={buy}
               onPress={() => {
-                if (buy != styles.selectedButton) {
-                  setBuy(styles.selectedBuyButton);
-                  setSell(styles.unselectedSellButton);
+                if (buy != buttons.selectedBuy) {
+                  setBuy(buttons.selectedBuy);
+                  setSell(buttons.unselectedSell);
                   setBuySelected(true);
                   setBuyOrSellFor("Buy for:");
                   setType("Bought");
@@ -81,9 +80,10 @@ export default function BuyScreen(props) {
             <Text
               style={sell}
               onPress={() => {
-                if (sell != styles.selectedButton) {
-                  setSell(styles.selectedSellButton);
-                  setBuy(styles.unselectedBuyButton);
+                if (sell != buttons.selectedSell) {
+                  console.log("2");
+                  setSell(buttons.selectedSell);
+                  setBuy(buttons.unselectedBuy);
                   setBuySelected(false);
                   setBuyOrSellFor("Sell for:");
                   setType("Sold");
@@ -97,16 +97,9 @@ export default function BuyScreen(props) {
             </Text>
           </View>
         </View>
-        <View style={styles.defaultView}>
-          <View style={styles.cardTopList}>
-            <View
-              style={{
-                display: "flex",
-                marginRight: 30,
-                justifyContent: "space-between",
-                flexDirection: "row",
-              }}
-            >
+        <View style={views.defaultView}>
+          <View style={views.rowSpaceBetween}>
+            <View style={views.rowSpaceBetween}>
               <Image
                 style={styles.image}
                 source={{
@@ -114,21 +107,21 @@ export default function BuyScreen(props) {
                 }}
               />
 
-              <View style={styles.stockNameView}>
-                <Text style={styles.stockName}>{props.route.params.name}</Text>
-                <Text style={styles.stockTicker}>
+              <View style={views.center}>
+                <Text style={texts.white13}>{props.route.params.name}</Text>
+                <Text style={texts.stockTicker}>
                   {props.route.params.ticker}-{props.route.params.country}
                 </Text>
               </View>
             </View>
 
-            <View style={styles.priceContainer}>
-              <Text style={styles.price}>
+            <View style={views.center}>
+              <Text style={texts.price}>
                 {props.route.params.currency}
                 {price}
               </Text>
 
-              <Text style={styles[props.route.params.color]}>
+              <Text style={texts[props.route.params.color]}>
                 {props.route.params.priceChange}
                 {"("}
                 {params.percentage.toFixed(2)}%{")"}
@@ -138,14 +131,14 @@ export default function BuyScreen(props) {
         </View>
         {buyOrSell()}
 
-        <View style={styles.defaultView}>
-          <View style={styles.sliderText}>
-            <Text style={styles.yourShares}>Amount of shares</Text>
-            <Text style={styles.amountOfShares}>{count}</Text>
+        <View style={views.defaultView}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white15}>Amount of shares:</Text>
+            <Text style={texts.amountOfShares}>{count}</Text>
           </View>
 
           <Slider
-            style={styles.slider}
+            style={views.slider}
             value={count}
             step={1}
             minimumTrackTintColor={"#ff7f00"}
@@ -159,26 +152,18 @@ export default function BuyScreen(props) {
           ></Slider>
         </View>
 
-        <View style={styles.defaultEndView}>
-          <View style={styles.defaultInnerView}>
-            <Text style={styles.tradeText}>{buyOrSellFor}</Text>
-            <Text style={styles.tradeOrangeText}>
+        <View style={views.defaultEndView}>
+          <View style={views.rowSpaceBetween}>
+            <Text style={texts.white15}>{buyOrSellFor}</Text>
+            <Text style={texts.tradeOrangeText}>
               {" "}
               £{(count.toFixed(0) * price).toFixed(2)}
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginRight: 15,
-            marginLeft: 15,
-            marginTop: 20,
-          }}
-        >
+        <View style={views.twoButtons}>
           <Button
-            style={styles.tradeReviewButton}
+            style={buttons.orangeFill}
             onPress={() => {
               if (count != 0) {
                 let total = count * price;
@@ -201,19 +186,19 @@ export default function BuyScreen(props) {
               }
             }}
           >
-            <Text style={styles.buttonText}>Review Order</Text>
+            <Text style={texts.buttonText}>Review Order</Text>
           </Button>
           <Button
-            style={styles.tradeCancleButton}
+            style={buttons.noFill}
             onPress={() => {
               props.navigation.goBack();
             }}
           >
-            <Text style={styles.orangeButtonText}>Cancel</Text>
+            <Text style={texts.orangeButtonText}>Cancel</Text>
           </Button>
         </View>
       </ScrollView>
-      <View style={styles.footer}></View>
+      <View style={views.footer}></View>
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
