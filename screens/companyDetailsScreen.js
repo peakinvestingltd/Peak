@@ -354,8 +354,37 @@ export default class DetailsScreen extends React.Component {
       );
       const lineLength = properties.getTotalLength();
       const { x } = this.state;
+      const translateX = x.interpolate({
+        inputRange: [-20, lineLength + 25],
+        outputRange: [width - 100, 40],
+      });
       return (
         <View style={styles.chartContainer}>
+          <View
+            style={{
+              height: 40,
+              width: 100,
+              flexDirection: "row",
+              justifyContent: "center",
+              position: "absolute",
+              right: 0,
+            }}
+          >
+            <View
+              style={{
+                width: 100,
+                height: 40,
+                backgroundColor: "black",
+                opacity: 0.2,
+                borderRadius: 10,
+                position: "absolute",
+              }}
+            />
+            <TextInput
+              style={texts.orangeRowCenter}
+              ref={this.label}
+            ></TextInput>
+          </View>
           <View
             style={{
               width,
@@ -391,7 +420,7 @@ export default class DetailsScreen extends React.Component {
                   justifyContent: "flex-end",
                 }}
               >
-                <View
+                {/* <View
                   style={{
                     width: "100%",
                     height: 40,
@@ -401,25 +430,24 @@ export default class DetailsScreen extends React.Component {
                     opacity: 0.2,
                     borderRadius: 10,
                   }}
-                />
-                <View
+                /> */}
+                {/* <View
                   style={{
                     height: 35,
                     width: "100%",
                     marginBottom: 0,
-
                     opacity: 1,
                   }}
-                >
-                  <TextInput
+                > */}
+                {/* <TextInput
                     style={{
                       color: "white",
                       alignSelf: "center",
                       marginBottom: 10,
                     }}
                     ref={this.label}
-                  ></TextInput>
-                </View>
+                  ></TextInput> */}
+                {/* </View> */}
                 <View
                   style={{
                     width: "100%",

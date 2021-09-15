@@ -15,7 +15,7 @@ import {
 import Header from "../../components/header";
 import navBar from "../../components/navBar";
 import { user } from "../../components/Firebase/firebase";
-import { styles } from "../../css/styles.js";
+import { styles, views, texts, buttons } from "../../css/styles.js";
 import * as firebase from "firebase";
 import "firebase/database";
 import { TouchableOpacity } from "react-native";
@@ -57,16 +57,8 @@ export default function PortfolioScreen(props) {
   const setStyle = (num) => {
     const dif = num.priceDif;
 
-    const green = {
-      color: "#1D9440",
-      marginLeft: 10,
-      fontSize: 20,
-    };
-    const red = {
-      color: "#d20c0d",
-      marginLeft: 10,
-      fontSize: 20,
-    };
+    const green = texts.green20;
+    const red = texts.red20;
     if (dif >= 0) {
       return green;
     } else {
@@ -176,143 +168,6 @@ export default function PortfolioScreen(props) {
     });
   }
 
-  const investmentCards = () => {
-    return newStock.map((item, index) => {
-      let profit = (item.currentPrice * item.amount - item.investment).toFixed(
-        2
-      );
-      let returnStyle = {};
-      if (profit > 0) {
-        returnStyle = {
-          alignSelf: "center",
-          color: "white",
-          fontSize: 16,
-          fontWeight: "bold",
-          color: "#1D9440",
-        };
-      } else {
-        returnStyle = {
-          alignSelf: "center",
-          color: "white",
-          fontSize: 16,
-          fontWeight: "bold",
-          color: "#d20c0d",
-        };
-      }
-      return (
-        <View style={styles.defaultCard} key={index}>
-          <View
-            style={{
-              flexDirection: "row",
-              height: 60,
-            }}
-          >
-            <Image
-              style={styles.image}
-              source={{
-                uri: item.logo,
-              }}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                height: 60,
-                width: screenWidth - 90,
-              }}
-            >
-              <View
-                style={{
-                  justifyContent: "center",
-                  width: (screenWidth - 200) / 3,
-                }}
-              >
-                <Text
-                  style={{ color: "white", fontSize: 12, alignSelf: "center" }}
-                >
-                  Shares
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {item.amount}
-                </Text>
-              </View>
-              <View
-                style={{
-                  width: 1,
-                  height: "75%",
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                }}
-              ></View>
-              <View
-                style={{
-                  justifyContent: "center",
-                  width: (screenWidth - 80) / 3,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 12,
-                    alignSelf: "center",
-                  }}
-                >
-                  invested
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: "center",
-                    color: "white",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  £{item.investment}
-                </Text>
-              </View>
-              <View
-                style={{
-                  width: 1,
-                  height: 50,
-                  backgroundColor: "gray",
-                  alignSelf: "center",
-                }}
-              ></View>
-              <View
-                style={{
-                  justifyContent: "center",
-                  width: (screenWidth - 90) / 3,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    fontSize: 12,
-                    alignSelf: "center",
-                  }}
-                >
-                  Return
-                </Text>
-                <Text style={returnStyle}>
-                  {(item.currentPrice * item.amount - item.investment).toFixed(
-                    2
-                  )}
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      );
-    });
-  };
-
   const stockAmount = () => {
     if (!portfolioStock) {
       return 0;
@@ -321,48 +176,21 @@ export default function PortfolioScreen(props) {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Portfolio</Text>
+          <Text style={texts.pageButtonText}>&lt; Portfolio</Text>
         </Button>
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 5,
-            marginBottom: 5,
-            margin: 10,
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={styles.portfolioInvested}>
+        <View style={views.twoButtons}>
+          <View style={views.portfolioInvested}>
             <View style={{ flexDirection: "column", justifyContent: "center" }}>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 17,
-                  letterSpacing: 0,
-                  alignSelf: "center",
-                }}
-              >
-                Invested
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 25,
-                  alignSelf: "center",
-                  fontWeight: "bold",
-                  letterSpacing: 2,
-                }}
-              >
-                £{totalStockInvested}
-              </Text>
+              <Text style={texts.white15Center}>Invested</Text>
+              <Text style={texts.white25Center}>£{totalStockInvested}</Text>
             </View>
           </View>
           <View
@@ -376,52 +204,15 @@ export default function PortfolioScreen(props) {
             }}
           >
             <View style={{ flexDirection: "column", justifyContent: "center" }}>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 17,
-                  letterSpacing: 0,
-                  alignSelf: "center",
-                }}
-              >
-                Return
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 25,
-                  alignSelf: "center",
-                  fontWeight: "bold",
-                  letterSpacing: 2,
-                }}
-              >
-                £{totalStockReturn}
-              </Text>
+              <Text style={texts.white15Center}>Return</Text>
+              <Text style={texts.white25Center}>£{totalStockReturn}</Text>
             </View>
           </View>
         </View>
-
-        <View style={styles.backgroundCard}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 14,
-              margin: 5,
-              fontWeight: "bold",
-              marginLeft: 15,
-            }}
-          >
-            Voting
-          </Text>
-          <Text
-            style={{
-              color: "white",
-              fontSize: 13,
-              margin: 5,
-              marginLeft: 15,
-              opacity: 0.75,
-            }}
-          >
+        <View style={{ height: 10 }} />
+        <View style={views.card}>
+          <Text style={texts.infoText}>Voting</Text>
+          <Text style={texts.infoText}>
             Have your say and vote on important matters within the businesses
             you own shares in.
           </Text>
@@ -430,7 +221,7 @@ export default function PortfolioScreen(props) {
               color: "white",
               fontSize: 15,
               marginBottom: 10,
-              marginLeft: 15,
+              marginLeft: 10,
             }}
           >
             You have <Text style={{ color: "#ff7f00" }}>0</Text> votes
@@ -447,133 +238,40 @@ export default function PortfolioScreen(props) {
                 });
               }}
             >
-              <View style={styles.backgroundSmallCardx3}>
-                <Text
-                  style={{
-                    color: "white",
-                    marginTop: 8,
-                    fontWeight: "bold",
-                    marginLeft: 12,
-                  }}
-                >
-                  Stock
-                </Text>
-                <Text
-                  style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}
-                >
-                  {stockAmount()}
-                </Text>
-                <Text
-                  style={{
-                    color: "white",
-                    marginLeft: 10,
-                    fontSize: 12,
-                    opacity: 0.6,
-                  }}
-                >
-                  Invested
-                </Text>
-                <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                  £{totalStockInvested}
-                </Text>
-                <Text
-                  style={{
-                    color: "white",
-                    marginLeft: 10,
-                    fontSize: 12,
-                    opacity: 0.6,
-                  }}
-                >
-                  Return
-                </Text>
-                <Text style={setStyle(totalStockReturn)}>
-                  £{totalStockReturn}
-                </Text>
+              <View style={views.backgroundSmallCardx3}>
+                <View style={{ padding: 10 }}>
+                  <Text style={texts.white13}>Stock</Text>
+                  <Text style={texts.orange20}>{stockAmount()}</Text>
+                  <Text style={texts.faded12}>Invested</Text>
+                  <Text style={texts.white20}>£{totalStockInvested}</Text>
+                  <Text style={texts.faded12}>Return</Text>
+                  <Text style={setStyle(totalStockReturn)}>
+                    £{totalStockReturn}
+                  </Text>
+                </View>
               </View>
             </TouchableOpacity>
 
-            <View style={styles.backgroundSmallCardx3}>
-              <Text
-                style={{
-                  color: "white",
-                  marginTop: 8,
-                  fontWeight: "bold",
-                  marginLeft: 12,
-                }}
-              >
-                Funds
-              </Text>
-              <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
-                0
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  marginLeft: 10,
-                  fontSize: 12,
-                  opacity: 0.6,
-                }}
-              >
-                Invested
-              </Text>
-              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  marginLeft: 10,
-                  fontSize: 12,
-                  opacity: 0.6,
-                }}
-              >
-                Return
-              </Text>
-              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0
-              </Text>
+            <View style={views.backgroundSmallCardx3}>
+              <View style={{ padding: 10 }}>
+                <Text style={texts.white13}>Funds</Text>
+                <Text style={texts.orange20}>0</Text>
+                <Text style={texts.faded12}>Invested</Text>
+                <Text style={texts.white20}>£0</Text>
+                <Text style={texts.faded12}>Return</Text>
+                <Text style={texts.white20}>£0</Text>
+              </View>
             </View>
 
-            <View style={styles.backgroundSmallCardx3}>
-              <Text
-                style={{
-                  color: "white",
-                  marginTop: 8,
-                  fontWeight: "bold",
-                  marginLeft: 12,
-                }}
-              >
-                ETFs
-              </Text>
-              <Text style={{ color: "#ff7f00", marginLeft: 10, fontSize: 20 }}>
-                0
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  marginLeft: 10,
-                  fontSize: 12,
-                  opacity: 0.6,
-                }}
-              >
-                Invested
-              </Text>
-              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0
-              </Text>
-              <Text
-                style={{
-                  color: "white",
-                  marginLeft: 10,
-                  fontSize: 12,
-                  opacity: 0.6,
-                }}
-              >
-                Return
-              </Text>
-              <Text style={{ color: "white", marginLeft: 10, fontSize: 20 }}>
-                £0
-              </Text>
+            <View style={views.backgroundSmallCardx3}>
+              <View style={{ padding: 10 }}>
+                <Text style={texts.white13}>ETFs</Text>
+                <Text style={texts.orange20}>0</Text>
+                <Text style={texts.faded12}>Invested</Text>
+                <Text style={texts.white20}>£0</Text>
+                <Text style={texts.faded12}>Return</Text>
+                <Text style={texts.white20}>£0</Text>
+              </View>
             </View>
           </View>
           <View style={{ width: 10 }} />

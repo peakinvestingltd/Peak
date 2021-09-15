@@ -27,7 +27,7 @@ const navBarColor = "black";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
-import { styles } from "../../css/styles.js";
+import { views, texts, buttons } from "../../css/styles.js";
 import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 
@@ -45,11 +45,11 @@ export default function SearchScreen(props) {
           });
         }}
       >
-        <View style={styles.infoSection}>
-          <View style={styles.innerCardView}>
-            <Text style={styles.infoTopText}>{catagory}</Text>
+        <View style={views.centerSection}>
+          <View style={views.columCenter}>
+            <Text style={texts.white15}>{catagory}</Text>
           </View>
-          <View style={styles.innerCardView}>
+          <View style={views.columCenter}>
             <EvilIcons name="chevron-right" size={40} color="white" />
           </View>
         </View>
@@ -57,14 +57,14 @@ export default function SearchScreen(props) {
     );
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Search </Text>
+          <Text style={texts.pageButtonText}>&lt; Search </Text>
         </Button>
 
         <TouchableOpacity
@@ -80,11 +80,11 @@ export default function SearchScreen(props) {
             });
           }}
         >
-          <View style={styles.cardTop}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}>Communication Services</Text>
+          <View style={views.cardTop}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}>Communication Services</Text>
             </View>
-            <View style={styles.innerCardView}>
+            <View style={views.columCenter}>
               <EvilIcons name="chevron-right" size={40} color="white" />
             </View>
           </View>
@@ -117,11 +117,11 @@ export default function SearchScreen(props) {
             });
           }}
         >
-          <View style={styles.infoCardBottom}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}>Utilities</Text>
+          <View style={views.bottomSection}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}>Utilities</Text>
             </View>
-            <View style={styles.innerCardView}>
+            <View style={views.columCenter}>
               <EvilIcons name="chevron-right" size={40} color="white" />
             </View>
           </View>
