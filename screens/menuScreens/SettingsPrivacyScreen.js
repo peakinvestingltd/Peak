@@ -37,7 +37,7 @@ import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import useStatusBar from "../../hooks/useStatusBar";
 import { ListItem, Avatar, Icon } from "react-native-elements";
-import { styles } from "../../css/styles.js";
+import { views, buttons, texts, styles, inputs } from "../../css/styles.js";
 
 export default function SettingPrivacyScreen(props) {
   const [privacy, setPrivacy] = useState(false);
@@ -48,8 +48,11 @@ export default function SettingPrivacyScreen(props) {
   function privacySelected(selected) {
     if (selected) {
       return (
-        <View style={styles.infoContents}>
-          <Text style={styles.infoText}>here</Text>
+        <View>
+          <View style={views.segment}>
+            <Text style={texts.infoText}>here</Text>
+          </View>
+          <View style={{ height: 1, marginBottom: -4 }} />
         </View>
       );
     }
@@ -57,8 +60,8 @@ export default function SettingPrivacyScreen(props) {
   function aboutSelected(selected) {
     if (selected) {
       return (
-        <View style={styles.infoContents}>
-          <Text style={styles.infoText}>here</Text>
+        <View style={views.bottomDropdown}>
+          <Text style={texts.infoText}>here</Text>
         </View>
       );
     }
@@ -66,30 +69,42 @@ export default function SettingPrivacyScreen(props) {
   function passwordSelected(selected) {
     if (selected) {
       return (
-        <View style={styles.infoContents}>
-          <View style={{ marginTop: 20, marginBottom: 20 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter email"
-              onChangeText={(input) => {
-                email = input;
+        <View>
+          <View style={views.segment}>
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                width: "100%",
+                paddingBottom: 10,
               }}
-            ></TextInput>
+            >
+              <View style={{ marginTop: 10, marginBottom: 20 }}>
+                <TextInput
+                  style={inputs.input}
+                  placeholder="Enter email"
+                  onChangeText={(input) => {
+                    email = input;
+                  }}
+                ></TextInput>
+              </View>
+              <Button
+                color="white"
+                uppercase={false}
+                style={buttons.orangeFill}
+                onPress={() => {
+                  passwordReset(email).then((res) => {
+                    console.log(res);
+                  });
+                }}
+              >
+                Reset Password
+              </Button>
+            </View>
+
+            {/* <View style={{ height: 20 }} /> */}
           </View>
-          <Button
-            color="white"
-            uppercase={false}
-            style={styles.orangeFillButton}
-            onPress={() => {
-              console.log(email);
-              passwordReset(email).then((res) => {
-                console.log(res);
-              });
-            }}
-          >
-            Reset Password
-          </Button>
-          <View style={{ height: 20 }} />
+          <View style={{ height: 1, marginBottom: -7 }} />
         </View>
       );
     }
@@ -97,8 +112,11 @@ export default function SettingPrivacyScreen(props) {
   function termsSelected(selected) {
     if (selected) {
       return (
-        <View style={styles.infoContents}>
-          <Text style={styles.infoText}>here</Text>
+        <View>
+          <View style={views.segment}>
+            <Text style={texts.infoText}>here</Text>
+          </View>
+          <View style={{ height: 1, marginBottom: -4 }} />
         </View>
       );
     }
@@ -110,15 +128,22 @@ export default function SettingPrivacyScreen(props) {
       return <EvilIcons name="chevron-right" size={40} color="white" />;
     }
   }
+  function bottowBropDown(selected) {
+    if (selected) {
+      return views.centerSection;
+    } else {
+      return views.bottomSection;
+    }
+  }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Settings and Privacy</Text>
+          <Text style={texts.pageButtonText}>&lt; Settings and Privacy</Text>
         </Button>
 
         <TouchableOpacity
@@ -126,11 +151,11 @@ export default function SettingPrivacyScreen(props) {
             setPassword(!password);
           }}
         >
-          <View style={styles.cardTop}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}>Reset Password</Text>
+          <View style={views.cardTop}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}>Reset Password</Text>
             </View>
-            <View style={styles.innerCardView}>{icon(password)}</View>
+            <View style={views.columCenter}>{icon(password)}</View>
           </View>
         </TouchableOpacity>
         {passwordSelected(password)}
@@ -139,11 +164,11 @@ export default function SettingPrivacyScreen(props) {
             setPrivacy(!privacy);
           }}
         >
-          <View style={styles.infoSection}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}>Privacy Policy</Text>
+          <View style={views.centerSection}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}>Privacy Policy</Text>
             </View>
-            <View style={styles.innerCardView}>{icon(privacy)}</View>
+            <View style={views.columCenter}>{icon(privacy)}</View>
           </View>
         </TouchableOpacity>
         {privacySelected(privacy)}
@@ -152,11 +177,11 @@ export default function SettingPrivacyScreen(props) {
             setTerms(!terms);
           }}
         >
-          <View style={styles.infoSection}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}>Terms &amp; Conditions</Text>
+          <View style={views.centerSection}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}>Terms &amp; Conditions</Text>
             </View>
-            <View style={styles.innerCardView}>{icon(terms)}</View>
+            <View style={views.columCenter}>{icon(terms)}</View>
           </View>
         </TouchableOpacity>
         {termsSelected(terms)}
@@ -165,11 +190,11 @@ export default function SettingPrivacyScreen(props) {
             setAbout(!about);
           }}
         >
-          <View style={styles.infoCardBottom}>
-            <View style={styles.innerCardView}>
-              <Text style={styles.infoTopText}> About Us</Text>
+          <View style={bottowBropDown(about)}>
+            <View style={views.columCenter}>
+              <Text style={texts.white15}> About Us</Text>
             </View>
-            <View style={styles.innerCardView}>{icon(about)}</View>
+            <View style={views.columCenter}>{icon(about)}</View>
           </View>
         </TouchableOpacity>
         {aboutSelected(about)}

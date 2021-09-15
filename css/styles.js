@@ -53,6 +53,10 @@ const views = StyleSheet.create({
     flex: 1,
     backgroundColor: primaryColor,
   },
+  cardDevider: {
+    height: 2,
+    backgroundColor: primaryColor,
+  },
   footer: {
     height: 70,
   },
@@ -156,10 +160,8 @@ const views = StyleSheet.create({
     backgroundColor: secondaryColor,
     marginLeft: 10,
     marginBottom: 10,
-    marginTop: 0,
     marginRight: 10,
     borderRadius: 10,
-    padding: 0,
     shadowColor: secondaryColor,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 1,
@@ -319,6 +321,12 @@ const views = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 15,
   },
+  absoluteEnd: {
+    position: "absolute",
+    right: 10,
+    height: "100%",
+    justifyContent: "center",
+  },
 });
 const buttons = StyleSheet.create({
   titleBack: {
@@ -387,6 +395,36 @@ const buttons = StyleSheet.create({
     textAlign: "center",
     paddingTop: 14,
   },
+  settingsButtonTop: {
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginBottom: 2,
+    marginTop: 5,
+    flexDirection: "column",
+    justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  settingsButton: {
+    height: 50,
+    backgroundColor: secondaryColor,
+    marginBottom: 2,
+    justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  settingsButtonBottom: {
+    height: 50,
+    backgroundColor: secondaryColor,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    flexDirection: "column",
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+  },
 });
 const texts = StyleSheet.create({
   white13: {
@@ -421,6 +459,13 @@ const texts = StyleSheet.create({
     fontSize: 30,
     color: "white",
     fontFamily: font,
+  },
+  gray: {
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft: 15,
+    marginBottom: 10,
+    color: gray,
   },
   chartTextButton: {
     color: "white",
@@ -506,6 +551,26 @@ const texts = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "flex-end",
     fontFamily: font,
+  },
+  center: {
+    fontSize: 14,
+    fontFamily: font,
+    color: "gray",
+    textAlign: "center",
+    alignSelf: "center",
+    margin: 5,
+  },
+});
+const inputs = StyleSheet.create({
+  input: {
+    width: screenWidth - 80,
+    height: 40,
+    backgroundColor: "lightgray",
+    marginTop: 8,
+    marginBottom: 0,
+    alignSelf: "center",
+    padding: 7,
+    borderRadius: 10,
   },
 });
 const styles = StyleSheet.create({
@@ -957,7 +1022,7 @@ const styles = StyleSheet.create({
   input: {
     width: screenWidth - 80,
     height: 40,
-    backgroundColor: "lightgray",
+    backgroundColor: "pink",
     marginTop: 8,
     marginBottom: 0,
     alignSelf: "center",
@@ -1082,43 +1147,45 @@ const styles = StyleSheet.create({
   menuEmail: {
     fontSize: 14,
     fontFamily: font,
-    color: "gray",
+    color: "red",
     textAlign: "center",
     fontWeight: "100",
     alignSelf: "center",
   },
   settingsButton: {
-    width: "100%",
     height: 50,
-    backgroundColor: secondaryColor,
+    backgroundColor: "red",
     marginBottom: 2,
     justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
   },
   settingsButtonTop: {
-    width: "100%",
     height: 50,
-    backgroundColor: secondaryColor,
+    backgroundColor: "red",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginBottom: 2,
     marginTop: 5,
     flexDirection: "column",
     justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10,
   },
   settingsButtonBottom: {
-    width: "100%",
     height: 50,
-    backgroundColor: secondaryColor,
+    backgroundColor: "red",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     flexDirection: "column",
     marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
   },
   settingsCard: {
     marginLeft: 20,
-    borderRadius: 10,
     marginRight: 20,
-    marginTop: 0,
+    backgroundColor: "red",
   },
   buttonTextSettings: {
     color: "white",
@@ -1146,12 +1213,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 15,
     marginBottom: 10,
-    color: gray,
+    color: "red",
   },
   cardDevider: {
-    width: "100%",
     height: 2,
-    backgroundColor: primaryColor,
+    backgroundColor: "red",
   },
   cardHistory: {
     backgroundColor: secondaryColor,
@@ -1160,15 +1226,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 10,
     borderRadius: 10,
-    padding: 0,
-    shadowColor: secondaryColor,
+    shadowColor: "red",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 4,
-  },
-  historyName: {
-    fontSize: 19,
-    color: "white",
   },
   historyAction: {
     fontSize: 10,
@@ -1180,14 +1241,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     height: "100%",
-
     justifyContent: "center",
+    backgroundColor: "red",
   },
-  historyValue: {
-    fontWeight: "100",
-    fontSize: 22,
-    color: "white",
-  },
+
   //------companyScreen------------
 
   priceInfo: {
@@ -1468,4 +1525,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { styles, buttons, views, texts, images };
+export { styles, buttons, views, texts, images, inputs };

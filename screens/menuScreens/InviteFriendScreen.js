@@ -26,21 +26,20 @@ import navBar from "../../components/navBar";
 const navBarColor = "black";
 
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { styles, views, texts, buttons, images } from "../../css/styles.js";
 
 export default function InviteFriendsScreen(props) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Invite Friends</Text>
+          <Text style={texts.pageButtonText}>&lt; Invite Friends</Text>
         </Button>
       </ScrollView>
-
       {navBar(props, props.route.params.funds)}
     </SafeAreaView>
   );
