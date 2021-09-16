@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { views, buttons, texts, images, inputs } from "../../css/styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Logo from "../../assets/Peak-App-Logo.svg";
 import { registerWithEmail } from "../../components/Firebase/firebase";
@@ -27,8 +27,8 @@ export default function RegisterScreen2(props) {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [registerError, setRegisterError] = useState("");
-  const [emailStyle, setEmailStyle] = useState(styles.noWarning);
-  const [passwordStyle, setPasswordStyle] = useState(styles.noWarning);
+  const [emailStyle, setEmailStyle] = useState(texts.noWarning);
+  const [passwordStyle, setPasswordStyle] = useState(texts.noWarning);
   const [passwordMessage, setPasswordMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -41,40 +41,38 @@ export default function RegisterScreen2(props) {
       });
     } catch (error) {
       setErrorMessage(error.message);
-      setEmailStyle(styles.warning);
+      setEmailStyle(texts.warning);
     }
   }
 
   function nextButtonPressed() {
     if (!password) {
       setPasswordMessage("* Password must be filled in");
-      setPasswordStyle(styles.warning);
+      setPasswordStyle(texts.warning);
     } else {
     }
     if (!email) {
       setErrorMessage("* Email must be filled in");
-      setEmailStyle(styles.warning);
+      setEmailStyle(texts.warning);
     }
     let re = /^(?=.*\d)(?=.*[!-@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     if (re.test(password)) {
       if (password === password2) {
         handleSubmit(email, password);
-        console.log("passed");
       } else {
-        console.log("fail");
         setPasswordMessage("* Passwords do not match");
-        setPasswordStyle(styles.warning);
+        setPasswordStyle(texts.warning);
       }
     } else if (password) {
       setPasswordMessage(
         "* password must be at least 8 characters long and contain 1 upper + lower case letter a number and a special character"
       );
-      setPasswordStyle(styles.warning);
+      setPasswordStyle(texts.warning);
     }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -85,56 +83,51 @@ export default function RegisterScreen2(props) {
         <View>
           <View>
             <Image
-              style={styles.logoStyle1}
+              style={images.peakLogoSignup}
               source={require("../../assets/newLogo.png")}
             />
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "40%",
-                marginTop: -12,
-                marginBottom: 0,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup2}
               source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
 
         <View>
-          <View style={styles.loadBar}>
-            <View style={styles.loadBar2Compleated}></View>
+          <View style={views.loadBar}>
+            <View style={views.loadBar2Compleated}></View>
           </View>
-          <View style={styles.signupCard}>
-            <Text style={styles.head1}>
-              Sign Up <Text style={styles.head2}>| Step 1 of 5</Text>
-            </Text>
+          <View style={views.card}>
+            <View style={views.innerMargin}>
+              <Text style={texts.white25}>
+                Sign Up <Text style={texts.white20}>| Step 1 of 5</Text>
+              </Text>
+            </View>
 
             <TextInput
-              style={styles.input}
+              style={inputs.input}
               placeholder="Email *"
               keyboardType="email-address"
               onChangeText={(val) => setEmail(val)}
             ></TextInput>
             <Text style={emailStyle}>{errorMessage}</Text>
             <TextInput
-              style={styles.input}
+              style={inputs.input}
               placeholder="Mobile Number"
               keyboardType="phone-pad"
               onChangeText={(val) => setPhone(val)}
             ></TextInput>
 
-            <Text style={styles.noWarning}>.</Text>
+            <Text style={texts.noWarning}>.</Text>
             <TextInput
-              style={styles.input}
+              style={inputs.input}
               placeholder="Password *"
               secureTextEntry={true}
               onChangeText={(val) => setPassword(val)}
             ></TextInput>
-            <Text style={styles.noWarning}>.</Text>
+            <Text style={texts.noWarning}>.</Text>
             <TextInput
-              style={styles.input}
+              style={inputs.input}
               placeholder="Confirm Password *"
               secureTextEntry={true}
               onChangeText={(val) => setPassword2(val)}
@@ -145,33 +138,34 @@ export default function RegisterScreen2(props) {
 
         <View
           style={{
-            marginBottom: 20,
+            marginBottom: 10,
           }}
         >
           <Button
-            style={styles.buttonReg}
+            style={buttons.orangeFill}
             title="Next"
             onPress={() => {
               nextButtonPressed();
             }}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={texts.white13}>Next</Text>
           </Button>
           <View
             style={{
               justifyContent: "center",
               flexDirection: "row",
               marginBottom: 10,
+              marginTop: 10,
             }}
           >
             <Text
-              style={styles.bottomSubText}
+              style={texts.white13}
               onPress={() => {
                 props.navigation.navigate("Welcome");
               }}
             >
               Already have an account?{" "}
-              <Text style={{ color: "#ff7f00" }}>Sign In</Text>
+              <Text style={texts.orange15}>Sign In</Text>
             </Text>
           </View>
         </View>

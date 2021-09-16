@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { views, texts, images, inputs, buttons } from "../../css/styles.js";
 import Logo from "../../assets/Peak-App-Logo.svg";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
@@ -38,9 +38,9 @@ export default function RegisterScreen3(props) {
     { label: "Female", value: "Female" },
     { label: "Prefer not to say", value: "n/a" },
   ]);
-  const [nationalityStyle, setNationalityStyle] = useState(styles.noWarning);
-  const [genderStyle, setGenderStyle] = useState(styles.noWarning);
-  const [ageStyle, setAgeStyle] = useState(styles.noWarning);
+  const [nationalityStyle, setNationalityStyle] = useState(texts.noWarning);
+  const [genderStyle, setGenderStyle] = useState(texts.noWarning);
+  const [ageStyle, setAgeStyle] = useState(texts.noWarning);
   const [datePlaceHolder, setDatePlaceHolder] = useState(
     "Select your date of birth"
   );
@@ -53,7 +53,7 @@ export default function RegisterScreen3(props) {
     if (dob.getTime() <= minAgeMil) {
       return true;
     } else {
-      setAgeStyle(styles.warning);
+      setAgeStyle(texts.warning);
       return false;
     }
   }
@@ -75,10 +75,10 @@ export default function RegisterScreen3(props) {
       props.navigation.navigate("Register5");
     } else {
       if (!value) {
-        setGenderStyle(styles.warning);
+        setGenderStyle(texts.warning);
       }
       if (!nationality) {
-        setNationalityStyle(styles.warning);
+        setNationalityStyle(texts.warning);
       }
     }
   }
@@ -108,46 +108,35 @@ export default function RegisterScreen3(props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <ScrollView>
         <View>
           <View>
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "33%",
-                marginTop: 40,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup}
               source={require("../../assets/newLogo.png")}
             />
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "50%",
-
-                marginBottom: 0,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup2}
               source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
 
-        <View style={styles.loadBar}>
-          <View style={styles.loadBar4Compleated}></View>
+        <View style={views.loadBar}>
+          <View style={views.loadBar4Compleated}></View>
         </View>
-        <View style={styles.signupCard}>
-          <Text style={styles.head1}>
-            Sign Up <Text style={styles.head2}>| Step 4 of 5</Text>
-          </Text>
+        <View style={views.card}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white20}>
+              Sign Up | <Text style={texts.white15}>Step 4 of 5</Text>
+            </Text>
+          </View>
 
           <Button
             style={{
-              width: screenWidth - 80,
-              height: 40,
+              width: screenWidth - 60,
+              height: 35,
               backgroundColor: "lightgray",
               marginTop: 8,
               marginBottom: 0,
@@ -194,28 +183,29 @@ export default function RegisterScreen3(props) {
             setValue={setValue}
             setItems={setItems}
             setOpen={setOpen}
-            style={styles.input}
+            style={inputs.input}
             placeholder={"Select Your Gender"}
           />
           <Text style={genderStyle}>* Please select your gender</Text>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="Nationality"
             onChangeText={(val) => setNationality(val)}
           ></TextInput>
           <Text style={nationalityStyle}>
             * Please fill in your nationality
           </Text>
+          <View style={{ height: 10 }} />
 
           <Button
-            style={styles.buttonReg}
+            style={buttons.orangeFill}
             title="Next"
             onPress={() => {
               nextButtonPressed();
             }}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={texts.buttonText}>Next</Text>
           </Button>
           <View
             style={{

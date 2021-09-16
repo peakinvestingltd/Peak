@@ -37,7 +37,6 @@ export default function Routes() {
   if (user) {
     return (
       <View style={{ height: ScreenHeight, width: ScreenWidth }}>
-        {/* {header()} */}
         <Main />
       </View>
     );

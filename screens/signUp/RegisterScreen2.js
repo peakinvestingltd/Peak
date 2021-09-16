@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { IconButton, Colors, Button } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { views, texts, images, inputs, buttons } from "../../css/styles.js";
 import DropDownPicker from "react-native-dropdown-picker";
 import Logo from "../../assets/Peak-App-Logo.svg";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
@@ -35,14 +35,15 @@ export default function RegisterScreen2(props) {
     { label: "Dr", value: "Dr" },
   ]);
 
-  const [firstStyle, setFirstStyle] = useState(styles.noWarning);
-  const [lastStyle, setLastStyle] = useState(styles.noWarning);
-  const [titleStyle, setTitleStyle] = useState(styles.noWarning);
+  const [firstStyle, setFirstStyle] = useState(texts.noWarning);
+  const [lastStyle, setLastStyle] = useState(texts.noWarning);
+  const [titleStyle, setTitleStyle] = useState(texts.noWarning);
 
   function nextButtonPressed() {
     if (value && firstName && lastName) {
+      console.log("trigger firebaqse");
       firebase.auth().onAuthStateChanged((user) => {
-        console.log(user);
+        console.log(user.uid);
         db.collection("users")
           .doc(user.uid)
           .collection("userInfo")
@@ -53,25 +54,24 @@ export default function RegisterScreen2(props) {
             middleName: middleName,
             lastName: lastName,
             signUp: 3,
-            phoneNumber: props.route.params.phone,
           });
       });
       props.navigation.navigate("Register3");
     } else {
       if (!value) {
-        setTitleStyle(styles.warning);
+        setTitleStyle(texts.warning);
       }
       if (!firstName) {
-        setFirstStyle(styles.warning);
+        setFirstStyle(texts.warning);
       }
       if (!lastName) {
-        setLastStyle(styles.warning);
+        setLastStyle(texts.warning);
       }
     }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -82,23 +82,25 @@ export default function RegisterScreen2(props) {
         <View>
           <View>
             <Image
-              style={styles.logoStyle1}
+              style={images.peakLogoSignup}
               source={require("../../assets/newLogo.png")}
             />
             <Image
-              style={styles.logoStyle2}
+              style={images.peakLogoSignup2}
               source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
 
-        <View style={styles.loadBar}>
-          <View style={styles.loadBar2Compleated}></View>
+        <View style={views.loadBar}>
+          <View style={views.loadBar2Compleated}></View>
         </View>
-        <View style={styles.signupCard}>
-          <Text style={styles.head1}>
-            Sign Up <Text style={styles.head2}>| Step 1 of 4</Text>
-          </Text>
+        <View style={views.card}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white20}>
+              Sign Up | <Text style={texts.white15}>Step 2 of 5</Text>
+            </Text>
+          </View>
 
           <DropDownPicker
             open={open}
@@ -107,28 +109,29 @@ export default function RegisterScreen2(props) {
             setValue={setValue}
             setItems={setItems}
             setOpen={setOpen}
-            style={styles.input}
+            style={inputs.input}
             placeholder={"Select Your Title"}
           />
           <Text style={titleStyle}>please select your title</Text>
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="First Name*"
             onChangeText={(val) => setFirstName(val)}
           ></TextInput>
           <Text style={firstStyle}>please fill in your first name</Text>
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="Middle Name (optional)"
             onChangeText={(val) => setMiddleName(val)}
           ></TextInput>
-          <Text style={styles.warning}></Text>
+          <Text style={texts.warning}></Text>
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="Last Name*"
             onChangeText={(val) => setLastName(val)}
           ></TextInput>
           <Text style={lastStyle}>please fill in your surname</Text>
+          <View style={{ height: 10 }} />
         </View>
         <View
           style={{
@@ -136,13 +139,13 @@ export default function RegisterScreen2(props) {
           }}
         >
           <Button
-            style={styles.buttonReg}
+            style={buttons.orangeFill}
             title="Next"
             onPress={() => {
               nextButtonPressed();
             }}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={texts.buttonText}>Next</Text>
           </Button>
           <View
             style={{

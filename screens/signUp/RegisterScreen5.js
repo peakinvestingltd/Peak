@@ -12,7 +12,7 @@ import {
 import { IconButton, Colors, Button } from "react-native-paper";
 import Logo from "../../assets/Peak-App-Logo.svg";
 import { CheckBox } from "react-native-elements";
-import { styles } from "../../css/styles.js";
+import { views, texts, images, inputs, buttons } from "../../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 import {
@@ -31,7 +31,7 @@ export default function RegisterScreen3(props) {
   const [checked, setChecked] = React.useState(false);
   const [NI, setNI] = useState("");
 
-  const [NIStyle, setNIStyle] = useState(styles.noWarning);
+  const [NIStyle, setNIStyle] = useState(texts.noWarning);
   const [warning, setWarning] = useState(" ");
 
   function nextButtonPressed() {
@@ -59,97 +59,85 @@ export default function RegisterScreen3(props) {
       } else {
         setWarning("* You must accept the terms and conditions");
       }
-      setNIStyle(styles.warning);
+      setNIStyle(texts.warning);
     }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <ScrollView>
         <View>
           <View>
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "33%",
-                marginTop: 40,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup}
               source={require("../../assets/newLogo.png")}
             />
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "50%",
-
-                marginBottom: 0,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup2}
               source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
 
-        <View style={styles.loadBar}>
-          <View style={styles.loadBar5Compleated}></View>
+        <View style={views.loadBar}>
+          <View style={views.loadBar5Compleated}></View>
         </View>
-        <View style={styles.signupCard}>
-          <Text style={styles.head1}>
-            Sign Up <Text style={styles.head2}>| Step 5 of 5</Text>
-          </Text>
+        <View style={views.card}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white20}>
+              Sign Up | <Text style={texts.white15}>Step 5 of 5</Text>
+            </Text>
+          </View>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="NI Number*"
             onChangeText={(val) => setNI(val)}
           ></TextInput>
           <Text style={NIStyle}>{warning}</Text>
           <View style={{ marginLeft: 20, marginRight: 0 }}>
-            <CheckBox
-              Component={TouchableWithoutFeedback}
-              containerStyle={{
-                backgroundColor: "#1B2754",
-                borderColor: "#1B2754",
-              }}
-              checked={checked}
-              checkedColor={"#FF8001"}
-              uncheckedColor={"#FF8001"}
-              title={
-                <Text
-                  style={{
-                    color: "white",
-                    width: "94%",
-                    marginVertical: "2%",
-                  }}
-                >
-                  By signing up you accept the
-                  <Text style={styles.hyperlinkText}>
-                    {" "}
-                    Terms of Service
-                  </Text>{" "}
-                  and
-                  <Text style={styles.hyperlinkText}> Privacy Policy</Text>
-                </Text>
-              }
-              onIconPress={() => {
-                setChecked(!checked);
-              }}
-            />
+            <View style={{ width: ScreenWidth - 60 }}>
+              <CheckBox
+                Component={TouchableWithoutFeedback}
+                containerStyle={{
+                  backgroundColor: "#1B2754",
+                  borderColor: "#1B2754",
+                }}
+                checked={checked}
+                checkedColor={"#FF8001"}
+                uncheckedColor={"#FF8001"}
+                title={
+                  <Text style={texts.white15}>
+                    By signing up you accept the
+                    <Text style={texts.orange15}> Terms of Service</Text> and
+                    <Text style={texts.orange15}> Privacy Policy</Text>
+                  </Text>
+                }
+                onIconPress={() => {
+                  setChecked(!checked);
+                }}
+              />
+            </View>
           </View>
-
+          <View style={{ height: 15 }} />
           <Button
-            style={styles.buttonReg}
+            style={buttons.orangeFill}
             title="Next"
             onPress={() => {
               nextButtonPressed();
             }}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={texts.buttonText}>Next</Text>
           </Button>
-          <View style={{ justifyContent: "center", flexDirection: "row" }}>
-            <Text style={styles.bottomSubText}>
+          <View
+            style={{
+              justifyContent: "center",
+              flexDirection: "row",
+              marginTop: 10,
+              marginBottom: 5,
+            }}
+          >
+            <Text style={texts.white13}>
               Already have an account?{" "}
               <Text style={{ color: "#ff7f00" }}>Sign In</Text>
             </Text>

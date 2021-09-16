@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { styles } from "../../css/styles.js";
+import { styles, views, buttons, images, texts } from "../../css/styles.js";
 import Header from "../../components/header.js";
 import navBar from "../../components/navBar.js";
 import { setStatusBarStyle } from "expo-status-bar";
@@ -26,15 +26,13 @@ export default function OwnedStockScreen(props) {
   let color = null;
   const setStyle = (num) => {
     const dif = num.priceDif;
-    console.log("triggered");
+
     if (dif >= 0) {
-      console.log("green");
       color = "green";
-      return styles.green;
+      return texts.green;
     } else {
-      console.log("red");
       color = "red";
-      return styles.red;
+      return texts.red;
     }
   };
   const investmentCards = () => {
@@ -42,21 +40,17 @@ export default function OwnedStockScreen(props) {
       let profit = (item.currentPrice * item.amount - item.investment).toFixed(
         2
       );
-      let returnStyle = {};
+      let returnStyle;
       if (profit > 0) {
         returnStyle = {
           alignSelf: "center",
-          color: "white",
-          fontSize: 16,
-          fontWeight: "bold",
+          fontSize: 15,
           color: "#1D9440",
         };
       } else {
         returnStyle = {
           alignSelf: "center",
-          color: "white",
-          fontSize: 16,
-          fontWeight: "bold",
+          fontSize: 15,
           color: "#d20c0d",
         };
       }
@@ -149,31 +143,25 @@ export default function OwnedStockScreen(props) {
           }}
         >
           <View style={{ marginBottom: 5 }}>
-            <View style={styles.cardTop}>
-              <View
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                }}
-              >
+            <View style={views.cardTop}>
+              <View style={views.rowSpaceBetween}>
                 <Image
-                  style={styles.image}
+                  style={images.stockImageSmall}
                   source={{
                     uri: item.logo,
                   }}
                 />
 
-                <View style={styles.stockContainer}>
-                  <Text style={styles.stockName}>{item.name}</Text>
-                  <Text style={styles.stockTicker}>
+                <View style={views.center}>
+                  <Text style={texts.white13}>{item.name}</Text>
+                  <Text style={texts.stockTicker}>
                     {item.ticker}-add country
                   </Text>
                 </View>
               </View>
 
-              <View style={styles.stockContainer}>
-                <Text style={styles.price}>£{item.currentPrice}</Text>
+              <View style={views.center}>
+                <Text style={texts.price}>£{item.currentPrice}</Text>
                 <Text style={setStyle(item)}>
                   {item.priceDif}
                   {"("}
@@ -184,15 +172,15 @@ export default function OwnedStockScreen(props) {
             <View
               style={{
                 height: 1,
-                width: screenWidth - 20,
-                marginLeft: 10,
                 marginTop: -4,
               }}
             />
-            <View style={styles.defaultEndView} key={index}>
+            <View style={views.defaultEndView} key={index}>
               <View
                 style={{
                   flexDirection: "row",
+                  marginLeft: -30,
+                  marginRight: -30,
                 }}
               >
                 <View
@@ -221,25 +209,8 @@ export default function OwnedStockScreen(props) {
                         borderRadius: 10,
                       }}
                     />
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 10,
-                        alignSelf: "center",
-                      }}
-                    >
-                      Shares
-                    </Text>
-                    <Text
-                      style={{
-                        alignSelf: "center",
-                        color: "white",
-                        fontSize: 12,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {item.amount}
-                    </Text>
+                    <Text style={texts.white10Center}>Shares</Text>
+                    <Text style={texts.white12Center}>{item.amount}</Text>
                   </View>
 
                   <View
@@ -261,24 +232,8 @@ export default function OwnedStockScreen(props) {
                         borderRadius: 10,
                       }}
                     />
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 10,
-                        alignSelf: "center",
-                      }}
-                    >
-                      invested
-                    </Text>
-                    <Text
-                      style={{
-                        alignSelf: "center",
-                        color: "white",
-                        fontSize: 12,
-                      }}
-                    >
-                      £{item.investment}
-                    </Text>
+                    <Text style={texts.white10Center}>invested</Text>
+                    <Text style={texts.white12Center}>£{item.investment}</Text>
                   </View>
 
                   <View
@@ -300,15 +255,7 @@ export default function OwnedStockScreen(props) {
                         borderRadius: 10,
                       }}
                     />
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 10,
-                        alignSelf: "center",
-                      }}
-                    >
-                      Return
-                    </Text>
+                    <Text style={texts.white10Center}>Return</Text>
                     <Text style={returnStyle}>
                       {(
                         item.currentPrice * item.amount -
@@ -326,20 +273,17 @@ export default function OwnedStockScreen(props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
         <Button
-          style={styles.pageButton}
+          style={buttons.titleBack}
           onPress={() => props.navigation.goBack()}
         >
-          <Text style={styles.pageButtonText}>&lt; Stocks</Text>
+          <Text style={texts.pageButtonText}>&lt; Stocks</Text>
         </Button>
         {investmentCards()}
       </ScrollView>
-
-      <View style={styles.footer}></View>
-
       {navBar(props, props.route.params.funds, "portfolio")}
     </SafeAreaView>
   );

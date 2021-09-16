@@ -460,9 +460,9 @@ export default class DetailsScreen extends React.Component {
                       width: 7,
                       height: 7,
                       borderRadius: cursorRadius,
-                      borderColor: chartColor,
-                      borderWidth: 2,
-                      backgroundColor: chartColor,
+                      borderColor: "#ff7f00",
+                      borderWidth: 3,
+                      backgroundColor: "#ff7f00",
                       alignSelf: "center",
                     }}
                   />

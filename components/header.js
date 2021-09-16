@@ -74,6 +74,13 @@ export default function Header(props) {
       return unselected;
     }
   }
+  function getProgress() {
+    firebase.auth().onAuthStateChanged((user) => {
+      getSignUpProgress(user.uid).then((res) => {
+        setSignUp(res);
+      });
+    });
+  }
   if (!signUp) {
     firebase.auth().onAuthStateChanged((user) => {
       getSignUpProgress(user.uid).then((res) => {
@@ -108,11 +115,13 @@ export default function Header(props) {
     return "10";
   }
   function signUpProgress() {
-    if (signUp) {
+    if (signUp && signUp != "compleat") {
       (signUp - 1) / 5;
       return (
         <TouchableOpacity
           onPress={() => {
+            setHeaderStyle(views.header);
+            setExpanded(false);
             props.navigation.navigate(`Register${signUp}`);
           }}
         >
@@ -301,7 +310,7 @@ export default function Header(props) {
               //   });
               //   // createOrder(token, "2921C", 2);
               // });
-
+              getProgress();
               triggerGetBalance();
               ref.current.animateNextTransition();
               if (headerStyle == views.header) {

@@ -114,7 +114,7 @@ export default function NewScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <ScrollView style={{ marginBottom: 50 }}>
+      <ScrollView>
         <Button
           style={styles.pageButton}
           onPress={() => props.navigation.goBack()}

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Button } from "react-native-paper";
 import Logo from "../../assets/Peak-App-Logo.svg";
-import { styles } from "../../css/styles";
+import { views, texts, images, inputs, buttons } from "../../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 
 //-------------firebase-------------
@@ -25,10 +25,10 @@ export default function RegisterScreen3(props) {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
 
-  const [postStyle, setPostStyle] = useState(styles.noWarning);
-  const [numStyle, setNumStyle] = useState(styles.noWarning);
-  const [addressStyle, setAddressStyle] = useState(styles.noWarning);
-  const [cityStyle, setCityStyle] = useState(styles.noWarning);
+  const [postStyle, setPostStyle] = useState(texts.noWarning);
+  const [numStyle, setNumStyle] = useState(texts.noWarning);
+  const [addressStyle, setAddressStyle] = useState(texts.noWarning);
+  const [cityStyle, setCityStyle] = useState(texts.noWarning);
 
   function nextButtonPressed() {
     if (postcode && address && city && flatNum) {
@@ -48,96 +48,85 @@ export default function RegisterScreen3(props) {
       props.navigation.navigate("Register4");
     } else {
       if (!postcode) {
-        setPostStyle(styles.warning);
+        setPostStyle(texts.warning);
       }
       if (!address) {
-        setAddressStyle(styles.warning);
+        setAddressStyle(texts.warning);
       }
       {
-        setNumStyle(styles.warning);
+        setNumStyle(texts.warning);
       }
       if (!flatNum) {
-        setNumStyle(styles.warning);
+        setNumStyle(texts.warning);
       }
       if (!city) {
-        setCityStyle(styles.warning);
+        setCityStyle(texts.warning);
       }
     }
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={views.container}>
       <ScrollView>
         <View>
           <View>
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "33%",
-                marginTop: 40,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup}
               source={require("../../assets/newLogo.png")}
             />
             <Image
-              style={{
-                height: ScreenWidth / 3,
-                width: "50%",
-
-                marginBottom: 0,
-                alignSelf: "center",
-                resizeMode: "contain",
-              }}
+              style={images.peakLogoSignup2}
               source={require("../../assets/Logotext.png")}
             />
           </View>
         </View>
 
-        <View style={styles.loadBar}>
-          <View style={styles.loadBar3Compleated}></View>
+        <View style={views.loadBar}>
+          <View style={views.loadBar3Compleated}></View>
         </View>
-        <View style={styles.signupCard}>
-          <Text style={styles.head1}>
-            Sign Up <Text style={styles.head2}>| Step 2 of 4</Text>
-          </Text>
+        <View style={views.card}>
+          <View style={views.innerMargin}>
+            <Text style={texts.white20}>
+              Sign Up | <Text style={texts.white15}>Step 2 of 4</Text>
+            </Text>
+          </View>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="Postcode"
             onChangeText={(val) => setPostcode(val)}
           ></TextInput>
           <Text style={postStyle}>please fill in your surname</Text>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder=" Flat Or House Number"
             onChangeText={(val) => setFlatNum(val)}
           ></TextInput>
           <Text style={numStyle}>please fill in your surname</Text>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="Address"
             onChangeText={(val) => setAddress(val)}
           ></TextInput>
           <Text style={addressStyle}>please fill in your surname</Text>
 
           <TextInput
-            style={styles.input}
+            style={inputs.input}
             placeholder="City"
             onChangeText={(val) => setCity(val)}
           ></TextInput>
           <Text style={cityStyle}>please fill in your surname</Text>
-
+          <View style={{ height: 10 }} />
           <Button
-            style={styles.buttonReg}
+            style={buttons.orangeFill}
             title="Next"
             onPress={() => {
               nextButtonPressed();
             }}
           >
-            <Text style={styles.buttonText}>Next</Text>
+            <Text style={texts.buttonText}>Next</Text>
           </Button>
           <View style={{ justifyContent: "center", flexDirection: "row" }}>
             <Button

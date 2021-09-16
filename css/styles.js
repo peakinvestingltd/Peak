@@ -47,6 +47,20 @@ const images = StyleSheet.create({
     margin: 5,
     borderRadius: 25,
   },
+  peakLogoSignup: {
+    height: screenWidth / 4,
+    width: "25%",
+    marginTop: 70,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
+  peakLogoSignup2: {
+    height: screenWidth / 3,
+    width: "40%",
+    marginTop: -12,
+    alignSelf: "center",
+    resizeMode: "contain",
+  },
 });
 const views = StyleSheet.create({
   container: {
@@ -249,6 +263,38 @@ const views = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4,
   },
+  loadBar: {
+    height: 4,
+    width: screenWidth - 80,
+    backgroundColor: "#8d93a3",
+    marginLeft: 40,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  loadBar2Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: (screenWidth - 80) / 5,
+    borderRadius: 50,
+  },
+  loadBar3Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: ((screenWidth - 80) / 5) * 2,
+    borderRadius: 50,
+  },
+  loadBar4Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: ((screenWidth - 80) / 5) * 3,
+    borderRadius: 50,
+  },
+  loadBar5Compleated: {
+    backgroundColor: orange,
+    height: 4,
+    width: screenWidth - 80,
+    borderRadius: 50,
+  },
   slider: {
     marginTop: 10,
     marginLeft: 5,
@@ -448,12 +494,28 @@ const buttons = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  signUp: {
+    width: "100%",
+    height: 42,
+    backgroundColor: "#ff7f00",
+    alignSelf: "center",
+    borderRadius: 10,
+    justifyContent: "center",
+    marginBottom: 10,
+  },
 });
 const texts = StyleSheet.create({
-  white13: {
+  white10Center: {
     color: "white",
-    fontSize: 13,
+    fontSize: 10,
     fontFamily: font,
+    alignSelf: "center",
+  },
+  white12Center: {
+    color: "white",
+    fontSize: 12,
+    fontFamily: font,
+    alignSelf: "center",
   },
   faded12: {
     color: "white",
@@ -461,6 +523,12 @@ const texts = StyleSheet.create({
     marginRight: 15,
     fontSize: 12,
     fontFamily: font,
+  },
+  white13: {
+    color: "white",
+    fontSize: 13,
+    fontFamily: font,
+    textTransform: "none",
   },
   faded15: {
     color: "white",
@@ -474,6 +542,7 @@ const texts = StyleSheet.create({
     fontSize: 15,
     fontFamily: font,
   },
+
   white15Center: {
     color: "white",
     fontSize: 15,
@@ -503,6 +572,12 @@ const texts = StyleSheet.create({
     color: "white",
     fontFamily: font,
   },
+  orange15: {
+    color: "#ff7f00",
+    fontSize: 15,
+    fontFamily: font,
+    textTransform: "none",
+  },
   orange20: {
     color: "#ff7f00",
     fontSize: 20,
@@ -530,6 +605,18 @@ const texts = StyleSheet.create({
     marginLeft: 15,
     marginBottom: 10,
     color: gray,
+  },
+  warning: {
+    color: "#d20c0d",
+    marginTop: 5,
+    fontSize: 14,
+    fontFamily: font,
+    marginLeft: 30,
+  },
+  noWarning: {
+    marginTop: 5,
+    opacity: 0,
+    fontFamily: font,
   },
   chartTextButton: {
     color: "white",
@@ -627,7 +714,7 @@ const texts = StyleSheet.create({
 });
 const inputs = StyleSheet.create({
   input: {
-    width: screenWidth - 80,
+    width: screenWidth - 60,
     height: 40,
     backgroundColor: "lightgray",
     marginTop: 8,
@@ -1055,7 +1142,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: secondaryColor,
     borderRadius: 15,
-    height: 500,
+  },
+  signupCard: {
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: secondaryColor,
+    borderRadius: 15,
   },
   logoStyle1: {
     height: screenWidth / 4,
@@ -1072,12 +1164,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     resizeMode: "contain",
   },
-  signupCard: {
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: secondaryColor,
-    borderRadius: 15,
-  },
+
   topView: {
     width: screenWidth,
     height: 50,
@@ -1119,10 +1206,10 @@ const styles = StyleSheet.create({
   head1: {
     color: "white",
     fontSize: 25,
-    fontWeight: "bold",
-    marginLeft: 20,
-    marginTop: 20,
-    marginBottom: 10,
+    // fontWeight: "bold",
+    // marginLeft: 20,
+    // marginTop: 20,
+    // marginBottom: 10,
   },
   head2: {
     color: "white",
@@ -1164,13 +1251,13 @@ const styles = StyleSheet.create({
     color: "red",
     marginTop: 5,
     fontSize: 14,
-    fontFamily: "Futura",
+    fontFamily: font,
     marginLeft: 20,
   },
   noWarning: {
     marginTop: 5,
     opacity: 0,
-    fontFamily: "Futura",
+    fontFamily: font,
   },
   imageContainer: {
     flex: 1,
