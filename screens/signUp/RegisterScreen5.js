@@ -18,7 +18,7 @@ import { ScreenWidth } from "react-native-elements/dist/helpers";
 import {
   getToken,
   createClient,
-  signUp4,
+  updateSignUp,
   createAccount,
   getUserInfo,
   getUserId,
@@ -32,34 +32,58 @@ export default function RegisterScreen3(props) {
   const [NI, setNI] = useState("");
 
   const [NIStyle, setNIStyle] = useState(texts.noWarning);
-  const [warning, setWarning] = useState(" ");
+  const [checkedStyle, setCheckedStyle] = useState(texts.noWarning);
+  const [niWarning, setNiWarning] = useState(" ");
+  const [checkedWarning, setCheckedWarning] = useState(" ");
 
   function nextButtonPressed() {
     if (NI && checked) {
-      console.log("in step 1");
       getUserId().then((user) => {
-        console.log(user);
-        db.collection("users")
-          .doc(user.uid)
-          .collection("userInfo")
-          .doc("signUp")
-          .update({
-            secclID: id,
-            NI: NI,
-            termsAcepted: checked,
-            signUp: "compleat",
-            GIA: "GIAnum",
+        //   updateSignUp(user, {
+        //     secclID: id,
+        //     NI: NI,
+        //     termsAcepted: checked,
+        //     signUp: "compleat",
+        //     GIA: "GIAnum",
+        //   });
+        getToken().then((token) => {
+          getUserInfo(user.uid).then((res) => {
+            console.log(res.title);
+            console.log(res.firstName);
+            console.log(res.lastName);
+            console.log(res.gender);
+            console.log(res.address);
+            console.log(res.city);
+            console.log(res.country);
+            console.log(res.postcode);
+            console.log(res.dob);
+            console.log(res.nationality);
+            createClient(res, token, user).then((id) => {
+              updateSignUp(user, {
+                secclID: id,
+                NI: NI,
+                termsAcepted: checked,
+                signUp: "compleat",
+              });
+            });
           });
+        });
       });
 
-      props.navigation.navigate("Stock");
+      //  props.navigation.navigate("Stock");
     } else {
       if (!NI) {
-        setWarning("* Please fill in your National Insurance number");
+        setNiWarning("* Please fill in your National Insurance number");
+        setNIStyle(texts.warning);
       } else {
-        setWarning("* You must accept the terms and conditions");
+        setNIStyle(texts.noWarning);
       }
-      setNIStyle(texts.warning);
+      if (!checked) {
+        setCheckedWarning("* You must accept the terms and conditions");
+        setCheckedStyle(texts.warning);
+      } else {
+        setCheckedStyle(texts.noWarning);
+      }
     }
   }
 
@@ -94,7 +118,7 @@ export default function RegisterScreen3(props) {
             placeholder="NI Number*"
             onChangeText={(val) => setNI(val)}
           ></TextInput>
-          <Text style={NIStyle}>{warning}</Text>
+          <Text style={NIStyle}>{niWarning}</Text>
           <View style={{ marginLeft: 20, marginRight: 0 }}>
             <View style={{ width: ScreenWidth - 60 }}>
               <CheckBox
@@ -119,6 +143,7 @@ export default function RegisterScreen3(props) {
               />
             </View>
           </View>
+          <Text style={checkedStyle}>{checkedWarning}</Text>
           <View style={{ height: 15 }} />
           <Button
             style={buttons.orangeFill}

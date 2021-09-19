@@ -249,7 +249,6 @@ export default function Header(props) {
             onPress={() => {
               console.log("deposit");
             }}
-            //  width={screenWidth / 2 - 50}
             style={buttons.orangeFill}
             mode="contained"
           >

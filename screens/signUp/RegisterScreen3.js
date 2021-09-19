@@ -21,7 +21,7 @@ const db = firebase.firestore();
 
 export default function RegisterScreen3(props) {
   const [postcode, setPostcode] = useState("");
-  const [flatNum, setFlatNum] = useState("");
+  const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
 
@@ -31,17 +31,17 @@ export default function RegisterScreen3(props) {
   const [cityStyle, setCityStyle] = useState(texts.noWarning);
 
   function nextButtonPressed() {
-    if (postcode && address && city && flatNum) {
+    if (postcode && address && city && country) {
       firebase.auth().onAuthStateChanged((user) => {
         db.collection("users")
           .doc(user.uid)
           .collection("userInfo")
           .doc("signUp")
           .update({
-            postcode: postcode,
-            flatNumber: flatNum,
-            address: address,
-            city: city,
+            postcode,
+            country,
+            address,
+            city,
             signUp: 4,
           });
       });
@@ -96,28 +96,28 @@ export default function RegisterScreen3(props) {
             placeholder="Postcode"
             onChangeText={(val) => setPostcode(val)}
           ></TextInput>
-          <Text style={postStyle}>please fill in your surname</Text>
+          <Text style={postStyle}>please fill in your postcode</Text>
 
           <TextInput
             style={inputs.input}
-            placeholder=" Flat Or House Number"
-            onChangeText={(val) => setFlatNum(val)}
-          ></TextInput>
-          <Text style={numStyle}>please fill in your surname</Text>
-
-          <TextInput
-            style={inputs.input}
-            placeholder="Address"
+            placeholder="Enter Address"
             onChangeText={(val) => setAddress(val)}
           ></TextInput>
-          <Text style={addressStyle}>please fill in your surname</Text>
+          <Text style={numStyle}>please fill in your Adress</Text>
 
           <TextInput
             style={inputs.input}
             placeholder="City"
             onChangeText={(val) => setCity(val)}
           ></TextInput>
-          <Text style={cityStyle}>please fill in your surname</Text>
+          <Text style={addressStyle}>please fill in your City</Text>
+
+          <TextInput
+            style={inputs.input}
+            placeholder="Country"
+            onChangeText={(val) => setCountry(val)}
+          ></TextInput>
+          <Text style={cityStyle}>please fill in your Country</Text>
           <View style={{ height: 10 }} />
           <Button
             style={buttons.orangeFill}

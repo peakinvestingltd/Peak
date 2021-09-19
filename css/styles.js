@@ -10,6 +10,8 @@ const gray = "#8d93a3";
 const red = "#d20c0d";
 const green = "#1D9440";
 
+const radius = 15;
+
 // const darkBlue = "whitesmoke";
 // const lightBlue = "gray";
 // const cardBlue = "white";
@@ -76,8 +78,8 @@ const views = StyleSheet.create({
   },
   header: {
     backgroundColor: lightBlue,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: radius,
+    borderBottomLeftRadius: radius,
     shadowColor: primaryColor,
     shadowOffset: { width: 10, height: 10 },
     shadowOpacity: 1,
@@ -93,8 +95,8 @@ const views = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: lightBlue,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: radius,
+    borderBottomLeftRadius: radius,
     shadowColor: secondaryColor,
     shadowOffset: { width: 10, height: 10 },
     shadowOpacity: 1,
@@ -118,7 +120,7 @@ const views = StyleSheet.create({
     backgroundColor: orange,
     justifyContent: "center",
     flexDirection: "row",
-    borderRadius: 10,
+    borderRadius: radius,
     margin: 5,
     marginTop: 10,
   },
@@ -151,8 +153,8 @@ const views = StyleSheet.create({
     marginRight: 10,
     height: 50,
     backgroundColor: secondaryColor,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: radius,
+    borderBottomRightRadius: radius,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -160,8 +162,8 @@ const views = StyleSheet.create({
     backgroundColor: lightBlue,
     marginLeft: 10,
     marginRight: 10,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: radius,
+    borderBottomRightRadius: radius,
   },
   twoButtons: {
     flexDirection: "row",
@@ -175,7 +177,7 @@ const views = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 10,
     marginRight: 10,
-    borderRadius: 10,
+    borderRadius: radius,
     shadowColor: secondaryColor,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 1,

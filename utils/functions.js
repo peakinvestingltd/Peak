@@ -528,18 +528,12 @@ const portfolioChart = () => {
     getHistory(user.uid).then((arr) => {});
   });
 };
-async function signUp4(id, NI, terms, user, account) {
+async function updateSignUp(obj, user) {
   db.collection("users")
     .doc(user.uid)
     .collection("userInfo")
     .doc("signUp")
-    .update({
-      secclID: id,
-      NI: NI,
-      termsAcepted: terms,
-      signUp: "compleat",
-      GIA: account,
-    });
+    .update(obj);
 }
 async function getUserInfo(uid) {
   const userRef = db
@@ -547,9 +541,8 @@ async function getUserInfo(uid) {
     .doc(uid)
     .collection("userInfo")
     .doc("signUp");
-  console.log(doc);
   const doc = await userRef.get();
-  return doc;
+  return doc.data();
 }
 async function getSignUpProgress(uid) {
   const userRef = db
@@ -565,8 +558,8 @@ async function getSignUpProgress(uid) {
   } else {
     return doc.data()["signUp"];
   }
-  console.log(doc.data());
 }
+
 async function getUserId() {
   let res;
   await firebase.auth().onAuthStateChanged((user) => {
@@ -702,6 +695,7 @@ async function getToken() {
     .catch(function (error) {
       console.log(error);
     });
+  console.log(token);
   return token;
 }
 
@@ -734,7 +728,6 @@ async function createClient(userData, token, user) {
       gender: userData.gender,
       currency: "GBP",
       addressDetail: {
-        flatNumber: userData.flatNumber,
         address1: userData.address,
         address2: userData.city,
         country: "GB",
@@ -1017,7 +1010,7 @@ module.exports = {
   getFinnhubCompanyProfile,
   getToken,
   createClient,
-  signUp4,
+  updateSignUp,
   createAccount,
   getUserInfo,
   getUserId,
