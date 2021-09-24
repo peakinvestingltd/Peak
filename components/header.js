@@ -53,7 +53,6 @@ const transition = (
 );
 
 export default function Header(props) {
-  console.log("in header");
   const ref = React.useRef();
   const [headerStyle, setHeaderStyle] = useState(views.header);
   const [expanded, setExpanded] = useState(false);

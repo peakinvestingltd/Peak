@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   SafeAreaView,
   View,
@@ -8,6 +8,8 @@ import {
   ScrollView,
   Animated,
   StatusBar,
+  Switch,
+  Platform,
 } from "react-native";
 import { Text, Card, Button, IconButton } from "react-native-paper";
 import { Ionicons, EvilIcons } from "@expo/vector-icons";
@@ -35,6 +37,8 @@ let from = yesterday.toString();
 let to = timestamp.toString();
 const cursorRadius = 6;
 
+
+
 export default class DetailsScreen extends React.Component {
   cursor = React.createRef();
   cursorPrice = React.createRef();
@@ -55,6 +59,8 @@ export default class DetailsScreen extends React.Component {
     data: [],
     color: "gray",
     firstPrice: this.props.route.params.chartData[0],
+    switchValue: false,  
+    switchEditValue: false  
   };
 
   componentDidMount() {
@@ -576,17 +582,20 @@ export default class DetailsScreen extends React.Component {
       return views.bottomSection;
     }
   }
+
+  
   render() {
     const params = this.props.route.params;
     const navigation = this.props.navigation;
 
+  
     return (
+      
       <SafeAreaView style={views.container}>
         <StatusBar backgroundColor="#26325F" />
         <Header />
-        <ScrollView>
-          <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => navigation.goBack()}/>
-          
+        <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => navigation.goBack()}/>
+        <ScrollView style={{marginBottom: Platform.OS === 'ios' ? 50 : 100 }}>
           {this.stockHeader()}
 
           <View style={views.defaultView}>
@@ -600,6 +609,24 @@ export default class DetailsScreen extends React.Component {
             </View>
 
             {this.chart(this.state.loaded)}
+
+            <View style={{justifyContent:'space-between', margin:10,}}>
+              <View  style={{flexDirection:'row', justifyContent:'space-between', margin:5,}}>
+                <Text style={{color:'white', fontFamily:'Avenir'}}>Show Target Line</Text>
+                <Switch  
+                    value={this.state.switchValue}  
+                    onValueChange ={(switchValue)=>this.setState({switchValue})}/>  
+                    {console.log(this.state.switchValue)}
+              </View>
+              <View style={{flexDirection:'row', justifyContent:'space-between', margin:5,}}>
+                <Text style={{color:'white', fontFamily:'Avenir'}}>Edit Target Line</Text>
+             
+                <Switch  
+                    value={this.state.switchEditValue}  
+                    onValueChange ={(switchEditValue)=>this.setState({switchEditValue})}/>  
+                    {console.log(this.state.switchEditValue)}
+              </View>
+            </View>
           </View>
 
           <View style={views.twoButtons}>
