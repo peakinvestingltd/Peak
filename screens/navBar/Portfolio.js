@@ -3,6 +3,7 @@ import {
   DefaultTheme,
   Button,
   Text,
+  IconButton,
   Provider as PaperProvider,
 } from "react-native-paper";
 import {
@@ -179,12 +180,7 @@ export default function PortfolioScreen(props) {
     <SafeAreaView style={views.container}>
       <Header />
       <ScrollView>
-        <Button
-          style={buttons.titleBack}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Text style={texts.pageButtonText}>&lt; Portfolio</Text>
-        </Button>
+      <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => props.navigation.goBack()}/>
 
         <View style={views.twoButtons}>
           <View style={views.portfolioInvested}>

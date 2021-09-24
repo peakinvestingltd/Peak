@@ -291,9 +291,9 @@ export default function Header(props) {
         />
         <View>
           <Button
-            mode="text"
-            style={buttons.headerButton}
-            color={"#ff7f00"}
+            mode="outlined"
+            style={{backgroundColor:"orange"}}
+            color={"#ffffff"}
             onPress={() => {
               //-------------only practice account in beta --------------------
 

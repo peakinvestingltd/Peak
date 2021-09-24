@@ -50,7 +50,7 @@ export default function SearchScreen(props) {
             <Text style={texts.white15}>{catagory}</Text>
           </View>
           <View style={views.columCenter}>
-            <EvilIcons name="chevron-right" size={40} color="white" />
+            <IconButton icon="chevron-right" size={20} color="white" />
           </View>
         </View>
       </TouchableOpacity>
@@ -59,13 +59,8 @@ export default function SearchScreen(props) {
   return (
     <SafeAreaView style={views.container}>
       <Header />
-      <ScrollView>
-        <Button
-          style={buttons.titleBack}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Text style={texts.pageButtonText}>&lt; Search </Text>
-        </Button>
+      <ScrollView style ={{marginBottom:Platform.OS === 'ios' ? 50 : 100}}>
+      <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => props.navigation.goBack()}/>
 
         <TouchableOpacity
           onPress={() => {
@@ -85,7 +80,7 @@ export default function SearchScreen(props) {
               <Text style={texts.white15}>Communication Services</Text>
             </View>
             <View style={views.columCenter}>
-              <EvilIcons name="chevron-right" size={40} color="white" />
+              <IconButton icon="chevron-right" size={20} color="white" />
             </View>
           </View>
         </TouchableOpacity>
@@ -122,7 +117,7 @@ export default function SearchScreen(props) {
               <Text style={texts.white15}>Utilities</Text>
             </View>
             <View style={views.columCenter}>
-              <EvilIcons name="chevron-right" size={40} color="white" />
+              <IconButton icon="chevron-right" size={20} color="white" />
             </View>
           </View>
         </TouchableOpacity>

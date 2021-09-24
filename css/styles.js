@@ -970,8 +970,8 @@ const styles = StyleSheet.create({
 
   //-------------------navbar---------------------
   navBar: {
-    // position:'absolute',
-    // bottom:0,
+    position:'absolute',
+    bottom:0,
     padding: 10,
     backgroundColor: "#26325F",
     width: screenWidth,

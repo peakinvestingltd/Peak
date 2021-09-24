@@ -585,10 +585,8 @@ export default class DetailsScreen extends React.Component {
         <StatusBar backgroundColor="#26325F" />
         <Header />
         <ScrollView>
-          <Button style={buttons.titleBack} onPress={() => navigation.goBack()}>
-            <Text style={texts.pageButtonText}>&lt; Trade</Text>
-          </Button>
-
+          <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => navigation.goBack()}/>
+          
           {this.stockHeader()}
 
           <View style={views.defaultView}>

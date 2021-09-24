@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, ScrollView, Image, Linking } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, Button, IconButton } from "react-native-paper";
 import { styles } from "../../css/styles.js";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 import Header from "../../components/header.js";
@@ -114,13 +114,8 @@ export default function NewScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <ScrollView>
-        <Button
-          style={styles.pageButton}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Text style={styles.pageButtonText}>&lt; News</Text>
-        </Button>
+      <ScrollView style ={{marginBottom:Platform.OS === 'ios' ? 50 : 100}}>
+        <IconButton icon="chevron-left" size={30} color="whitesmoke"  onPress={() => props.navigation.goBack()}/>
         <Text style={styles.titleText}>Most Recent</Text>
         {newsList()}
       </ScrollView>
