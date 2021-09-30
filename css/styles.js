@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { ScreenHeight } from "react-native-elements/dist/helpers";
+import { ScreenHeight, ScreenWidth } from "react-native-elements/dist/helpers";
 import { useFonts, NunitoSans_300Light } from "@expo-google-fonts/nunito-sans";
 
 const darkBlue = "#172041";
@@ -182,6 +182,7 @@ const views = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 1,
     shadowRadius: 4,
+    width: ScreenWidth - 20,
   },
   defaultTop: {
     marginTop: 10,
@@ -970,8 +971,8 @@ const styles = StyleSheet.create({
 
   //-------------------navbar---------------------
   navBar: {
-    position:'absolute',
-    bottom:0,
+    // position:'absolute',
+    // bottom:0,
     padding: 10,
     backgroundColor: "#26325F",
     width: screenWidth,

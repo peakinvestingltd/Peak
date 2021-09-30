@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -16,7 +16,12 @@ import { Ionicons, EvilIcons } from "@expo/vector-icons";
 import { Provider as PaperProvider } from "react-native-paper";
 import { ScreenWidth } from "react-native-elements/dist/helpers";
 import { styles, views, buttons, texts, images } from "../css/styles.js";
-import { getFinnhubChart, buildChart, getOwnedStock } from "../utils/functions";
+import {
+  getFinnhubChart,
+  buildChart,
+  getOwnedStock,
+  addSaved,
+} from "../utils/functions";
 
 const height = 150;
 const width = ScreenWidth - 20;
@@ -36,8 +41,6 @@ let yesterday = timestamp - 604800;
 let from = yesterday.toString();
 let to = timestamp.toString();
 const cursorRadius = 6;
-
-
 
 export default class DetailsScreen extends React.Component {
   cursor = React.createRef();
@@ -59,8 +62,8 @@ export default class DetailsScreen extends React.Component {
     data: [],
     color: "gray",
     firstPrice: this.props.route.params.chartData[0],
-    switchValue: false,  
-    switchEditValue: false  
+    switchValue: false,
+    switchEditValue: false,
   };
 
   componentDidMount() {
@@ -583,19 +586,22 @@ export default class DetailsScreen extends React.Component {
     }
   }
 
-  
   render() {
     const params = this.props.route.params;
     const navigation = this.props.navigation;
 
-  
     return (
-      
       <SafeAreaView style={views.container}>
         <StatusBar backgroundColor="#26325F" />
         <Header />
-        <IconButton icon="chevron-left" size={30} color="whitesmoke" style={buttons.titleBack} onPress={() => navigation.goBack()}/>
-        <ScrollView style={{marginBottom: Platform.OS === 'ios' ? 50 : 100 }}>
+        <IconButton
+          icon="chevron-left"
+          size={30}
+          color="whitesmoke"
+          style={buttons.titleBack}
+          onPress={() => navigation.goBack()}
+        />
+        <ScrollView style={{ marginBottom: Platform.OS === "ios" ? 50 : 100 }}>
           {this.stockHeader()}
 
           <View style={views.defaultView}>
@@ -610,21 +616,43 @@ export default class DetailsScreen extends React.Component {
 
             {this.chart(this.state.loaded)}
 
-            <View style={{justifyContent:'space-between', margin:10,}}>
-              <View  style={{flexDirection:'row', justifyContent:'space-between', margin:5,}}>
-                <Text style={{color:'white', fontFamily:'Avenir'}}>Show Target Line</Text>
-                <Switch  
-                    value={this.state.switchValue}  
-                    onValueChange ={(switchValue)=>this.setState({switchValue})}/>  
-                    {console.log(this.state.switchValue)}
+            <View style={{ justifyContent: "space-between", margin: 10 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  margin: 5,
+                }}
+              >
+                <Text style={{ color: "white", fontFamily: "Avenir" }}>
+                  Show Target Line
+                </Text>
+                <Switch
+                  value={this.state.switchValue}
+                  onValueChange={(switchValue) =>
+                    this.setState({ switchValue })
+                  }
+                />
+                {console.log(this.state.switchValue)}
               </View>
-              <View style={{flexDirection:'row', justifyContent:'space-between', margin:5,}}>
-                <Text style={{color:'white', fontFamily:'Avenir'}}>Edit Target Line</Text>
-             
-                <Switch  
-                    value={this.state.switchEditValue}  
-                    onValueChange ={(switchEditValue)=>this.setState({switchEditValue})}/>  
-                    {console.log(this.state.switchEditValue)}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  margin: 5,
+                }}
+              >
+                <Text style={{ color: "white", fontFamily: "Avenir" }}>
+                  Edit Target Line
+                </Text>
+
+                <Switch
+                  value={this.state.switchEditValue}
+                  onValueChange={(switchEditValue) =>
+                    this.setState({ switchEditValue })
+                  }
+                />
+                {console.log(this.state.switchEditValue)}
               </View>
             </View>
           </View>
@@ -653,7 +681,16 @@ export default class DetailsScreen extends React.Component {
             >
               Trade
             </Button>
-            <Button marginLeft={10} color={"#ff7f00"} style={buttons.noFill}>
+            <Button
+              marginLeft={10}
+              color={"#ff7f00"}
+              style={buttons.noFill}
+              onPress={() => {
+                firebase.auth().onAuthStateChanged((user) => {
+                  addSaved(user, params.stock);
+                });
+              }}
+            >
               Add to List
             </Button>
           </View>
