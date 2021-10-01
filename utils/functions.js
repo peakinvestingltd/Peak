@@ -25,14 +25,14 @@ import {
 } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 import { user } from "../components/Firebase/firebase";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { styles, views, buttons, texts, images } from "../css/styles.js";
-
 import * as shape from "d3-shape";
 import { scaleTime, scaleLinear, scaleQuantile } from "d3-scale";
 
 import * as firebase from "firebase";
 import "firebase/database";
-
+// const admin = require("firebase-admin");
 let axios = require("axios");
 const db = firebase.firestore();
 const screenWidth = Dimensions.get("window").width;
@@ -528,7 +528,7 @@ const portfolioChart = () => {
     getHistory(user.uid).then((arr) => {});
   });
 };
-async function updateSignUp(obj, user) {
+async function updateSignUp(user, obj) {
   db.collection("users")
     .doc(user.uid)
     .collection("userInfo")
@@ -559,13 +559,31 @@ async function getSignUpProgress(uid) {
     return doc.data()["signUp"];
   }
 }
-
 async function getUserId() {
   let res;
   await firebase.auth().onAuthStateChanged((user) => {
     res = user;
   });
   return res;
+}
+async function getSavedStocks(user) {
+  console.log("in saved stocks");
+  const userRef = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("stocks")
+    .doc("saved");
+
+  const doc = await userRef.get();
+
+  if (!doc.exists) {
+    return 0;
+  } else {
+    let saved = doc.data()["stockList"];
+
+    console.log("Document data:", saved);
+    return saved;
+  }
 }
 async function getOwnedStock(user, stock) {
   const userRef = db
@@ -593,6 +611,7 @@ async function getOwnedStock(user, stock) {
     return investmentData;
   }
 }
+
 async function getBalance(user) {
   const userRef = db
     .collection("users")
@@ -611,6 +630,13 @@ async function getBalance(user) {
       .set({
         amount: 60000,
       });
+    db.collection("users")
+      .doc(user.uid)
+      .collection("stocks")
+      .doc("saved")
+      .set({
+        stockList: ["VOD", "SHOP", "FB", "TSLA", "NKE"],
+      });
 
     let bal = 60000;
     return bal;
@@ -619,6 +645,32 @@ async function getBalance(user) {
     console.log("Document data:", bal);
     return bal;
   }
+}
+async function updateSavedStocks(user, arr) {
+  db.collection("users").doc(user.uid).collection("stocks").doc("saved").set({
+    stockList: arr,
+  });
+}
+
+async function removeSaved(user, stock) {
+  const doc = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("stocks")
+    .doc("saved");
+  await doc.update({
+    stockList: firebase.firestore.FieldValue.arrayRemove(stock),
+  });
+}
+async function addSaved(user, stock) {
+  const doc = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("stocks")
+    .doc("saved");
+  await doc.update({
+    stockList: firebase.firestore.FieldValue.arrayUnion(stock),
+  });
 }
 //=========================================================FINNHUB==================================================================================
 
@@ -636,7 +688,6 @@ async function getFinnhubPrices(ticker) {
     });
   return obj;
 }
-
 async function getFinnhubChart(ticker, from, to, resolution) {
   let obj = {};
   await fetch(
@@ -651,7 +702,6 @@ async function getFinnhubChart(ticker, from, to, resolution) {
     });
   return obj;
 }
-
 async function getFinnhubCompanyProfile(ticker) {
   let obj = {};
   await fetch(
@@ -698,8 +748,7 @@ async function getToken() {
   console.log(token);
   return token;
 }
-
-async function createClient(userData, token, user) {
+async function createClient(userData, token, user, NI) {
   /*
   stil needs
   DOB
@@ -709,8 +758,11 @@ async function createClient(userData, token, user) {
   */
   let id = "";
   console.log("in create client seccl");
+  console.log(NI);
+  console.log("userdate");
   console.log(userData);
-  console.log(user);
+  console.log("user");
+  console.log(user.email);
   await fetch("https://pfolio-api-staging.seccl.tech/client", {
     method: "POST",
     headers: {
@@ -718,6 +770,7 @@ async function createClient(userData, token, user) {
       Accept: "application/json",
       "api-token": token,
     },
+
     body: JSON.stringify({
       firmId: "PKINV",
       nodeId: ["0"],
@@ -728,6 +781,7 @@ async function createClient(userData, token, user) {
       gender: userData.gender,
       currency: "GBP",
       addressDetail: {
+        buildingNumber: "12",
         address1: userData.address,
         address2: userData.city,
         country: "GB",
@@ -736,12 +790,7 @@ async function createClient(userData, token, user) {
       nationality: "GB",
       language: "en",
       email: user.email,
-      mobile: {
-        number: userData.phoneNumber,
-        locale: "en-GB",
-        isMobile: true,
-      },
-      nationalInsuranceNo: userData.NI,
+      nationalInsuranceNo: NI,
       dateOfBirth: userData.dob,
       taxDomicile: "GB",
       amlStatus: "Approved",
@@ -755,11 +804,12 @@ async function createClient(userData, token, user) {
       id = res.data.id;
     })
     .catch((err) => {
+      console.log("error");
       console.log(err);
     });
+  console.log("in seccl await");
   return id;
 }
-
 async function createAccount(type, id, token) {
   let accountId;
   console.log("in create account seccl GIA");
@@ -796,7 +846,6 @@ async function createAccount(type, id, token) {
   console.log(accountId);
   return accountId;
 }
-
 async function bankTransferIn(amount, token) {
   let res;
   console.log("hdhdhdhd");
@@ -880,7 +929,6 @@ async function bankTransferOut(amount, token) {
   });
   return res;
 }
-
 async function getSecclStock(isin, token) {
   let result;
   await fetch(
@@ -906,7 +954,6 @@ async function getSecclStock(isin, token) {
     });
   return result;
 }
-
 async function createOrder(token, stockID, amount) {
   let res;
   await getUserId().then((user) => {
@@ -946,7 +993,6 @@ async function createOrder(token, stockID, amount) {
   });
   return res;
 }
-
 async function getAccountInfo(token, accountId) {
   let accountBal = {};
   await fetch(
@@ -970,7 +1016,6 @@ async function getAccountInfo(token, accountId) {
     });
   return accountBal;
 }
-
 function completePayment(token, id) {
   let date = Date.now();
   let myHeaders = new Headers();
@@ -1028,4 +1073,8 @@ module.exports = {
   getOwnedStock,
   portfolioScreenChart,
   getSignUpProgress,
+  getSavedStocks,
+  updateSavedStocks,
+  removeSaved,
+  addSaved,
 };

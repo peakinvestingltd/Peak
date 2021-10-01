@@ -16,7 +16,6 @@ import {
   getAccountInfo,
   getSignUpProgress,
 } from "../utils/functions";
-
 import {
   Button,
   Colors,
@@ -34,12 +33,9 @@ import {
   Linking,
 } from "react-native";
 import * as Progress from "react-native-progress";
-import { ScreenWidth, ScreenHeight } from "react-native-elements/dist/helpers";
-
 import * as firebase from "firebase";
 import "firebase/database";
 const db = firebase.firestore();
-
 const screenWidth = Dimensions.get("window").width;
 
 export let userBalance = "Wallet";
@@ -291,7 +287,7 @@ export default function Header(props) {
         <View>
           <Button
             mode="outlined"
-            style={{backgroundColor:"orange"}}
+            style={{ backgroundColor: "orange" }}
             color={"#ffffff"}
             onPress={() => {
               //-------------only practice account in beta --------------------
