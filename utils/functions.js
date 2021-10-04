@@ -611,7 +611,6 @@ async function getOwnedStock(user, stock) {
     return investmentData;
   }
 }
-
 async function getBalance(user) {
   const userRef = db
     .collection("users")
@@ -651,7 +650,6 @@ async function updateSavedStocks(user, arr) {
     stockList: arr,
   });
 }
-
 async function removeSaved(user, stock) {
   const doc = db
     .collection("users")

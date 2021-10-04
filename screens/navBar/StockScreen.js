@@ -4,23 +4,13 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { styles, views, buttons, texts, images } from "../../css/styles.js";
 import { LineChart } from "react-native-chart-kit";
 import { Transitioning, Transition } from "react-native-reanimated";
-//font v
 import { AppLoading } from "expo";
 import { useFonts, NunitoSans_300Light } from "@expo-google-fonts/nunito-sans";
-//font ^
 import {
   getBalance,
   getFinnhubPrices,
   getFinnhubChart,
   getFinnhubCompanyProfile,
-  getToken,
-  getSecclStock,
-  bankTransferIn,
-  createOrder,
-  getAccountInfo,
-  getUserInfo,
-  getUserId,
-  currentStock,
   getSavedStocks,
   updateSavedStocks,
   removeSaved,
@@ -69,7 +59,7 @@ export default function StockScreen(props) {
   const [loaded, setLoaded] = useState([]);
   const [stockData, setStockData] = useState([]);
   const [catagory, setCatagory] = useState("Watchlist");
-  const position = new Animated.ValueXY({ x: -30, y: 0 });
+  const position = new Animated.ValueXY({ x: -20, y: 0 });
   const binPosition = new Animated.ValueXY({ x: -60, y: 0 });
   function update(loaded) {
     setLoaded(loaded);
@@ -105,17 +95,21 @@ export default function StockScreen(props) {
 
     const listItems = loaded.map((stock, index) => {
       const a = new Animated.ValueXY({ x: 0, y: 0 });
+      const b = new Animated.Value(130);
+      const newOpacity = new Animated.Value(1);
+      const animatedStyle = {
+        height: b,
+        opacity: newOpacity,
+        transform: [
+          {
+            translateX: a.x,
+          },
+        ],
+      };
+      const box = { height: 130, opacity: 1, flexDirection: "row" };
       return (
-        <Animated.View
-          style={{
-            flexDirection: "row",
-            transform: [
-              {
-                translateX: a.x,
-              },
-            ],
-          }}
-        >
+        // <Animated.View style={[box, animatedStyle]}>
+        <Animated.View style={[box, animatedStyle]}>
           <Animated.View
             style={{
               alignSelf: "center",
@@ -130,15 +124,14 @@ export default function StockScreen(props) {
               onPress={() => {
                 let remove = loaded[index];
                 // let b = loaded.splice(index, 1);
-                // setLoaded([...loaded]);
-                Animated.timing(a, {
-                  toValue: {
-                    x: 450,
-                    y: 0,
-                  },
-                  useNativeDriver: true,
+                Animated.timing(newOpacity, {
+                  toValue: 0,
+                  duration: 500,
                 }).start();
-                console.log(a);
+                Animated.timing(b, {
+                  toValue: 0,
+                  duration: 1000,
+                }).start();
                 firebase.auth().onAuthStateChanged((user) => {
                   removeSaved(user, remove);
                 });
@@ -268,6 +261,7 @@ export default function StockScreen(props) {
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
+        // </Animated.View>
       );
     });
     return listItems;
