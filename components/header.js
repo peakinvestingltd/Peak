@@ -1,29 +1,18 @@
-import axios from "axios";
-import React, { Component, useEffect, useState } from "react";
-import { LineChart } from "react-native-chart-kit";
-import { useNavigation } from "@react-navigation/native";
-import { styles, views, texts, images, buttons } from "../css/styles.js";
+import React, { useState } from "react";
+import { views, texts, images, buttons } from "../css/styles.js";
 import { Transitioning, Transition } from "react-native-reanimated";
 import {
   getBalance,
-  getFinnhubPrices,
-  getFinnhubChart,
-  getFinnhubCompanyProfile,
-  getToken,
-  getSecclStock,
-  getUserId,
-  getUserInfo,
-  getAccountInfo,
   getSignUpProgress,
+  getISAAccount,
+  getPeakAccount,
 } from "../utils/functions";
 import {
   Button,
-  Colors,
   IconButton,
   Provider as PaperProvider,
 } from "react-native-paper";
 import {
-  SafeAreaView,
   Dimensions,
   Image,
   View,
@@ -35,9 +24,6 @@ import {
 import * as Progress from "react-native-progress";
 import * as firebase from "firebase";
 import "firebase/database";
-const db = firebase.firestore();
-const screenWidth = Dimensions.get("window").width;
-
 export let userBalance = "Wallet";
 
 const transition = (
@@ -54,13 +40,14 @@ export default function Header(props) {
   const [expanded, setExpanded] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("practice");
   const [selectedBox, setSelectedBox] = useState("one");
-  const [GIASelected, setGIASelected] = useState(views.GIACardUnselected);
-  const [ISASelected, setISASelected] = useState(views.ISACardUnselected);
-  const [practiceSelected, setPracticeSelected] = useState(views.practiceCard);
   const [selectedFunds, setSelectedFunds] = useState("0");
   const [practiceFunds, setPracticeFunds] = useState(null);
   const [account, setAccount] = useState("practice account");
   const [signUp, setSignUp] = useState(null);
+  const [isaCalled, setIsaCalled] = useState(false);
+
+  const [isaActive, setIsaActive] = useState(false);
+  const [peakActive, setPeakActive] = useState(false);
 
   function setStyle(box, selected, unselected) {
     if (box == selectedBox) {
@@ -186,8 +173,13 @@ export default function Header(props) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setAccount("ISA account");
-                setSelectedBox("two");
+                if (isaActive) {
+                  setAccount("ISA account");
+                  setSelectedBox("two");
+                } else {
+                  console.log("you need to activete your isa account");
+                  props.navigation.navigate("ISA");
+                }
               }}
             >
               <View
@@ -202,7 +194,7 @@ export default function Header(props) {
                 </View>
                 <View style={views.accountCard}>
                   <View>
-                    <Text style={texts.white30}>Coming soon!</Text>
+                    <Text style={texts.white30}>Open Account</Text>
                     <Text style={texts.white20}>ISA account</Text>
                   </View>
                 </View>
@@ -210,8 +202,13 @@ export default function Header(props) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setAccount("peak account");
-                setSelectedBox("three");
+                if (peakActive) {
+                  setAccount("peak account");
+                  setSelectedBox("three");
+                } else {
+                  console.log("you need to activete your peak account");
+                  props.navigation.navigate("Peak");
+                }
               }}
             >
               <View
@@ -290,21 +287,38 @@ export default function Header(props) {
             style={{ backgroundColor: "orange" }}
             color={"#ffffff"}
             onPress={() => {
-              //-------------only practice account in beta --------------------
-
-              // getToken().then((token) => {
-              //   getUserId().then((user) => {
-              //     getUserInfo(user.uid).then((doc) => {
-              //       let data = doc.data();
-              //       console.log(data);
-              //       getAccountInfo(token, data.GIA).then((res) => {
-              //         console.log(res);
-              //       });
-              //     });
-              //   });
-              //   // createOrder(token, "2921C", 2);
-              // });
-              getProgress();
+              if (!isaCalled) {
+                firebase.auth().onAuthStateChanged((user) => {
+                  setIsaCalled(true);
+                  getISAAccount(user).then((res) => {
+                    console.log(res);
+                    if (res.isActive) {
+                      console.log("there is an ISA account");
+                      setIsaActive(true);
+                    } else {
+                      console.log("there is no ISA account");
+                      setIsaActive(false);
+                    }
+                  });
+                  getSignUpProgress(user.uid).then((res) => {
+                    setSignUp(res);
+                  });
+                  getPeakAccount(user).then((res) => {
+                    console.log(res);
+                    if (res.isActive) {
+                      console.log("there is an peak account");
+                      setPeakActive(true);
+                    } else {
+                      console.log("there is no peak account");
+                      setPeakActive(false);
+                    }
+                  });
+                  getSignUpProgress(user.uid).then((res) => {
+                    setSignUp(res);
+                  });
+                });
+              }
+              // getProgress();
               triggerGetBalance();
               ref.current.animateNextTransition();
               if (headerStyle == views.header) {

@@ -65,6 +65,11 @@ const images = StyleSheet.create({
   },
 });
 const views = StyleSheet.create({
+  box: {
+    height: 130,
+    opacity: 1,
+    flexDirection: "row",
+  },
   container: {
     flex: 1,
     backgroundColor: primaryColor,

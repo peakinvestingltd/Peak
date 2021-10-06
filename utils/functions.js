@@ -32,6 +32,7 @@ import { scaleTime, scaleLinear, scaleQuantile } from "d3-scale";
 
 import * as firebase from "firebase";
 import "firebase/database";
+import { acc } from "react-native-reanimated";
 // const admin = require("firebase-admin");
 let axios = require("axios");
 const db = firebase.firestore();
@@ -503,6 +504,50 @@ const practiceTrade = (obj) => {
   });
 };
 
+async function getISAAccount(user) {
+  const userRef = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("accounts")
+    .doc("ISA");
+
+  const doc = await userRef.get();
+  if (!doc.exists) {
+    console.log("No such document!");
+    let account = { isActive: false };
+    return account;
+  } else {
+    let account = {
+      isActive: doc.data()["active"],
+      accountID: doc.data()["ID"],
+    };
+    console.log("Document data:", account);
+    return account;
+  }
+}
+
+async function getPeakAccount(user) {
+  const userRef = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("accounts")
+    .doc("peak");
+
+  const doc = await userRef.get();
+  if (!doc.exists) {
+    console.log("No such document!");
+    let account = { isActive: false };
+    return account;
+  } else {
+    let account = {
+      isActive: doc.data()["active"],
+      accountID: doc.data()["ID"],
+    };
+    console.log("Document data:", account);
+    return account;
+  }
+}
+
 //============================================FIRESTORE=======================================================================================
 const portfolioChart = () => {
   let portfolioArr = [];
@@ -611,6 +656,19 @@ async function getOwnedStock(user, stock) {
     return investmentData;
   }
 }
+async function getSecclId(user) {
+  const userRef = db
+    .collection("users")
+    .doc(user.uid)
+    .collection("userInfo")
+    .doc("signUp");
+  let doc = await userRef.get();
+  if (!doc.exists) {
+    console.log("id not found");
+  } else {
+    return doc.data()["secclID"];
+  }
+}
 async function getBalance(user) {
   const userRef = db
     .collection("users")
@@ -668,6 +726,12 @@ async function addSaved(user, stock) {
     .doc("saved");
   await doc.update({
     stockList: firebase.firestore.FieldValue.arrayUnion(stock),
+  });
+}
+async function addAccountId(user, id, account) {
+  db.collection("users").doc(user.uid).collection("accounts").doc(account).set({
+    active: true,
+    ID: id,
   });
 }
 //=========================================================FINNHUB==================================================================================
@@ -747,20 +811,7 @@ async function getToken() {
   return token;
 }
 async function createClient(userData, token, user, NI) {
-  /*
-  stil needs
-  DOB
-  phone number
-  countrey
-
-  */
   let id = "";
-  console.log("in create client seccl");
-  console.log(NI);
-  console.log("userdate");
-  console.log(userData);
-  console.log("user");
-  console.log(user.email);
   await fetch("https://pfolio-api-staging.seccl.tech/client", {
     method: "POST",
     headers: {
@@ -822,7 +873,7 @@ async function createAccount(type, id, token) {
       firmId: "PKINV",
       nodeId: "0",
       accountType: "Wrapper",
-      name: `Peak ${type} account`,
+      name: `Peak account`,
       status: "Active",
       currency: "GBP",
       clientId: id,
@@ -1075,4 +1126,8 @@ module.exports = {
   updateSavedStocks,
   removeSaved,
   addSaved,
+  getISAAccount,
+  getPeakAccount,
+  getSecclId,
+  addAccountId,
 };

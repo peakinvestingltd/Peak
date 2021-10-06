@@ -54,24 +54,12 @@ export default function StockScreen(props) {
   const [fontLoading, error] = useFonts({
     NunitoSans_300Light,
   });
-  const [edditToggle, setEdditToggle] = useState(0);
   const [justLoaded, setJustLoaded] = useState(true);
   const [loaded, setLoaded] = useState([]);
   const [stockData, setStockData] = useState([]);
   const [catagory, setCatagory] = useState("Watchlist");
   const position = new Animated.ValueXY({ x: -20, y: 0 });
   const binPosition = new Animated.ValueXY({ x: -60, y: 0 });
-  function update(loaded) {
-    setLoaded(loaded);
-  }
-  const ref = React.useRef();
-  const transition = (
-    <Transition.Together>
-      <Transition.In type="fade" durationMs={400} />
-      <Transition.Change />
-      <Transition.Out type="fade" duration={400} />
-    </Transition.Together>
-  );
 
   Animated.timing(position, {
     toValue: {
@@ -106,10 +94,9 @@ export default function StockScreen(props) {
           },
         ],
       };
-      const box = { height: 130, opacity: 1, flexDirection: "row" };
+
       return (
-        // <Animated.View style={[box, animatedStyle]}>
-        <Animated.View style={[box, animatedStyle]}>
+        <Animated.View style={[views.box, animatedStyle]}>
           <Animated.View
             style={{
               alignSelf: "center",
@@ -123,10 +110,9 @@ export default function StockScreen(props) {
             <TouchableOpacity
               onPress={() => {
                 let remove = loaded[index];
-                // let b = loaded.splice(index, 1);
                 Animated.timing(newOpacity, {
                   toValue: 0,
-                  duration: 500,
+                  duration: 700,
                 }).start();
                 Animated.timing(b, {
                   toValue: 0,
@@ -236,7 +222,6 @@ export default function StockScreen(props) {
                       decimalPlaces: 0, // optional, defaults to 2dp
                       color: (opacity = 1) => `rgba(${price[stock].color}1)`,
                       fillShadowGradientOpacity: 1,
-                      //  fillShadowGradient: priceData[stock].stockColor,
 
                       propsForBackgroundLines: {
                         stroke: "transparent",
@@ -261,26 +246,23 @@ export default function StockScreen(props) {
             </TouchableOpacity>
           </Animated.View>
         </Animated.View>
-        // </Animated.View>
       );
     });
     return listItems;
   };
-  function triggerGetBalance() {
-    firebase.auth().onAuthStateChanged((user) => {
-      getBalance(user).then((bal) => {
-        userBalance = bal.toFixed(2);
-      });
-    });
-  }
+  // function triggerGetBalance() {
+  //   firebase.auth().onAuthStateChanged((user) => {
+  //     getBalance(user).then((bal) => {
+  //       userBalance = bal.toFixed(2);
+  //     });
+  //   });
+  // }
 
   React.useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
       console.log("it worked!!!!!!!!!!a");
       setJustLoaded(true);
     });
-
-    // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [props.navigation]);
 
@@ -434,22 +416,16 @@ export default function StockScreen(props) {
         });
     });
   }
-  triggerGetBalance();
+  // triggerGetBalance();
   if (justLoaded) {
     firebase.auth().onAuthStateChanged((user) => {
       User = user;
       getSavedStocks(user).then((res) => {
-        console.log(res);
-        console.log(res.length);
-        console.log(res[2]);
         callApi(res);
         setJustLoaded(false);
       });
     });
   }
-
-  console.log(loaded);
-  console.log("render");
   return (
     <SafeAreaView style={views.container}>
       <StatusBar backgroundColor="#26325F" />

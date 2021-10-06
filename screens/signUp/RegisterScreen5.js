@@ -46,19 +46,10 @@ export default function RegisterScreen3(props) {
         //     signUp: "compleat",
         //     GIA: "GIAnum",
         //   });
+        console.log("noooooooooooooooooooooooooooooooooooooooo");
         getToken().then((token) => {
           getUserInfo(user.uid).then((res) => {
-            console.log(res.title);
-            console.log(res.firstName);
-            console.log(res.lastName);
-            console.log(res.gender);
-            console.log(res.address);
-            console.log(res.city);
-            console.log(res.country);
-            console.log(res.postcode);
-            console.log(res.dob);
-            console.log(res.nationality);
-            createClient(res, token, user).then((id) => {
+            createClient(res, token, user, NI).then((id) => {
               updateSignUp(user, {
                 secclID: id,
                 NI: NI,
