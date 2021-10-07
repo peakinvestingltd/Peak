@@ -429,8 +429,8 @@ export default function StockScreen(props) {
   return (
     <SafeAreaView style={views.container}>
       <StatusBar backgroundColor="#26325F" />
-      <Header {...props} />
-      <ScrollView>
+      <Header style={{backgroundColor:"#26325F"}} {...props} />
+      <ScrollView style={styles.bottomSpacer}>
         <View style={views.rowSpaceBetween}>
           <Button
             style={buttons.titleBack}
